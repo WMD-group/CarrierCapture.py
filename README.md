@@ -268,7 +268,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Original Julia implementation: [WMD-group/CarrierCapture.jl](https://github.com/WMD-group/CarrierCapture.jl)
-- Theory: Alkauskas, Yan, Van de Walle (2014)
 - Built with: NumPy, SciPy, Plotly, Dash, Click
 - Compatible with: [doped](https://github.com/SMTG-Bham/doped) (defect calculations)
 - Developed with assistance from Claude (Anthropic)
