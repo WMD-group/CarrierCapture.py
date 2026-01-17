@@ -36,9 +36,15 @@ CarrierCapture.py is a complete rewrite of [CarrierCapture.jl](https://github.co
 - Progress bars and rich terminal output
 - DFT preprocessing utilities
 
+### 🔗 Integration with [doped](https://github.com/SMTG-Bham/doped)
+- Direct compatibility with doped defect calculation workflows
+- Load configuration coordinate data from doped outputs
+- Automated mass-weighted displacement calculations
+- Seamless end-to-end: DFT → defect analysis → capture rates
+
 ### 🔬 Scientific Validation
 - Validated against CarrierCapture.jl
-- Comprehensive test suite (141 tests)
+- Comprehensive test suite (88 tests)
 - Tutorial notebooks with real examples
 
 ---
@@ -61,6 +67,9 @@ pip install -e ".[dev]"
 ```bash
 # Interactive dashboard
 pip install carriercapture[viz]
+
+# doped integration (for defect calculations)
+pip install carriercapture[doped]
 
 # All extras (recommended for development)
 pip install -e ".[all]"
@@ -115,6 +124,28 @@ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 \
 
 # Launch interactive dashboard
 carriercapture viz --port 8050
+```
+
+### Integration with doped
+
+```python
+# Load defect data from doped workflow
+from carriercapture.io.doped_interface import (
+    load_defect_entry,
+    create_potential_from_doped
+)
+
+# Load defect entry from doped calculation
+defect = load_defect_entry("path/to/defect.json.gz")
+
+# Create potentials for charge state transition (0 → +1)
+pot_initial = create_potential_from_doped(defect, charge_state=0)
+pot_final = create_potential_from_doped(defect, charge_state=+1)
+
+# Continue with standard CarrierCapture workflow
+pot_initial.solve(nev=180)
+pot_final.solve(nev=60)
+# ... calculate capture coefficient
 ```
 
 ---
@@ -187,9 +218,9 @@ pytest tests/ --cov=src/carriercapture --cov-report=html
 ```
 
 **Test Statistics:**
-- 141 tests across 9 test modules
+- 88 tests passing (53 Phase 3 tests skipped)
 - Core modules: >90% coverage
-- All tests pass on Python 3.9-3.12
+- All tests pass on Python 3.11-3.12
 - CI/CD with GitHub Actions
 
 ---
@@ -239,6 +270,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Original Julia implementation: [WMD-group/CarrierCapture.jl](https://github.com/WMD-group/CarrierCapture.jl)
 - Theory: Alkauskas, Yan, Van de Walle (2014)
 - Built with: NumPy, SciPy, Plotly, Dash, Click
+- Compatible with: [doped](https://github.com/SMTG-Bham/doped) (defect calculations)
 - Developed with assistance from Claude (Anthropic)
 
 ---
@@ -259,8 +291,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | CLI | ✅ Complete |
 | Visualization | ✅ Complete |
 | Parameter Scanning | ✅ Complete |
+| doped Integration | ✅ Complete |
 | Documentation | ✅ Complete |
-| Test Coverage | ✅ 141 tests |
+| Test Coverage | ✅ 88 tests |
 | PyPI Release | 🔄 Planned |
 
 ---
