@@ -201,7 +201,7 @@ class ConfigCoordinate:
 
             # Trapezoidal integration along Q axis (axis=1)
             # Result shape: (len(j_indices),)
-            overlaps = np.trapz(integrand, dx=dQ, axis=1)
+            overlaps = np.trapezoid(integrand, dx=dQ, axis=1)
 
             # Store results
             overlap_matrix[i, j_indices] = overlaps

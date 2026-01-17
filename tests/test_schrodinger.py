@@ -111,7 +111,7 @@ class TestWavefunctionProperties:
         dQ = Q[1] - Q[0]
 
         for i in range(len(eigenvectors)):
-            norm_sq = np.trapz(eigenvectors[i, :] ** 2, dx=dQ)
+            norm_sq = np.trapezoid(eigenvectors[i, :] ** 2, dx=dQ)
             np.testing.assert_allclose(norm_sq, 1.0, rtol=1e-6)
 
     def test_orthogonality(self):
@@ -133,7 +133,7 @@ class TestWavefunctionProperties:
         # Check first few pairs
         for i in range(5):
             for j in range(i + 1, 5):
-                overlap = np.trapz(
+                overlap = np.trapezoid(
                     eigenvectors[i, :] * eigenvectors[j, :], dx=dQ
                 )
                 np.testing.assert_allclose(overlap, 0.0, atol=1e-6)
