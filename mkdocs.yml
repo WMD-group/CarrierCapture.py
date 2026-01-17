@@ -1,0 +1,106 @@
+site_name: CarrierCapture.py
+site_description: Modern Python package for carrier capture rate calculations
+site_url: https://wmd-group.github.io/CarrierCapture.py
+repo_url: https://github.com/WMD-group/CarrierCapture.py
+repo_name: WMD-group/CarrierCapture.py
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: light-blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: light-blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: numpy
+            show_source: true
+            show_root_heading: true
+            show_bases: true
+            members_order: source
+  - git-revision-date-localized:
+      enable_creation_date: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.arithmatex:
+      generic: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+      - Basic Concepts: getting-started/basic-concepts.md
+      - First Calculation: getting-started/first-calculation.md
+  - User Guide:
+      - Potentials: user-guide/potentials.md
+      - Capture Coefficients: user-guide/capture-coefficients.md
+      - Parameter Scanning: user-guide/parameter-scanning.md
+      - Visualization: user-guide/visualization.md
+      - doped Integration: user-guide/doped-integration.md
+      - CLI Usage: user-guide/cli-usage.md
+      - Configuration: user-guide/configuration.md
+  - Theory:
+      - Multiphonon Theory: theory/multiphonon-theory.md
+      - Configuration Coordinates: theory/configuration-coordinates.md
+      - Equations: theory/equations.md
+      - References: theory/references.md
+  - Tutorials:
+      - Overview: tutorials/index.md
+      - 1. Harmonic Oscillator: tutorials/01-harmonic-oscillator.md
+      - 2. DX Center: tutorials/02-dx-center.md
+      - 3. Parameter Scan: tutorials/03-parameter-scan.md
+      - 4. Interactive Dashboard: tutorials/04-interactive-dashboard.md
+  - API Reference:
+      - Overview: api/index.md
+      - Core: api/core.md
+      - Analysis: api/analysis.md
+      - I/O: api/io.md
+      - Visualization: api/visualization.md
+      - CLI: api/cli.md
+  - Examples:
+      - Gallery: examples/gallery.md
+      - Notebooks: examples/notebooks.md
+  - Development:
+      - Contributing: development/contributing.md
+      - Testing: development/testing.md
+      - Architecture: development/architecture.md
+  - Changelog: changelog.md
