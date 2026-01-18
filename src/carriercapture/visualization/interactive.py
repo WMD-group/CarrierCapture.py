@@ -1113,7 +1113,16 @@ def create_potential_figure(pot: Potential, display_options: List[str], wf_scale
 
     # Plot wavefunctions
     if "wf" in display_options and pot.eigenvectors is not None:
-        for i in range(min(5, len(pot.eigenvalues))):  # First 5
+        # Show every Nth wavefunction to fill the well nicely
+        # For typical cases with 60 eigenvalues, show ~10 wavefunctions
+        n_total = len(pot.eigenvalues)
+        n_show = min(10, n_total)  # Show up to 10 wavefunctions
+        step = max(1, n_total // n_show)  # Calculate step size
+
+        for idx in range(n_show):
+            i = idx * step
+            if i >= n_total:
+                break
             psi = pot.eigenvectors[i, :] * wf_scale
             fig.add_trace(go.Scatter(
                 x=pot.Q,
