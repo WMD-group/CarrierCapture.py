@@ -7,7 +7,7 @@
 
 **Modern Python package for computing carrier capture rates and non-radiative recombination in semiconductors using multiphonon theory.**
 
-CarrierCapture.py is a complete rewrite of [CarrierCapture.jl](https://github.com/WMD-group/CarrierCapture.jl) with emphasis on clean code, performance, and interactive visualization.
+CarrierCapture.py started life as an automated rewrite of [CarrierCapture.jl](https://github.com/WMD-group/CarrierCapture.jl) with emphasis on clean code, performance, and interactive visualization.
 
 ---
 
