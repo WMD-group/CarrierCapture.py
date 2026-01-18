@@ -172,7 +172,7 @@ def create_potential_tab(theme: Dict[str, Any]) -> html.Div:
                             dcc.Input(
                                 id="harmonic-hw",
                                 type="number",
-                                value=0.008,
+                                value=0.02,
                                 step=0.001,
                                 style={**theme["input"], "marginBottom": "10px"},
                             ),
@@ -255,9 +255,9 @@ def create_potential_tab(theme: Dict[str, Any]) -> html.Div:
                             dcc.Input(
                                 id="nev",
                                 type="number",
-                                value=60,
+                                value=500,
                                 min=1,
-                                max=500,
+                                max=1000,
                                 style={**theme["input"], "marginBottom": "10px"},
                             ),
                             html.Button(
@@ -275,10 +275,9 @@ def create_potential_tab(theme: Dict[str, Any]) -> html.Div:
                                 id="display-options",
                                 options=[
                                     {"label": " Show Wavefunctions", "value": "wf"},
-                                    {"label": " Show Eigenvalues", "value": "ev"},
                                     {"label": " Show Data Points", "value": "data"},
                                 ],
-                                value=["ev", "data"],
+                                value=["wf"],
                                 style=theme["text"],
                             ),
                             html.Label("Wavefunction Scaling:", style=theme["text"]),
@@ -1102,19 +1101,10 @@ def create_potential_figure(pot: Potential, display_options: List[str], wf_scale
             marker=dict(color=COLORS["secondary"], size=8),
         ))
 
-    # Plot eigenvalues
-    if "ev" in display_options and pot.eigenvalues is not None:
-        for i, ev in enumerate(pot.eigenvalues[:20]):  # First 20
-            fig.add_hline(
-                y=ev,
-                line=dict(color=COLORS["info"], width=1, dash="dash"),
-                opacity=0.5,
-            )
-
     # Plot wavefunctions
     if "wf" in display_options and pot.eigenvectors is not None:
         # Show every Nth wavefunction to fill the well nicely
-        # For typical cases with 60 eigenvalues, show ~10 wavefunctions
+        # For typical cases with 500 eigenvalues, show ~10 wavefunctions (every 50th)
         n_total = len(pot.eigenvalues)
         n_show = min(10, n_total)  # Show up to 10 wavefunctions
         step = max(1, n_total // n_show)  # Calculate step size
