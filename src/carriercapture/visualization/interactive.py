@@ -1011,6 +1011,7 @@ def serialize_potential(pot: Potential) -> Dict[str, Any]:
         "Q0": float(pot.Q0) if pot.Q0 is not None else None,
         "E0": float(pot.E0) if pot.E0 is not None else None,
         "fit_type": pot.fit_type,
+        "fit_params": pot.fit_params if pot.fit_params is not None else None,
         "eigenvalues": pot.eigenvalues.tolist() if pot.eigenvalues is not None else None,
         "eigenvectors": pot.eigenvectors.tolist() if pot.eigenvectors is not None else None,
     }
@@ -1027,8 +1028,23 @@ def deserialize_potential(data: Dict[str, Any]) -> Potential:
     pot.Q0 = data["Q0"]
     pot.E0 = data["E0"]
     pot.fit_type = data["fit_type"]
+    pot.fit_params = data.get("fit_params")
     pot.eigenvalues = np.array(data["eigenvalues"]) if data["eigenvalues"] else None
     pot.eigenvectors = np.array(data["eigenvectors"]) if data["eigenvectors"] else None
+
+    # Recreate fit_func for fitted potentials
+    if pot.fit_type == "harmonic" and pot.fit_params is not None:
+        # Harmonic: recreate analytical function
+        a = pot.fit_params["a"]
+        Q0 = pot.Q0
+        E0 = pot.E0
+        pot.fit_func = lambda Q: E0 + a * (Q - Q0) ** 2
+    elif pot.fit_type and pot.Q is not None and pot.E is not None:
+        # For other fit types: create interpolator from evaluated E values
+        # This allows solving even though we can't serialize scipy spline objects
+        from scipy.interpolate import interp1d
+        pot.fit_func = interp1d(pot.Q, pot.E, kind='cubic', fill_value='extrapolate')
+
     return pot
 
 
