@@ -306,5 +306,5 @@ Now that you understand the concepts:
 ## Further Reading
 
 - **Alkauskas et al.** (2014) - [Phys. Rev. B 90, 075202](https://doi.org/10.1103/PhysRevB.90.075202)
-- **Huang & Rhys** (1950) - Theory of F-centers
+- **Huang & Rhys** (1950) - [Theory of Light Absorption and Non-Radiative Transitions in F-Centres, Proc. R. Soc. Lond. A **204**, 406](https://royalsocietypublishing.org/rspa/article/204/1078/406/8369/Theory-of-light-absorption-and-non-radiative)
 - **Stoneham (1975)** - "Theory of Defects in Solids"

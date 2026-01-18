@@ -122,22 +122,6 @@ Learn how to use CarrierCapture effectively.
 - **[CLI Usage](user-guide/cli-usage.md)** - Command-line interface
 - **[Configuration](user-guide/configuration.md)** - YAML configuration files
 
-### [Theory](theory/multiphonon-theory.md)
-Understand the science behind CarrierCapture.
-
-- **[Multiphonon Theory](theory/multiphonon-theory.md)** - Huang-Rhys formalism
-- **[Configuration Coordinates](theory/configuration-coordinates.md)** - CC diagrams
-- **[Equations](theory/equations.md)** - Mathematical formulation
-- **[References](theory/references.md)** - Literature and citations
-
-### [Tutorials](tutorials/index.md)
-Hands-on examples with Jupyter notebooks.
-
-- **[1. Harmonic Oscillator](tutorials/01-harmonic-oscillator.md)** - Basic workflow
-- **[2. DX Center](tutorials/02-dx-center.md)** - Real-world anharmonic example
-- **[3. Parameter Scan](tutorials/03-parameter-scan.md)** - High-throughput screening
-- **[4. Interactive Dashboard](tutorials/04-interactive-dashboard.md)** - Web visualization
-
 ### [API Reference](api/index.md)
 Complete API documentation.
 
@@ -146,13 +130,6 @@ Complete API documentation.
 - **[I/O](api/io.md)** - File I/O and doped interface
 - **[Visualization](api/visualization.md)** - Plotting functions
 - **[CLI](api/cli.md)** - Command-line interface
-
-### [Development](development/contributing.md)
-Contributing to CarrierCapture.
-
-- **[Contributing](development/contributing.md)** - How to contribute
-- **[Testing](development/testing.md)** - Running tests
-- **[Architecture](development/architecture.md)** - Code structure
 
 ---
 
@@ -178,7 +155,7 @@ Where:
 ### References
 
 1. **Alkauskas et al.** (2014) - [Phys. Rev. B **90**, 075202](https://doi.org/10.1103/PhysRevB.90.075202)
-2. **Huang & Rhys** (1950) - Proc. R. Soc. Lond. A **204**, 406
+2. **Huang & Rhys** (1950) - [Proc. R. Soc. Lond. A **204**, 406](https://royalsocietypublishing.org/rspa/article/204/1078/406/8369/Theory-of-light-absorption-and-non-radiative)
 
 ---
 
@@ -199,7 +176,7 @@ Where:
 
 ## 🤝 Contributing
 
-Contributions are welcome! See our [Contributing Guide](development/contributing.md) for details.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 

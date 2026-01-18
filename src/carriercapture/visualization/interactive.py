@@ -52,7 +52,7 @@ def create_app(debug: bool = False) -> dash.Dash:
     Examples
     --------
     >>> app = create_app()
-    >>> app.run_server(port=8050)
+    >>> app.run(port=8050)
     """
     app = dash.Dash(
         __name__,
@@ -1216,7 +1216,7 @@ def run_server(port: int = 8050, debug: bool = False, host: str = "127.0.0.1") -
     print(f"  • Capture Calculation - Full carrier capture workflow")
     print(f"\nPress Ctrl+C to stop the server\n")
 
-    app.run_server(host=host, port=port, debug=debug)
+    app.run(host=host, port=port, debug=debug)
 
 
 __all__ = [
