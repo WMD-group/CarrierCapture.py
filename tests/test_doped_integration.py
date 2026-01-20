@@ -22,6 +22,12 @@ try:
         load_path_calculations,
         extract_cc_data_from_structures,
         create_potential_from_doped,
+        # Workflow helper functions
+        prepare_ccd_structures,
+        generate_ccd_path,
+        estimate_phonon_frequency,
+        calculate_Q0_crossing,
+        create_ccd_from_defect_entries,
         DOPED_AVAILABLE,
         MONTY_AVAILABLE,
     )
@@ -313,6 +319,242 @@ class TestModuleExports:
             # When doped not available, DOPED_INTEGRATION_AVAILABLE should be False
             if hasattr(io, 'DOPED_INTEGRATION_AVAILABLE'):
                 assert io.DOPED_INTEGRATION_AVAILABLE is False
+
+
+# =============================================================================
+# Tests for Workflow Helper Functions
+# =============================================================================
+
+
+class TestEstimatePhononFrequency:
+    """Tests for estimate_phonon_frequency function."""
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_estimate_phonon_frequency_curvature_method(self):
+        """Test phonon frequency estimation using curvature method."""
+        # Create harmonic Q-E data
+        Q_data = np.linspace(-5, 5, 21)
+        k = 0.01  # Force constant in eV/(amu*A^2)
+        E_data = 0.5 * k * Q_data**2
+
+        result = estimate_phonon_frequency(Q_data, E_data, method="curvature")
+
+        assert 'hw' in result
+        assert 'hw_meV' in result
+        assert 'curvature' in result
+        assert result['method'] == 'curvature'
+        assert result['hw'] > 0
+        # Curvature should be close to k
+        assert np.isclose(result['curvature'], k, rtol=0.1)
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_estimate_phonon_frequency_harmonic_fit_method(self):
+        """Test phonon frequency estimation using harmonic_fit method."""
+        Q_data = np.linspace(-5, 5, 21)
+        k = 0.02
+        E_data = 0.5 * k * Q_data**2
+
+        result = estimate_phonon_frequency(Q_data, E_data, method="harmonic_fit")
+
+        assert result['method'] == 'harmonic_fit'
+        assert result['hw'] > 0
+        assert np.isclose(result['curvature'], k, rtol=0.2)
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_estimate_phonon_frequency_returns_all_fields(self):
+        """Test that all expected fields are returned."""
+        Q_data = np.linspace(-5, 5, 21)
+        E_data = 0.01 * Q_data**2
+
+        result = estimate_phonon_frequency(Q_data, E_data)
+
+        expected_keys = ['hw', 'hw_meV', 'omega', 'frequency_THz', 'Q0', 'E0', 'curvature', 'method']
+        for key in expected_keys:
+            assert key in result, f"Missing key: {key}"
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_estimate_phonon_frequency_custom_Q0(self):
+        """Test with custom Q0 value."""
+        Q_data = np.linspace(0, 10, 21)
+        E_data = 0.01 * (Q_data - 5)**2  # Minimum at Q=5
+
+        result = estimate_phonon_frequency(Q_data, E_data, Q0=5.0)
+
+        assert result['Q0'] == 5.0
+
+
+class TestCalculateQ0Crossing:
+    """Tests for calculate_Q0_crossing function."""
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_calculate_Q0_crossing_midpoint_method(self):
+        """Test Q0 calculation using midpoint method."""
+        from carriercapture.core.potential import Potential
+
+        # Create two harmonic potentials
+        pot_i = Potential.from_harmonic(hw=0.01, Q0=0.0, E0=0.5, Q_range=(-10, 20), npoints=1000)
+        pot_f = Potential.from_harmonic(hw=0.01, Q0=10.0, E0=0.0, Q_range=(-10, 20), npoints=1000)
+
+        result = calculate_Q0_crossing(pot_i, pot_f, method="midpoint")
+
+        assert result['method'] == 'midpoint'
+        assert result['Q0'] == 5.0  # Midpoint between 0 and 10
+        assert result['Q0_initial'] == 0.0
+        assert result['Q0_final'] == 10.0
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_calculate_Q0_crossing_returns_all_fields(self):
+        """Test that all expected fields are returned."""
+        from carriercapture.core.potential import Potential
+
+        pot_i = Potential.from_harmonic(hw=0.01, Q0=0.0, E0=0.5, Q_range=(-10, 20), npoints=1000)
+        pot_f = Potential.from_harmonic(hw=0.01, Q0=10.0, E0=0.0, Q_range=(-10, 20), npoints=1000)
+
+        result = calculate_Q0_crossing(pot_i, pot_f, method="midpoint")
+
+        expected_keys = ['Q0', 'E_crossing', 'barrier_initial', 'barrier_final', 'method', 'Q0_initial', 'Q0_final']
+        for key in expected_keys:
+            assert key in result, f"Missing key: {key}"
+
+
+class TestPrepareCCDStructures:
+    """Tests for prepare_ccd_structures function."""
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_prepare_ccd_structures_signature(self):
+        """Test that prepare_ccd_structures has the correct signature."""
+        import inspect
+        sig = inspect.signature(prepare_ccd_structures)
+        params = list(sig.parameters.keys())
+
+        assert 'defect_entry_initial' in params
+        assert 'defect_entry_final' in params
+        assert 'verbose' in params
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_prepare_ccd_structures_callable(self):
+        """Test that prepare_ccd_structures is callable."""
+        assert callable(prepare_ccd_structures)
+
+
+class TestGenerateCCDPath:
+    """Tests for generate_ccd_path function."""
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_generate_ccd_path_signature(self):
+        """Test that generate_ccd_path has the correct signature."""
+        import inspect
+        sig = inspect.signature(generate_ccd_path)
+        params = list(sig.parameters.keys())
+
+        assert 'ccd_data' in params
+        assert 'n_images' in params
+        assert 'displacements' in params
+        assert 'output_dir' in params
+        assert 'write_vasp' in params
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_generate_ccd_path_default_n_images(self):
+        """Test default value for n_images."""
+        import inspect
+        sig = inspect.signature(generate_ccd_path)
+        assert sig.parameters['n_images'].default == 11
+
+
+class TestCreateCCDFromDefectEntries:
+    """Tests for create_ccd_from_defect_entries function."""
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_create_ccd_from_defect_entries_signature(self):
+        """Test that create_ccd_from_defect_entries has the correct signature."""
+        import inspect
+        sig = inspect.signature(create_ccd_from_defect_entries)
+        params = list(sig.parameters.keys())
+
+        expected_params = [
+            'defect_entry_initial', 'defect_entry_final',
+            'path_dir_initial', 'path_dir_final',
+            'fit_type', 'fit_kwargs',
+            'nev_initial', 'nev_final',
+            'W', 'degeneracy',
+            'Q0_method', 'use_harmonic', 'hw', 'verbose'
+        ]
+
+        for param in expected_params:
+            assert param in params, f"Missing parameter: {param}"
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_create_ccd_from_defect_entries_default_values(self):
+        """Test default values for parameters."""
+        import inspect
+        sig = inspect.signature(create_ccd_from_defect_entries)
+
+        assert sig.parameters['fit_type'].default == "spline"
+        assert sig.parameters['nev_initial'].default == 180
+        assert sig.parameters['nev_final'].default == 60
+        assert sig.parameters['degeneracy'].default == 1
+        assert sig.parameters['Q0_method'].default == "auto"
+        assert sig.parameters['use_harmonic'].default is False
+        assert sig.parameters['verbose'].default is False
+
+
+class TestWorkflowHelperDocstrings:
+    """Test that all workflow helper functions have proper docstrings."""
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_all_workflow_helpers_have_docstrings(self):
+        """Test that all workflow helper functions have docstrings."""
+        functions_to_check = [
+            prepare_ccd_structures,
+            generate_ccd_path,
+            estimate_phonon_frequency,
+            calculate_Q0_crossing,
+            create_ccd_from_defect_entries,
+        ]
+
+        for func in functions_to_check:
+            assert func.__doc__ is not None, f"{func.__name__} missing docstring"
+            assert len(func.__doc__.strip()) > 100, f"{func.__name__} has too short docstring"
+            # Check that docstring contains key sections
+            assert 'Parameters' in func.__doc__, f"{func.__name__} missing Parameters section"
+            assert 'Returns' in func.__doc__, f"{func.__name__} missing Returns section"
+
+
+class TestWorkflowHelperExports:
+    """Test that workflow helpers are properly exported."""
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_workflow_helpers_in_doped_interface_all(self):
+        """Test that workflow helpers are in doped_interface.__all__."""
+        from carriercapture.io import doped_interface
+
+        expected_exports = [
+            "prepare_ccd_structures",
+            "generate_ccd_path",
+            "estimate_phonon_frequency",
+            "calculate_Q0_crossing",
+            "create_ccd_from_defect_entries",
+        ]
+
+        for export in expected_exports:
+            assert export in doped_interface.__all__, f"Missing from __all__: {export}"
+            assert hasattr(doped_interface, export), f"Missing attribute: {export}"
+
+    def test_workflow_helpers_in_io_module_when_available(self):
+        """Test that workflow helpers are exported from io module."""
+        from carriercapture import io
+
+        if DOPED_INTEGRATION_AVAILABLE:
+            expected_exports = [
+                "prepare_ccd_structures",
+                "generate_ccd_path",
+                "estimate_phonon_frequency",
+                "calculate_Q0_crossing",
+                "create_ccd_from_defect_entries",
+            ]
+
+            for export in expected_exports:
+                assert hasattr(io, export), f"io module missing: {export}"
 
 
 # Integration test template (requires actual doped data)

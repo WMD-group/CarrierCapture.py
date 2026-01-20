@@ -28,6 +28,12 @@ try:
         load_path_calculations,
         extract_cc_data_from_structures,
         create_potential_from_doped,
+        # Workflow helper functions
+        prepare_ccd_structures,
+        generate_ccd_path,
+        estimate_phonon_frequency,
+        calculate_Q0_crossing,
+        create_ccd_from_defect_entries,
     )
     DOPED_INTEGRATION_AVAILABLE = True
 except ImportError:
@@ -62,4 +68,10 @@ if DOPED_INTEGRATION_AVAILABLE:
         "load_path_calculations",
         "extract_cc_data_from_structures",
         "create_potential_from_doped",
+        # Workflow helper functions
+        "prepare_ccd_structures",
+        "generate_ccd_path",
+        "estimate_phonon_frequency",
+        "calculate_Q0_crossing",
+        "create_ccd_from_defect_entries",
     ])
