@@ -12,6 +12,19 @@ authors = [
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics",
+]
 dependencies = [
     "numpy>=1.21",
     "scipy>=1.7",
@@ -54,8 +67,9 @@ doped = [
 carriercapture = "carriercapture.cli.main:cli"
 
 [project.urls]
-Homepage = "https://github.com/yourorg/CarrierCapture.py"
-Repository = "https://github.com/yourorg/CarrierCapture.py"
+Homepage = "https://github.com/WMD-group/CarrierCapture.py"
+Repository = "https://github.com/WMD-group/CarrierCapture.py"
+Documentation = "https://wmd-group.github.io/CarrierCapture.py/"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/carriercapture"]

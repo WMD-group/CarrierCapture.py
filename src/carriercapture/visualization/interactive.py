@@ -864,7 +864,7 @@ def register_comparison_callbacks(app: dash.Dash) -> None:
 
                 potentials.append(serialize_potential(pot))
             except Exception as e:
-                pass
+                warnings.warn(f"Failed to load file '{filename}': {e}")
 
         # Create list display
         list_items = [

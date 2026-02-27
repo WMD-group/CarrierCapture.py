@@ -668,7 +668,5 @@ print(f"\n✓ Complete!")
 ## See Also
 
 - **[API Reference: ConfigCoordinate](../api/core.md#configcoordinate)** - Complete API documentation
-- **[Theory: Multiphonon Theory](../theory/multiphonon-theory.md)** - Theoretical background
-- **[Theory: Configuration Coordinates](../theory/configuration-coordinates.md)** - CC diagram explanation
-- **[Tutorial 1: Sn in ZnO](../tutorials/01-harmonic-oscillator.md)** - Complete example
+- **[Example Notebook: Sn in ZnO](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/01_harmonic_sn_zn.ipynb)** - Complete example
 - **[CLI Reference: capture](../api/cli.md#capture---calculate-capture-coefficient)** - Command-line usage

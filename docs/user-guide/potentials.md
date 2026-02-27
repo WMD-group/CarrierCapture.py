@@ -582,5 +582,4 @@ print(f"✓ Saved to ground_state_solved.json")
 - **[API Reference: Potential](../api/core.md#potential)** - Complete API documentation
 - **[CLI Reference: fit](../api/cli.md#fit---fit-potential-energy-surface)** - Fitting from command line
 - **[CLI Reference: solve](../api/cli.md#solve---solve-schr%C3%B6dinger-equation)** - Solving from command line
-- **[Theory: Configuration Coordinates](../theory/configuration-coordinates.md)** - Theoretical background
-- **[Tutorial 1: Harmonic Oscillator](../tutorials/01-harmonic-oscillator.md)** - Step-by-step tutorial
+- **[Example Notebook: Sn in ZnO](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/01_harmonic_sn_zn.ipynb)** - Step-by-step example

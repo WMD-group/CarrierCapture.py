@@ -421,8 +421,9 @@ class ParameterScanner:
                 from carriercapture.core.potential import find_crossing
                 crossing_Q, crossing_E = find_crossing(pot_f, pot_i)
                 barrier_height = crossing_E - dE
-            except Exception:
+            except Exception as e:
                 # If can't find crossing, set high barrier
+                warnings.warn(f"Could not find crossing at dQ={dQ:.2f}, dE={dE:.2f}: {e}. Using default barrier height of 50.0 eV.")
                 barrier_height = 50.0
 
             return capture_coeff, barrier_height

@@ -843,5 +843,4 @@ print(f"\n✓ Results saved to scan_results.npz")
 
 - **[API Reference: ParameterScanner](../api/analysis.md)** - Complete API documentation
 - **[CLI Reference: scan](../api/cli.md#scan---parameter-scan)** - Command-line usage
-- **[Tutorial 3: Parameter Scan](../tutorials/03-parameter-scan.md)** - Step-by-step tutorial
-- **[Theory: Multiphonon Theory](../theory/multiphonon-theory.md)** - Theoretical background
+- **[Example Notebook: Parameter Scan](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/03_parameter_scan.ipynb)** - Step-by-step example

@@ -155,11 +155,10 @@ The exponential increase with temperature is characteristic of:
 - **[Visualization](../user-guide/visualization.md)** - Interactive dashboards
 - **[doped Integration](../user-guide/doped-integration.md)** - Real defect calculations
 
-### Try the Tutorials
+### Try the Example Notebooks
 
-- **[Tutorial 1: Harmonic](../tutorials/01-harmonic-oscillator.md)** - Detailed harmonic example
-- **[Tutorial 2: DX Center](../tutorials/02-dx-center.md)** - Real anharmonic system
-- **[Tutorial 3: Parameter Scan](../tutorials/03-parameter-scan.md)** - Materials screening
+- **[Notebook 1: Sn in ZnO](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/01_harmonic_sn_zn.ipynb)** - Detailed harmonic example
+- **[Notebook 3: Parameter Scan](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/03_parameter_scan.ipynb)** - Materials screening
 
 ## Common Next Steps
 

@@ -983,5 +983,6 @@ def filter_thermally_accessible(
     >>> Q_filt, E_filt = filter_thermally_accessible(Q_data, E_data, temperature=300, n_kBT=3)
     """
     pot = Potential(Q_data=Q_data, E_data=E_data)
-    pot.filter_thermally_accessible(temperature=temperature, n_kBT=n_kBT)
+    thermal_energy = n_kBT * K_B * temperature
+    pot.filter_thermally_accessible(thermal_energy=thermal_energy)
     return pot.Q_data, pot.E_data

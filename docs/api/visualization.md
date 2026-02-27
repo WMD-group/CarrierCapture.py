@@ -241,5 +241,4 @@ All Plotly plots support:
 ## See Also
 
 - **[User Guide: Visualization](../user-guide/visualization.md)** - Comprehensive visualization guide
-- **[Tutorial 4: Dashboard](../tutorials/04-interactive-dashboard.md)** - Interactive tutorial
 - **[Examples: Gallery](../examples/gallery.md)** - Gallery of example plots

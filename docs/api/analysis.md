@@ -72,4 +72,4 @@ print(f"Min capture: {np.nanmin(results.capture_coefficients):.3e} cm³/s")
 ## See Also
 
 - **[User Guide: Parameter Scanning](../user-guide/parameter-scanning.md)** - Detailed usage guide
-- **[Tutorial 3: Parameter Scan](../tutorials/03-parameter-scan.md)** - Interactive tutorial
+- **[Example Notebook: Parameter Scan](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/03_parameter_scan.ipynb)** - Step-by-step example

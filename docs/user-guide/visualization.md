@@ -879,5 +879,4 @@ fig.show()
 - **[API Reference: Visualization](../api/visualization.md)** - Complete API documentation
 - **[CLI Reference: viz](../api/cli.md#viz---interactive-dashboard)** - Dashboard CLI options
 - **[CLI Reference: plot](../api/cli.md#plot---static-plots)** - Static plotting CLI
-- **[Tutorial 4: Dashboard](../tutorials/04-interactive-dashboard.md)** - Interactive tutorial
 - **[Examples: Gallery](../examples/gallery.md)** - Gallery of example plots

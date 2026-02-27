@@ -390,7 +390,6 @@ pot = Potential.from_harmonic(hw=0.016, Q0=0.0, E0=0.5)  # Was 0.008
 
 Move beyond harmonic:
 
-- **[Tutorial 2: DX Center](../tutorials/02-dx-center.md)** - Anharmonic potential from DFT
 - **[User Guide: Potentials](../user-guide/potentials.md)** - Spline and Morse fitting
 - **[doped Integration](../user-guide/doped-integration.md)** - Load from defect calculations
 
@@ -398,12 +397,12 @@ Move beyond harmonic:
 
 Screen many materials:
 
-- **[Tutorial 3: Parameter Scan](../tutorials/03-parameter-scan.md)** - High-throughput workflow
+- **[Example Notebook: Parameter Scan](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/03_parameter_scan.ipynb)** - High-throughput workflow
 - **[User Guide: Parameter Scanning](../user-guide/parameter-scanning.md)** - Detailed guide
 
 ### Interactive Exploration
 
-- **[Tutorial 4: Dashboard](../tutorials/04-interactive-dashboard.md)** - Web-based visualization
+- **[User Guide: Visualization](../user-guide/visualization.md)** - Dashboard and plotting
 
 ## Summary
 

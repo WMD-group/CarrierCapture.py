@@ -3,7 +3,7 @@
 **Modern Python package for computing carrier capture rates and non-radiative recombination in semiconductors using multiphonon theory.**
 
 [![Tests](https://github.com/WMD-group/CarrierCapture.py/actions/workflows/tests.yml/badge.svg)](https://github.com/WMD-group/CarrierCapture.py/actions/workflows/tests.yml)
-[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 

@@ -598,4 +598,4 @@ fig.write_html('interactive.html', include_plotlyjs='cdn')  # Smaller file size
 - **[User Guide: Visualization](../user-guide/visualization.md)** - Comprehensive plotting guide
 - **[API Reference: Visualization](../api/visualization.md)** - Complete API
 - **[Examples: Notebooks](notebooks.md)** - Jupyter notebook examples
-- **[Tutorial 1: Sn in ZnO](../tutorials/01-harmonic-oscillator.md)** - Complete tutorial
+- **[Example Notebook: Sn in ZnO](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/01_harmonic_sn_zn.ipynb)** - Complete example

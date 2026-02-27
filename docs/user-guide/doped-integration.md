@@ -659,7 +659,7 @@ plt.show()
 
 ## Complete Example
 
-See **[Tutorial 2: DX Center from doped](../tutorials/02-dx-center.md)** for a complete worked example.
+See the **[Example Notebook: Sn in ZnO](https://github.com/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/01_harmonic_sn_zn.ipynb)** for a complete worked example of the workflow.
 
 ---
 
@@ -668,5 +668,4 @@ See **[Tutorial 2: DX Center from doped](../tutorials/02-dx-center.md)** for a c
 - **[doped Documentation](https://doped.readthedocs.io/)** - Full doped package documentation
 - **[API Reference: doped Interface](../api/io.md#doped-interface)** - Complete API documentation
 - **[CLI Reference: capture --doped](../api/cli.md#capture---calculate-capture-coefficient)** - Command-line usage
-- **[Tutorial 2: DX Center](../tutorials/02-dx-center.md)** - Complete example with doped
 - **[Getting Started: Quick Start](../getting-started/quick-start.md)** - doped integration example

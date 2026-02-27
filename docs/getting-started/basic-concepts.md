@@ -300,8 +300,7 @@ Now that you understand the concepts:
 
 - **[First Calculation](first-calculation.md)** - Detailed walkthrough
 - **[User Guide: Potentials](../user-guide/potentials.md)** - Learn about potential types
-- **[Theory: Multiphonon](../theory/multiphonon-theory.md)** - Deep dive into theory
-- **[Tutorials](../tutorials/index.md)** - Hands-on examples
+- **[Example Notebooks](https://github.com/WMD-group/CarrierCapture.py/tree/main/examples/notebooks)** - Hands-on examples
 
 ## Further Reading
 

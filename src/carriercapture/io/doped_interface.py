@@ -1371,8 +1371,8 @@ def create_ccd_from_defect_entries(
                 hw_estimated = freq_data['hw']
                 if verbose:
                     print(f"Estimated phonon energy: {hw_estimated*1000:.1f} meV")
-            except Exception:
-                pass
+            except Exception as e:
+                warnings.warn(f"Could not estimate phonon frequency: {e}")
 
         else:
             # Use structure-based interpolation
