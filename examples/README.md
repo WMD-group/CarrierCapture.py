@@ -144,7 +144,7 @@ All validation tests should pass within specified tolerances:
 ## Contributing
 
 Found a bug or have an example to share? Please open an issue or PR at:
-https://github.com/YourUsername/CarrierCapture.py
+https://github.com/WMD-group/CarrierCapture.py
 
 ## Citation
 

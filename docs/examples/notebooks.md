@@ -83,30 +83,38 @@ cc.calculate_capture_coefficient(volume=1e-21, temperature=temperature)
 
 **File**: `examples/notebooks/02_anharmonic_dx_center.ipynb`
 
-**Status**: ⏳ Planned (see [Phase 6](../getting-started/installation.md))
+**Status**: ✅ Available
 
 **Topics Covered**:
-- Loading Q-E data from files
-- Spline fitting for anharmonic potentials
-- Quality assessment of fits
-- Anharmonic effects on capture
-- Deep defects with large ΔQ
+- Generating/loading Q-E data for anharmonic potentials
+- Spline and Morse fitting for anharmonic potentials
+- Quality assessment of fits (R², RMSE)
+- Anharmonic effects on energy level spacing
 - Comparison with harmonic approximation
+- Impact on carrier capture coefficients
 
 **Learning Objectives**:
-- Work with real DFT data
-- Master fitting techniques
-- Understand anharmonicity
-- Validate fit quality
+- Work with anharmonic potential data
+- Master fitting techniques (spline, Morse, harmonic)
+- Understand how anharmonicity affects capture rates
+- Validate fit quality quantitatively
 
-**Data**: DX center in AlGaAs (from literature)
+**Data**: Synthetic DX-center-like Morse potential data
 
-**Estimated Time**: 45 minutes
+**Estimated Time**: 30 minutes
 
-#### Planned Content
+#### Quick Start
+
+```bash
+jupyter notebook 02_anharmonic_dx_center.ipynb
+```
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/02_anharmonic_dx_center.ipynb)
+
+#### Key Code Snippets
 
 ```python
-# Load DFT Q-E data
+# Generate synthetic anharmonic data
 Q_data, E_data = read_csv_data('dx_center_data.csv')
 
 # Create and fit potential
@@ -193,36 +201,44 @@ fig.show()
 
 **File**: `examples/notebooks/04_interactive_viz.ipynb`
 
-**Status**: ⏳ Planned (see [Phase 6](../getting-started/installation.md))
+**Status**: ✅ Available
 
 **Topics Covered**:
-- Launching Dash dashboard from notebook
-- Interactive parameter exploration
-- Real-time fitting and solving
-- Dashboard features tour
-- Exporting results
-- Custom callbacks
+- Launching Dash dashboard from notebook and CLI
+- Dashboard features tour (fitting, capture, scanning, comparison)
+- Programmatic control of visualizations
+- Exporting figures (HTML, PNG, PDF)
+- Exporting data (JSON, NPZ)
+- Customizing themes and styles
 
 **Learning Objectives**:
-- Use interactive tools effectively
-- Rapid prototyping of calculations
-- Visual parameter optimization
-- Dashboard customization
+- Launch and navigate the interactive dashboard
+- Use static plotting functions programmatically
+- Export publication-quality figures
+- Customize visualization themes
 
-**Data**: Example datasets for exploration
+**Data**: Example potentials created in notebook
 
-**Estimated Time**: 30 minutes
+**Estimated Time**: 20 minutes
 
-#### Planned Content
+#### Quick Start
+
+```bash
+jupyter notebook 04_interactive_viz.ipynb
+```
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/WMD-group/CarrierCapture.py/blob/main/examples/notebooks/04_interactive_viz.ipynb)
+
+#### Key Code Snippets
 
 ```python
 # Launch dashboard
-from carriercapture.visualization import create_app, run_server
+from carriercapture.visualization.interactive import create_app, run_server
 
 app = create_app()
-run_server(port=8050, debug=False)
+app.run(port=8050, jupyter_mode="tab")
 
-# Access at http://localhost:8050
+# Or from CLI: carriercapture viz --port 8050
 ```
 
 ---
