@@ -1,0 +1,3604 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Modern Python package for carrier capture rate calculations">
+      
+      
+      
+        <link rel="canonical" href="https://wmd-group.github.io/CarrierCapture.py/api/cli/">
+      
+      
+        <link rel="prev" href="../visualization/">
+      
+      
+        <link rel="next" href="../../examples/gallery/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>CLI - CarrierCapture.py</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cli-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="CarrierCapture.py" class="md-header__button md-logo" aria-label="CarrierCapture.py" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CarrierCapture.py
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/WMD-group/CarrierCapture.py" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    WMD-group/CarrierCapture.py
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user-guide/potentials/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../theory/multiphonon-theory.md" class="md-tabs__link">
+          
+  
+  
+  Theory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/index.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/gallery/" class="md-tabs__link">
+          
+  
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/contributing.md" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../changelog.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="CarrierCapture.py" class="md-nav__button md-logo" aria-label="CarrierCapture.py" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CarrierCapture.py
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/WMD-group/CarrierCapture.py" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    WMD-group/CarrierCapture.py
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/basic-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/first-calculation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    First Calculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/potentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Potentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/capture-coefficients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Capture Coefficients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/parameter-scanning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameter Scanning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/doped-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    doped Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/cli-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Theory
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/multiphonon-theory.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiphonon Theory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/configuration-coordinates.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Coordinates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/equations.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/references.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-harmonic-oscillator.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Harmonic Oscillator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-dx-center.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. DX Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-parameter-scan.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Parameter Scan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-interactive-dashboard.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Interactive Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fit-fit-potential-energy-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fit - Fit Potential Energy Surface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solve-solve-schrodinger-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve - Solve Schrödinger Equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capture-calculate-capture-coefficient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        capture - Calculate Capture Coefficient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scan-parameter-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scan - Parameter Scan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scan-plot-visualize-scan-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scan-plot - Visualize Scan Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viz-interactive-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        viz - Interactive Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot-static-plots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot - Static Plots
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-complete-workflow-fit-solve-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Complete Workflow (Fit → Solve → Capture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-config-file-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Config File Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-parameter-screening-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Parameter Screening Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-interactive-exploration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Interactive Exploration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-doped-integration-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. doped Integration Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-and-tricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips and Tricks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips and Tricks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verbosity-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verbosity Levels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallel-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-format-auto-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Format Auto-Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fit-fit-potential-energy-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fit - Fit Potential Energy Surface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solve-solve-schrodinger-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve - Solve Schrödinger Equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capture-calculate-capture-coefficient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        capture - Calculate Capture Coefficient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scan-parameter-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scan - Parameter Scan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scan-plot-visualize-scan-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scan-plot - Visualize Scan Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viz-interactive-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        viz - Interactive Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot-static-plots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot - Static Plots
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-complete-workflow-fit-solve-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Complete Workflow (Fit → Solve → Capture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-config-file-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Config File Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-parameter-screening-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Parameter Screening Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-interactive-exploration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Interactive Exploration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-doped-integration-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. doped Integration Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-and-tricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips and Tricks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips and Tricks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verbosity-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verbosity Levels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallel-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-format-auto-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Format Auto-Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="cli-reference">CLI Reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
+<p>Command-line interface for CarrierCapture.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>CarrierCapture provides a comprehensive CLI built with <a href="https://click.palletsprojects.com/">Click</a> for all common workflows:</p>
+<ul>
+<li><strong><code>fit</code></strong> - Fit potential energy surfaces to data</li>
+<li><strong><code>solve</code></strong> - Solve Schrödinger equation for phonon states</li>
+<li><strong><code>capture</code></strong> - Calculate carrier capture coefficients</li>
+<li><strong><code>scan</code></strong> - High-throughput parameter screening</li>
+<li><strong><code>scan-plot</code></strong> - Visualize scan results</li>
+<li><strong><code>viz</code></strong> - Launch interactive dashboard</li>
+<li><strong><code>plot</code></strong> - Generate static plots</li>
+</ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<p>The CLI is automatically available after installation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>carriercapture
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>carriercapture<span class="w"> </span>--help
+</code></pre></div>
+<h2 id="global-options">Global Options<a class="headerlink" href="#global-options" title="Permanent link">&para;</a></h2>
+<p>Available for all commands:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--version</code></td>
+<td>Show version and exit</td>
+</tr>
+<tr>
+<td><code>-v, --verbose</code></td>
+<td>Increase verbosity (can repeat: <code>-v</code>, <code>-vv</code>, <code>-vvv</code>)</td>
+</tr>
+<tr>
+<td><code>--help</code></td>
+<td>Show help message and exit</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Show version</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>carriercapture<span class="w"> </span>--version
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Run with verbose output</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-v
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Maximum verbosity</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span>config.yaml<span class="w"> </span>-vvv
+</code></pre></div></p>
+<hr />
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<h3 id="fit-fit-potential-energy-surface"><code>fit</code> - Fit Potential Energy Surface<a class="headerlink" href="#fit-fit-potential-energy-surface" title="Permanent link">&para;</a></h3>
+<p>Fit potential energy surface data to various functional forms.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>DATA_FILE<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Arguments:</strong>
+- <code>DATA_FILE</code> - Path to potential data file (Q, E format)</p>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-f, --fit-type</code></td>
+<td>choice</td>
+<td><code>spline</code></td>
+<td>Fitting method: <code>spline</code>, <code>harmonic</code>, <code>morse</code>, <code>polynomial</code>, <code>morse_poly</code></td>
+</tr>
+<tr>
+<td><code>-o, --output</code></td>
+<td>path</td>
+<td>-</td>
+<td>Output file (auto-detect format from extension)</td>
+</tr>
+<tr>
+<td><code>--order</code></td>
+<td>int</td>
+<td>4</td>
+<td>Spline order (for spline fitting)</td>
+</tr>
+<tr>
+<td><code>--smoothness</code></td>
+<td>float</td>
+<td>0.001</td>
+<td>Spline smoothness parameter</td>
+</tr>
+<tr>
+<td><code>--degree</code></td>
+<td>int</td>
+<td>4</td>
+<td>Polynomial degree (for polynomial fitting)</td>
+</tr>
+<tr>
+<td><code>--hw</code></td>
+<td>float</td>
+<td>-</td>
+<td>Phonon frequency in eV (for harmonic fitting)</td>
+</tr>
+<tr>
+<td><code>--Q0</code></td>
+<td>float</td>
+<td>0.0</td>
+<td>Equilibrium position (amu^0.5·Å)</td>
+</tr>
+<tr>
+<td><code>--E0</code></td>
+<td>float</td>
+<td>0.0</td>
+<td>Energy offset (eV)</td>
+</tr>
+<tr>
+<td><code>--plot</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Generate plot of fitted potential</td>
+</tr>
+<tr>
+<td><code>--plot-output</code></td>
+<td>path</td>
+<td>-</td>
+<td>Save plot to file (requires <code>--plot</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Spline fit with custom parameters</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>excited.dat<span class="w"> </span>-f<span class="w"> </span>spline<span class="w"> </span>--order<span class="w"> </span><span class="m">4</span><span class="w"> </span>--smoothness<span class="w"> </span><span class="m">0</span>.001<span class="w"> </span>-o<span class="w"> </span>excited_fit.json
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Harmonic fit</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>ground.dat<span class="w"> </span>-f<span class="w"> </span>harmonic<span class="w"> </span>--hw<span class="w"> </span><span class="m">0</span>.03<span class="w"> </span>--Q0<span class="w"> </span><span class="m">5</span>.0<span class="w"> </span>-o<span class="w"> </span>ground_fit.json
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Morse potential fit</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-f<span class="w"> </span>morse<span class="w"> </span>-o<span class="w"> </span>morse_fit.json
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Polynomial fit with plot</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-f<span class="w"> </span>polynomial<span class="w"> </span>--degree<span class="w"> </span><span class="m">6</span><span class="w"> </span>--plot<span class="w"> </span>--plot-output<span class="w"> </span>fit.png
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Fit and save</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-f<span class="w"> </span>spline<span class="w"> </span>-o<span class="w"> </span>potential.json<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Supported Input Formats:</strong>
+- CSV (<code>.csv</code>, <code>.dat</code>) - Two-column format: Q (amu^0.5·Å), E (eV)
+- Space or comma separated</p>
+<p><strong>Supported Output Formats:</strong>
+- JSON (<code>.json</code>)
+- YAML (<code>.yaml</code>, <code>.yml</code>)
+- NPZ (<code>.npz</code>)
+- DAT (<code>.dat</code>)</p>
+<hr />
+<h3 id="solve-solve-schrodinger-equation"><code>solve</code> - Solve Schrödinger Equation<a class="headerlink" href="#solve-solve-schrodinger-equation" title="Permanent link">&para;</a></h3>
+<p>Solve 1D Schrödinger equation to compute phonon eigenvalues and eigenvectors.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>POTENTIAL_FILE<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Arguments:</strong>
+- <code>POTENTIAL_FILE</code> - Path to fitted potential (JSON, YAML, NPZ)</p>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-n, --nev</code></td>
+<td>int</td>
+<td>60</td>
+<td>Number of eigenvalues to compute</td>
+</tr>
+<tr>
+<td><code>-o, --output</code></td>
+<td>path</td>
+<td><code>*_solved.*</code></td>
+<td>Output file (default: add <code>_solved</code> suffix)</td>
+</tr>
+<tr>
+<td><code>--Q-range</code></td>
+<td>float×2</td>
+<td>-</td>
+<td>Q grid range: <code>Q_min Q_max</code> (amu^0.5·Å)</td>
+</tr>
+<tr>
+<td><code>--npoints</code></td>
+<td>int</td>
+<td>3001</td>
+<td>Number of grid points for solving</td>
+</tr>
+<tr>
+<td><code>--plot</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Plot eigenvalue spectrum</td>
+</tr>
+<tr>
+<td><code>--plot-output</code></td>
+<td>path</td>
+<td>-</td>
+<td>Save plot to file</td>
+</tr>
+<tr>
+<td><code>--plot-wavefunctions</code></td>
+<td>int</td>
+<td>-</td>
+<td>Number of wavefunctions to plot</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Solve with default parameters (60 states)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>potential.json
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Solve for more states with custom grid</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>potential.json<span class="w"> </span>-n<span class="w"> </span><span class="m">180</span><span class="w"> </span>--npoints<span class="w"> </span><span class="m">5000</span><span class="w"> </span>-o<span class="w"> </span>solved.json
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Solve and plot eigenvalue spectrum</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>potential.json<span class="w"> </span>--plot<span class="w"> </span>--plot-output<span class="w"> </span>spectrum.png
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Solve and visualize wavefunctions</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>potential.json<span class="w"> </span>--plot-wavefunctions<span class="w"> </span><span class="m">10</span><span class="w"> </span>--show
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># Solve with custom Q range</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>potential.json<span class="w"> </span>--Q-range<span class="w"> </span>-10<span class="w"> </span><span class="m">10</span><span class="w"> </span>-n<span class="w"> </span><span class="m">180</span><span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Output:</strong>
+- Saves potential with computed <code>eigenvalues</code> and <code>eigenvectors</code> arrays
+- Eigenvalues in ascending order (E₀, E₁, E₂, ...)
+- Eigenvectors normalized on the Q grid</p>
+<hr />
+<h3 id="capture-calculate-capture-coefficient"><code>capture</code> - Calculate Capture Coefficient<a class="headerlink" href="#capture-calculate-capture-coefficient" title="Permanent link">&para;</a></h3>
+<p>Calculate carrier capture coefficients using multiphonon theory.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span><span class="o">[</span>CONFIG_FILE<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Arguments:</strong>
+- <code>CONFIG_FILE</code> (optional) - YAML configuration file with all parameters</p>
+<p><strong>Modes:</strong></p>
+<ol>
+<li><strong>Config file mode</strong>: Provide YAML file with all parameters</li>
+<li><strong>Command-line mode</strong>: Specify all options via CLI</li>
+<li><strong>doped mode</strong>: Integrate with doped package (<code>--doped</code> flag)</li>
+</ol>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--pot-i</code></td>
+<td>path</td>
+<td>-</td>
+<td>Initial state potential file</td>
+</tr>
+<tr>
+<td><code>--pot-f</code></td>
+<td>path</td>
+<td>-</td>
+<td>Final state potential file</td>
+</tr>
+<tr>
+<td><code>-W, --coupling</code></td>
+<td>float</td>
+<td>-</td>
+<td>Electron-phonon coupling (eV)</td>
+</tr>
+<tr>
+<td><code>-g, --degeneracy</code></td>
+<td>int</td>
+<td>1</td>
+<td>Degeneracy factor</td>
+</tr>
+<tr>
+<td><code>-V, --volume</code></td>
+<td>float</td>
+<td>-</td>
+<td>Supercell volume (cm³)</td>
+</tr>
+<tr>
+<td><code>--temp-range</code></td>
+<td>float×3</td>
+<td>100 500 50</td>
+<td>Temperature range: <code>T_min T_max n_points</code> (K)</td>
+</tr>
+<tr>
+<td><code>--Q0</code></td>
+<td>float</td>
+<td>-</td>
+<td>Shift for coordinate operator (amu^0.5·Å)</td>
+</tr>
+<tr>
+<td><code>--cutoff</code></td>
+<td>float</td>
+<td>0.25</td>
+<td>Energy cutoff for overlaps (eV)</td>
+</tr>
+<tr>
+<td><code>--sigma</code></td>
+<td>float</td>
+<td>0.025</td>
+<td>Gaussian delta width (eV)</td>
+</tr>
+<tr>
+<td><code>-o, --output</code></td>
+<td>path</td>
+<td>-</td>
+<td>Output file (<code>.json</code>, <code>.yaml</code>, <code>.csv</code>, <code>.npz</code>)</td>
+</tr>
+<tr>
+<td><code>--plot</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Generate Arrhenius plot</td>
+</tr>
+<tr>
+<td><code>--plot-output</code></td>
+<td>path</td>
+<td>-</td>
+<td>Save plot to file</td>
+</tr>
+</tbody>
+</table>
+<p><strong>doped Integration Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--doped</code></td>
+<td>path</td>
+<td>-</td>
+<td>Path to doped DefectEntry JSON.GZ file</td>
+</tr>
+<tr>
+<td><code>--charge-i</code></td>
+<td>int</td>
+<td>-</td>
+<td>Initial charge state</td>
+</tr>
+<tr>
+<td><code>--charge-f</code></td>
+<td>int</td>
+<td>-</td>
+<td>Final charge state</td>
+</tr>
+<tr>
+<td><code>--doped-path-i</code></td>
+<td>path</td>
+<td>-</td>
+<td>VASP calculation directory (initial state)</td>
+</tr>
+<tr>
+<td><code>--doped-path-f</code></td>
+<td>path</td>
+<td>-</td>
+<td>VASP calculation directory (final state)</td>
+</tr>
+<tr>
+<td><code>--n-images</code></td>
+<td>int</td>
+<td>10</td>
+<td>Number of interpolation images</td>
+</tr>
+<tr>
+<td><code>--auto-Q0</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Auto-suggest Q0 from structure displacement</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># From config file</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span>config.yaml<span class="w"> </span>-o<span class="w"> </span>results.json<span class="w"> </span>-v
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># From command line</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span>--pot-i<span class="w"> </span>excited.json<span class="w"> </span>--pot-f<span class="w"> </span>ground.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span>-W<span class="w"> </span><span class="m">0</span>.205<span class="w"> </span>-V<span class="w"> </span>1e-21<span class="w"> </span>--temp-range<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span>--Q0<span class="w"> </span><span class="m">10</span>.0<span class="w"> </span>-o<span class="w"> </span>results.json
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># With Arrhenius plot</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span>config.yaml<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">  </span>--plot<span class="w"> </span>--plot-output<span class="w"> </span>arrhenius.png<span class="w"> </span>-v
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1"># doped integration mode</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span>--doped<span class="w"> </span>defect.json.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">  </span>--charge-i<span class="w"> </span><span class="m">0</span><span class="w"> </span>--charge-f<span class="w"> </span>+1<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">  </span>--doped-path-i<span class="w"> </span>path_q0/<span class="w"> </span>--doped-path-f<span class="w"> </span>path_q1/<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">  </span>-W<span class="w"> </span><span class="m">0</span>.205<span class="w"> </span>-V<span class="w"> </span>1e-21<span class="w"> </span>--temp-range<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">  </span>--auto-Q0<span class="w"> </span>-o<span class="w"> </span>results.json<span class="w"> </span>-v
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="c1"># Quick calculation with plotting</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span>config.yaml<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">  </span>--temp-range<span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="m">400</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">  </span>--plot<span class="w"> </span>--show<span class="w"> </span>-vv
+</code></pre></div>
+<p><strong>Config File Format (YAML):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">potential_initial</span><span class="p">:</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">excited_solved.json</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nt">potential_final</span><span class="p">:</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ground_solved.json</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nt">capture</span><span class="p">:</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span><span class="nt">W</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.205</span><span class="w">              </span><span class="c1"># eV</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span><span class="nt">degeneracy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="nt">volume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0e-21</span><span class="w">       </span><span class="c1"># cm³</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="nt">Q0</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span><span class="w">              </span><span class="c1"># amu^0.5·Å</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">  </span><span class="nt">cutoff</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.25</span><span class="w">          </span><span class="c1"># eV</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="nt">sigma</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.025</span><span class="w">          </span><span class="c1"># eV</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">  </span><span class="nt">temperature</span><span class="p">:</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">            </span><span class="c1"># K</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="nt">max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span><span class="w">            </span><span class="c1"># K</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="nt">n_points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+</code></pre></div>
+<hr />
+<h3 id="scan-parameter-scan"><code>scan</code> - Parameter Scan<a class="headerlink" href="#scan-parameter-scan" title="Permanent link">&para;</a></h3>
+<p>High-throughput parameter screening over ΔQ and ΔE space.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Required Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--dQ-min</code></td>
+<td>float</td>
+<td>Minimum ΔQ value (amu^0.5·Å)</td>
+</tr>
+<tr>
+<td><code>--dQ-max</code></td>
+<td>float</td>
+<td>Maximum ΔQ value (amu^0.5·Å)</td>
+</tr>
+<tr>
+<td><code>--dQ-points</code></td>
+<td>int</td>
+<td>Number of ΔQ points</td>
+</tr>
+<tr>
+<td><code>--dE-min</code></td>
+<td>float</td>
+<td>Minimum ΔE value (eV)</td>
+</tr>
+<tr>
+<td><code>--dE-max</code></td>
+<td>float</td>
+<td>Maximum ΔE value (eV)</td>
+</tr>
+<tr>
+<td><code>--dE-points</code></td>
+<td>int</td>
+<td>Number of ΔE points</td>
+</tr>
+<tr>
+<td><code>-o, --output</code></td>
+<td>path</td>
+<td>Output file (<code>.npz</code> or <code>.h5</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Optional Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--hbar-omega-i</code></td>
+<td>float</td>
+<td>0.008</td>
+<td>ℏω for initial state (eV)</td>
+</tr>
+<tr>
+<td><code>--hbar-omega-f</code></td>
+<td>float</td>
+<td>0.008</td>
+<td>ℏω for final state (eV)</td>
+</tr>
+<tr>
+<td><code>-T, --temperature</code></td>
+<td>float</td>
+<td>300.0</td>
+<td>Temperature (K)</td>
+</tr>
+<tr>
+<td><code>-V, --volume</code></td>
+<td>float</td>
+<td>1e-21</td>
+<td>Supercell volume (cm³)</td>
+</tr>
+<tr>
+<td><code>-g, --degeneracy</code></td>
+<td>int</td>
+<td>1</td>
+<td>Degeneracy factor</td>
+</tr>
+<tr>
+<td><code>--sigma</code></td>
+<td>float</td>
+<td>0.01</td>
+<td>Gaussian delta width (eV)</td>
+</tr>
+<tr>
+<td><code>--cutoff</code></td>
+<td>float</td>
+<td>0.25</td>
+<td>Energy cutoff for overlaps (eV)</td>
+</tr>
+<tr>
+<td><code>--nev-i</code></td>
+<td>int</td>
+<td>180</td>
+<td>Number of eigenvalues (initial state)</td>
+</tr>
+<tr>
+<td><code>--nev-f</code></td>
+<td>int</td>
+<td>60</td>
+<td>Number of eigenvalues (final state)</td>
+</tr>
+<tr>
+<td><code>-j, --n-jobs</code></td>
+<td>int</td>
+<td>1</td>
+<td>Parallel jobs (use <code>-1</code> for all cores)</td>
+</tr>
+<tr>
+<td><code>--no-progress</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Disable progress bar</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Basic scan over ΔQ and ΔE</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>--dQ-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dQ-max<span class="w"> </span><span class="m">25</span><span class="w"> </span>--dQ-points<span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>--dE-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dE-max<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>--dE-points<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>-o<span class="w"> </span>scan_results.npz
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Parallel scan with 4 cores</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span>--dQ-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dQ-max<span class="w"> </span><span class="m">25</span><span class="w"> </span>--dQ-points<span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">  </span>--dE-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dE-max<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>--dE-points<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span>-j<span class="w"> </span><span class="m">4</span><span class="w"> </span>-o<span class="w"> </span>results.npz<span class="w"> </span>-v
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="c1"># Use all available cores</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">  </span>--dQ-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dQ-max<span class="w"> </span><span class="m">25</span><span class="w"> </span>--dQ-points<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">  </span>--dE-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dE-max<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>--dE-points<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">  </span>-j<span class="w"> </span>-1<span class="w"> </span>-o<span class="w"> </span>results.npz
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="c1"># Custom phonon frequencies and temperature</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">  </span>--dQ-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dQ-max<span class="w"> </span><span class="m">25</span><span class="w"> </span>--dQ-points<span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">  </span>--dE-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dE-max<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>--dE-points<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">  </span>--hbar-omega-i<span class="w"> </span><span class="m">0</span>.010<span class="w"> </span>--hbar-omega-f<span class="w"> </span><span class="m">0</span>.010<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">  </span>-T<span class="w"> </span><span class="m">500</span><span class="w"> </span>-o<span class="w"> </span>results_500K.npz<span class="w"> </span>-vv
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="c1"># High-resolution scan</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">  </span>--dQ-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dQ-max<span class="w"> </span><span class="m">30</span><span class="w"> </span>--dQ-points<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="w">  </span>--dE-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dE-max<span class="w"> </span><span class="m">3</span>.0<span class="w"> </span>--dE-points<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="w">  </span>-j<span class="w"> </span>-1<span class="w"> </span>--no-progress<span class="w"> </span>-o<span class="w"> </span>high_res_scan.npz
+</code></pre></div>
+<p><strong>Output:</strong>
+- Saves <code>ScanResult</code> object with:
+  - <code>dQ_grid</code>, <code>dE_grid</code> - Parameter grids
+  - <code>capture_coefficients</code> - 2D array of C(T) values
+  - Scan parameters and metadata</p>
+<hr />
+<h3 id="scan-plot-visualize-scan-results"><code>scan-plot</code> - Visualize Scan Results<a class="headerlink" href="#scan-plot-visualize-scan-results" title="Permanent link">&para;</a></h3>
+<p>Generate heatmaps or contour plots from parameter scan results.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>carriercapture<span class="w"> </span>scan-plot<span class="w"> </span>SCAN_FILE<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Arguments:</strong>
+- <code>SCAN_FILE</code> - Path to scan results file (<code>.npz</code> or <code>.h5</code>)</p>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--type</code></td>
+<td>choice</td>
+<td><code>heatmap</code></td>
+<td>Plot type: <code>heatmap</code>, <code>contour</code>, <code>both</code></td>
+</tr>
+<tr>
+<td><code>--log-scale</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Use log₁₀ scale for capture coefficients</td>
+</tr>
+<tr>
+<td><code>-o, --output</code></td>
+<td>path</td>
+<td>-</td>
+<td>Output file (<code>.html</code>, <code>.png</code>)</td>
+</tr>
+<tr>
+<td><code>--show</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Display plot in browser</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Plot heatmap</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>carriercapture<span class="w"> </span>scan-plot<span class="w"> </span>results.npz<span class="w"> </span>--show
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Save with log scale</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>carriercapture<span class="w"> </span>scan-plot<span class="w"> </span>results.npz<span class="w"> </span>--log-scale<span class="w"> </span>-o<span class="w"> </span>heatmap.html
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Generate contour plot</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>carriercapture<span class="w"> </span>scan-plot<span class="w"> </span>results.npz<span class="w"> </span>--type<span class="w"> </span>contour<span class="w"> </span>--show
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Save both types</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>carriercapture<span class="w"> </span>scan-plot<span class="w"> </span>results.npz<span class="w"> </span>--type<span class="w"> </span>both<span class="w"> </span>--log-scale<span class="w"> </span>-o<span class="w"> </span>scan_viz.html
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1"># Quick view</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>carriercapture<span class="w"> </span>scan-plot<span class="w"> </span>results.npz<span class="w"> </span>--show<span class="w"> </span>-v
+</code></pre></div>
+<hr />
+<h3 id="viz-interactive-dashboard"><code>viz</code> - Interactive Dashboard<a class="headerlink" href="#viz-interactive-dashboard" title="Permanent link">&para;</a></h3>
+<p>Launch web-based interactive visualization dashboard.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>carriercapture<span class="w"> </span>viz<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--port</code></td>
+<td>int</td>
+<td>8050</td>
+<td>Port for Dash server</td>
+</tr>
+<tr>
+<td><code>--host</code></td>
+<td>str</td>
+<td>127.0.0.1</td>
+<td>Host address</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Run in debug mode with hot reloading</td>
+</tr>
+<tr>
+<td><code>--no-browser</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Don't automatically open browser</td>
+</tr>
+<tr>
+<td><code>--data</code></td>
+<td>path</td>
+<td>-</td>
+<td>Load data file on startup</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Launch dashboard on default port (8050)</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>carriercapture<span class="w"> </span>viz
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Launch on custom port</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>carriercapture<span class="w"> </span>viz<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Launch with data file preloaded</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>carriercapture<span class="w"> </span>viz<span class="w"> </span>--data<span class="w"> </span>potential.json
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1"># Run in debug mode</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>carriercapture<span class="w"> </span>viz<span class="w"> </span>--debug
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="c1"># Run on network (accessible from other machines)</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>carriercapture<span class="w"> </span>viz<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8050</span><span class="w"> </span>-v
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="c1"># Launch without opening browser</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>carriercapture<span class="w"> </span>viz<span class="w"> </span>--no-browser
+</code></pre></div>
+<p><strong>Dashboard Features:</strong>
+- Interactive potential energy surface plotting
+- Real-time fitting with parameter adjustment
+- Schrödinger equation solver with visualization
+- Configuration coordinate diagram explorer
+- Capture coefficient calculation
+- Export results and figures</p>
+<p><strong>Requirements:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>pip<span class="w"> </span>install<span class="w"> </span>carriercapture<span class="o">[</span>viz<span class="o">]</span>
+</code></pre></div></p>
+<hr />
+<h3 id="plot-static-plots"><code>plot</code> - Static Plots<a class="headerlink" href="#plot-static-plots" title="Permanent link">&para;</a></h3>
+<p>Generate static publication-quality plots from potential data.</p>
+<p><strong>Usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>carriercapture<span class="w"> </span>plot<span class="w"> </span>POTENTIAL_FILE<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Arguments:</strong>
+- <code>POTENTIAL_FILE</code> - Path to potential file (JSON, YAML, NPZ)</p>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--type</code></td>
+<td>choice</td>
+<td><code>potential</code></td>
+<td>Plot type: <code>potential</code>, <code>spectrum</code>, <code>both</code></td>
+</tr>
+<tr>
+<td><code>--show-wf</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Show wavefunctions on potential plot</td>
+</tr>
+<tr>
+<td><code>--max-wf</code></td>
+<td>int</td>
+<td>20</td>
+<td>Maximum number of wavefunctions to plot</td>
+</tr>
+<tr>
+<td><code>-o, --output</code></td>
+<td>path</td>
+<td>-</td>
+<td>Output file (<code>.html</code>, <code>.png</code>, <code>.pdf</code>, <code>.svg</code>)</td>
+</tr>
+<tr>
+<td><code>--width</code></td>
+<td>int</td>
+<td>900</td>
+<td>Figure width in pixels</td>
+</tr>
+<tr>
+<td><code>--height</code></td>
+<td>int</td>
+<td>600</td>
+<td>Figure height in pixels</td>
+</tr>
+<tr>
+<td><code>--show</code></td>
+<td>flag</td>
+<td>False</td>
+<td>Display plot in browser</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Plot potential energy surface</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>carriercapture<span class="w"> </span>plot<span class="w"> </span>potential.json<span class="w"> </span>--show
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Plot with wavefunctions</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>carriercapture<span class="w"> </span>plot<span class="w"> </span>potential.json<span class="w"> </span>--show-wf<span class="w"> </span>--max-wf<span class="w"> </span><span class="m">10</span><span class="w"> </span>-o<span class="w"> </span>figure.html
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Plot eigenvalue spectrum</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>carriercapture<span class="w"> </span>plot<span class="w"> </span>potential.json<span class="w"> </span>--type<span class="w"> </span>spectrum<span class="w"> </span>-o<span class="w"> </span>spectrum.png
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># Generate both plots</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>carriercapture<span class="w"> </span>plot<span class="w"> </span>potential.json<span class="w"> </span>--type<span class="w"> </span>both<span class="w"> </span>--show-wf<span class="w"> </span>--show
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="c1"># High-resolution export</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>carriercapture<span class="w"> </span>plot<span class="w"> </span>potential.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">  </span>--show-wf<span class="w"> </span>--width<span class="w"> </span><span class="m">1200</span><span class="w"> </span>--height<span class="w"> </span><span class="m">800</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="w">  </span>-o<span class="w"> </span>figure.pdf
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="c1"># Quick visualization</span>
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>carriercapture<span class="w"> </span>plot<span class="w"> </span>potential.json<span class="w"> </span>--show-wf<span class="w"> </span>--show<span class="w"> </span>-v
+</code></pre></div>
+<hr />
+<h2 id="common-workflows">Common Workflows<a class="headerlink" href="#common-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="1-complete-workflow-fit-solve-capture">1. Complete Workflow (Fit → Solve → Capture)<a class="headerlink" href="#1-complete-workflow-fit-solve-capture" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Step 1: Fit potentials</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>excited.dat<span class="w"> </span>-f<span class="w"> </span>spline<span class="w"> </span>-o<span class="w"> </span>excited.json<span class="w"> </span>-v
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>ground.dat<span class="w"> </span>-f<span class="w"> </span>spline<span class="w"> </span>-o<span class="w"> </span>ground.json<span class="w"> </span>-v
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># Step 2: Solve Schrödinger equation</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>excited.json<span class="w"> </span>-n<span class="w"> </span><span class="m">180</span><span class="w"> </span>-o<span class="w"> </span>excited_solved.json<span class="w"> </span>-v
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>ground.json<span class="w"> </span>-n<span class="w"> </span><span class="m">60</span><span class="w"> </span>-o<span class="w"> </span>ground_solved.json<span class="w"> </span>-v
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="c1"># Step 3: Calculate capture coefficient</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">  </span>--pot-i<span class="w"> </span>excited_solved.json<span class="w"> </span>--pot-f<span class="w"> </span>ground_solved.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">  </span>-W<span class="w"> </span><span class="m">0</span>.205<span class="w"> </span>-V<span class="w"> </span>1e-21<span class="w"> </span>--Q0<span class="w"> </span><span class="m">10</span>.0<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">  </span>--temp-range<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="w">  </span>-o<span class="w"> </span>capture_results.json<span class="w"> </span>--plot<span class="w"> </span>--plot-output<span class="w"> </span>arrhenius.png<span class="w"> </span>-vv
+</code></pre></div>
+<h3 id="2-config-file-workflow">2. Config File Workflow<a class="headerlink" href="#2-config-file-workflow" title="Permanent link">&para;</a></h3>
+<p>Create <code>config.yaml</code>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nt">potential_initial</span><span class="p">:</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">excited_solved.json</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="nt">potential_final</span><span class="p">:</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ground_solved.json</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="nt">capture</span><span class="p">:</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span><span class="nt">W</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.205</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span><span class="nt">volume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0e-21</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">  </span><span class="nt">Q0</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">  </span><span class="nt">temperature</span><span class="p">:</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">    </span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">    </span><span class="nt">max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">    </span><span class="nt">n_points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+</code></pre></div></p>
+<p>Run:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span>config.yaml<span class="w"> </span>-o<span class="w"> </span>results.json<span class="w"> </span>--plot<span class="w"> </span>-v
+</code></pre></div></p>
+<h3 id="3-parameter-screening-workflow">3. Parameter Screening Workflow<a class="headerlink" href="#3-parameter-screening-workflow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Run scan</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span>--dQ-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dQ-max<span class="w"> </span><span class="m">25</span><span class="w"> </span>--dQ-points<span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span>--dE-min<span class="w"> </span><span class="m">0</span><span class="w"> </span>--dE-max<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>--dE-points<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">  </span>-j<span class="w"> </span>-1<span class="w"> </span>-o<span class="w"> </span>scan.npz<span class="w"> </span>-v
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># Visualize results</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>carriercapture<span class="w"> </span>scan-plot<span class="w"> </span>scan.npz<span class="w"> </span>--log-scale<span class="w"> </span>--show<span class="w"> </span>-v
+</code></pre></div>
+<h3 id="4-interactive-exploration">4. Interactive Exploration<a class="headerlink" href="#4-interactive-exploration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Launch dashboard for interactive exploration</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>carriercapture<span class="w"> </span>viz<span class="w"> </span>--port<span class="w"> </span><span class="m">8050</span>
+</code></pre></div>
+<h3 id="5-doped-integration-workflow">5. doped Integration Workflow<a class="headerlink" href="#5-doped-integration-workflow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Calculate capture from doped defect data</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span>--doped<span class="w"> </span>defect.json.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span>--charge-i<span class="w"> </span><span class="m">0</span><span class="w"> </span>--charge-f<span class="w"> </span>+1<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">  </span>--doped-path-i<span class="w"> </span>vasp_q0/<span class="w"> </span>--doped-path-f<span class="w"> </span>vasp_q1/<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">  </span>-W<span class="w"> </span><span class="m">0</span>.205<span class="w"> </span>-V<span class="w"> </span>1e-21<span class="w"> </span>--auto-Q0<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">  </span>--temp-range<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">  </span>-o<span class="w"> </span>doped_capture.json<span class="w"> </span>--plot<span class="w"> </span>-vv
+</code></pre></div>
+<hr />
+<h2 id="tips-and-tricks">Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Permanent link">&para;</a></h2>
+<h3 id="verbosity-levels">Verbosity Levels<a class="headerlink" href="#verbosity-levels" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># No verbosity (minimal output)</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-o<span class="w"> </span>fit.json
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Level 1 (-v): Progress and status</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-o<span class="w"> </span>fit.json<span class="w"> </span>-v
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="c1"># Level 2 (-vv): Detailed information</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-o<span class="w"> </span>fit.json<span class="w"> </span>-vv
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="c1"># Level 3 (-vvv): Debug output</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-o<span class="w"> </span>fit.json<span class="w"> </span>-vvv
+</code></pre></div>
+<h3 id="parallel-processing">Parallel Processing<a class="headerlink" href="#parallel-processing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Use specific number of cores</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span>...<span class="w"> </span>-j<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Use all available cores</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span>...<span class="w"> </span>-j<span class="w"> </span>-1
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="c1"># Single-threaded (for debugging)</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>carriercapture<span class="w"> </span>scan<span class="w"> </span>...<span class="w"> </span>-j<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<h3 id="file-format-auto-detection">File Format Auto-Detection<a class="headerlink" href="#file-format-auto-detection" title="Permanent link">&para;</a></h3>
+<p>Output format is automatically detected from file extension:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-o<span class="w"> </span>fit.json<span class="w">    </span><span class="c1"># JSON</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-o<span class="w"> </span>fit.yaml<span class="w">    </span><span class="c1"># YAML</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-o<span class="w"> </span>fit.npz<span class="w">     </span><span class="c1"># NumPy compressed</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-o<span class="w"> </span>fit.dat<span class="w">     </span><span class="c1"># Plain text</span>
+</code></pre></div>
+<h3 id="quick-visualization">Quick Visualization<a class="headerlink" href="#quick-visualization" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Fit and immediately visualize</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>carriercapture<span class="w"> </span>fit<span class="w"> </span>data.dat<span class="w"> </span>-f<span class="w"> </span>spline<span class="w"> </span>--plot<span class="w"> </span>--show
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Solve and plot wavefunctions</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>carriercapture<span class="w"> </span>solve<span class="w"> </span>potential.json<span class="w"> </span>--plot-wavefunctions<span class="w"> </span><span class="m">10</span><span class="w"> </span>--show
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1"># Calculate and plot capture</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>carriercapture<span class="w"> </span>capture<span class="w"> </span>config.yaml<span class="w"> </span>--plot<span class="w"> </span>--show
+</code></pre></div>
+<hr />
+<h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
+<p>CarrierCapture respects these environment variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CARRIERCAPTURE_DATA_DIR</code></td>
+<td>Default data directory</td>
+</tr>
+<tr>
+<td><code>CARRIERCAPTURE_CACHE_DIR</code></td>
+<td>Cache directory for results</td>
+</tr>
+<tr>
+<td><code>OMP_NUM_THREADS</code></td>
+<td>OpenMP threads for BLAS/LAPACK</td>
+</tr>
+<tr>
+<td><code>MKL_NUM_THREADS</code></td>
+<td>MKL threads (if using Intel MKL)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<h3 id="common-errors">Common Errors<a class="headerlink" href="#common-errors" title="Permanent link">&para;</a></h3>
+<p><strong>1. Potential not fitted</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>$<span class="w"> </span>carriercapture<span class="w"> </span>solve<span class="w"> </span>potential.json
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>Error:<span class="w"> </span>Potential<span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>fitted<span class="w"> </span>before<span class="w"> </span>solving
+</code></pre></div>
+→ Run <code>fit</code> command first</p>
+<p><strong>2. Potential not solved</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>$<span class="w"> </span>carriercapture<span class="w"> </span>capture<span class="w"> </span>--pot-i<span class="w"> </span>excited.json<span class="w"> </span>--pot-f<span class="w"> </span>ground.json<span class="w"> </span>...
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>Error:<span class="w"> </span>Initial<span class="w"> </span>potential<span class="w"> </span>must<span class="w"> </span>be<span class="w"> </span>solved<span class="w"> </span><span class="o">(</span>use<span class="w"> </span><span class="s1">&#39;solve&#39;</span><span class="w"> </span><span class="nb">command</span><span class="o">)</span>
+</code></pre></div>
+→ Run <code>solve</code> command first</p>
+<p><strong>3. Missing required parameters</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>$<span class="w"> </span>carriercapture<span class="w"> </span>capture<span class="w"> </span>--pot-i<span class="w"> </span>excited.json
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>Error:<span class="w"> </span>Must<span class="w"> </span>provide<span class="w"> </span>-W/--coupling<span class="w"> </span><span class="o">(</span>or<span class="w"> </span>config<span class="w"> </span>file<span class="o">)</span>
+</code></pre></div>
+→ Provide all required parameters</p>
+<p><strong>4. Import errors (optional dependencies)</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>$<span class="w"> </span>carriercapture<span class="w"> </span>viz
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>Error:<span class="w"> </span>Dash<span class="w"> </span>dependencies<span class="w"> </span>not<span class="w"> </span>available.<span class="w"> </span>Install<span class="w"> </span>with:<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>carriercapture<span class="o">[</span>viz<span class="o">]</span>
+</code></pre></div>
+→ Install optional dependencies</p>
+<hr />
+<h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="../../user-guide/cli-usage/">User Guide: CLI Usage</a></strong> - Comprehensive CLI guide with examples</li>
+<li><strong><a href="../../getting-started/quick-start/">Getting Started: Quick Start</a></strong> - 5-minute introduction</li>
+<li><strong><a href="../core/">API Reference: Core</a></strong> - Python API reference</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 9, 2026 16:44:38 UTC">March 9, 2026</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 9, 2026 16:44:38 UTC">March 9, 2026</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

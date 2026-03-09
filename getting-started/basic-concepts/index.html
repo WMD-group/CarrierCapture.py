@@ -1,0 +1,2876 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Modern Python package for carrier capture rate calculations">
+      
+      
+      
+        <link rel="canonical" href="https://wmd-group.github.io/CarrierCapture.py/getting-started/basic-concepts/">
+      
+      
+        <link rel="prev" href="../quick-start/">
+      
+      
+        <link rel="next" href="../first-calculation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Basic Concepts - CarrierCapture.py</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#basic-concepts" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="CarrierCapture.py" class="md-header__button md-logo" aria-label="CarrierCapture.py" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CarrierCapture.py
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Basic Concepts
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/WMD-group/CarrierCapture.py" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    WMD-group/CarrierCapture.py
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user-guide/potentials/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../theory/multiphonon-theory.md" class="md-tabs__link">
+          
+  
+  
+  Theory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/index.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/gallery/" class="md-tabs__link">
+          
+  
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/contributing.md" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../changelog.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="CarrierCapture.py" class="md-nav__button md-logo" aria-label="CarrierCapture.py" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CarrierCapture.py
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/WMD-group/CarrierCapture.py" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    WMD-group/CarrierCapture.py
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-potential-energy-surfaces-pes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Potential Energy Surfaces (PES)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configuration-coordinate-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configuration Coordinate Diagrams
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-vibrational-wavefunctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Vibrational Wavefunctions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-franck-condon-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Franck-Condon Principle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-carrier-capture-coefficient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Carrier Capture Coefficient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-electron-phonon-coupling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Electron-Phonon Coupling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-overlap-integrals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Overlap Integrals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#putting-it-together-the-full-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Putting It Together: The Full Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Putting It Together: The Full Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathematical-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Terminology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#physical-intuition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical Intuition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Physical Intuition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-multiphonon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Multiphonon?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temperature-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temperature Effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#material-dependence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Material Dependence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assumptions-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assumptions and Limitations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Assumptions and Limitations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-coupling-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Coupling Approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#harmonic-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harmonic Approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-configuration-coordinate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single Configuration Coordinate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../first-calculation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    First Calculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/potentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Potentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/capture-coefficients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Capture Coefficients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/parameter-scanning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameter Scanning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/doped-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    doped Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/cli-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Theory
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/multiphonon-theory.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiphonon Theory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/configuration-coordinates.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Coordinates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/equations.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/references.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-harmonic-oscillator.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Harmonic Oscillator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-dx-center.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. DX Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-parameter-scan.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Parameter Scan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-interactive-dashboard.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Interactive Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-potential-energy-surfaces-pes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Potential Energy Surfaces (PES)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configuration-coordinate-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configuration Coordinate Diagrams
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-vibrational-wavefunctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Vibrational Wavefunctions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-franck-condon-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Franck-Condon Principle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-carrier-capture-coefficient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Carrier Capture Coefficient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-electron-phonon-coupling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Electron-Phonon Coupling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-overlap-integrals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Overlap Integrals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#putting-it-together-the-full-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Putting It Together: The Full Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Putting It Together: The Full Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathematical-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Terminology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#physical-intuition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical Intuition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Physical Intuition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-multiphonon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Multiphonon?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temperature-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temperature Effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#material-dependence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Material Dependence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assumptions-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assumptions and Limitations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Assumptions and Limitations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-coupling-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Coupling Approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#harmonic-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harmonic Approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-configuration-coordinate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single Configuration Coordinate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="basic-concepts">Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permanent link">&para;</a></h1>
+<p>Understanding the key concepts behind CarrierCapture will help you use it effectively.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>CarrierCapture calculates <strong>carrier capture rates</strong> for defects in semiconductors using <strong>multiphonon theory</strong> (Huang-Rhys formalism). The key idea: charge carriers can be captured non-radiatively via emission of multiple phonons.</p>
+<h2 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="1-potential-energy-surfaces-pes">1. Potential Energy Surfaces (PES)<a class="headerlink" href="#1-potential-energy-surfaces-pes" title="Permanent link">&para;</a></h3>
+<p>A <strong>potential energy surface</strong> describes how the total energy of a system varies with atomic configuration.</p>
+<p><strong>Mathematical form:</strong></p>
+<div class="arithmatex">\[E(Q) = \text{energy as function of configuration coordinate } Q\]</div>
+<p>Where <span class="arithmatex">\(Q\)</span> is the <strong>mass-weighted displacement</strong> coordinate (units: amu<span class="arithmatex">\(^{0.5}\)</span>·Å).</p>
+<p><strong>Example - Harmonic potential:</strong></p>
+<div class="arithmatex">\[E(Q) = E_0 + \frac{1}{2}k(Q - Q_0)^2\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(E_0\)</span>: minimum energy</li>
+<li><span class="arithmatex">\(Q_0\)</span>: equilibrium position</li>
+<li><span class="arithmatex">\(k\)</span>: force constant (related to phonon frequency)</li>
+</ul>
+<p>In CarrierCapture:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">carriercapture.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Potential</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Create harmonic potential</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">pot</span> <span class="o">=</span> <span class="n">Potential</span><span class="o">.</span><span class="n">from_harmonic</span><span class="p">(</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">hw</span><span class="o">=</span><span class="mf">0.008</span><span class="p">,</span>  <span class="c1"># ℏω phonon energy (eV)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">Q0</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>    <span class="c1"># Equilibrium at Q = 5</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">E0</span><span class="o">=</span><span class="mf">0.0</span>     <span class="c1"># Ground state energy</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="2-configuration-coordinate-diagrams">2. Configuration Coordinate Diagrams<a class="headerlink" href="#2-configuration-coordinate-diagrams" title="Permanent link">&para;</a></h3>
+<p>A <strong>configuration coordinate (CC) diagram</strong> plots the potential energy surfaces for different electronic states on the same axes.</p>
+<p><strong>Physical picture:</strong></p>
+<ul>
+<li><strong>Horizontal axis</strong>: Configuration coordinate <span class="arithmatex">\(Q\)</span> (atomic positions)</li>
+<li><strong>Vertical axis</strong>: Total energy <span class="arithmatex">\(E\)</span></li>
+<li><strong>Curves</strong>: PES for different charge states</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>E (eV) │
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>       │     Initial state (excited)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>   1.5 │    ╱‾‾‾╲
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>       │   ╱     ╲
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>   1.0 │  ╱       ╲
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>       │ ╱         ╲
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>   0.5 │╱           ╲___
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>       │              Final state (ground)
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>   0.0 │              ╲___╱
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>       └────────────────────────────── Q
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            Q₀        Q₁
+</code></pre></div>
+<p><strong>Key features:</strong></p>
+<ol>
+<li><strong>Displacement</strong>: <span class="arithmatex">\(\Delta Q = Q_1 - Q_0\)</span> (shift between minima)</li>
+<li><strong>Energy difference</strong>: <span class="arithmatex">\(\Delta E = E_{\text{initial}}(Q_1) - E_{\text{final}}(Q_1)\)</span></li>
+<li><strong>Crossing point</strong>: Where curves intersect (barrier for capture)</li>
+</ol>
+<h3 id="3-vibrational-wavefunctions">3. Vibrational Wavefunctions<a class="headerlink" href="#3-vibrational-wavefunctions" title="Permanent link">&para;</a></h3>
+<p>At each electronic state, the atoms vibrate around equilibrium. These vibrations are <strong>quantized</strong> with discrete energy levels.</p>
+<p><strong>Schrödinger equation:</strong></p>
+<div class="arithmatex">\[\hat{H}\psi_n(Q) = \varepsilon_n \psi_n(Q)\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(\psi_n(Q)\)</span>: wavefunction for state <span class="arithmatex">\(n\)</span></li>
+<li><span class="arithmatex">\(\varepsilon_n\)</span>: energy eigenvalue</li>
+<li><span class="arithmatex">\(n = 0, 1, 2, ...\)</span>: quantum number</li>
+</ul>
+<p><strong>Harmonic oscillator solutions:</strong></p>
+<div class="arithmatex">\[\varepsilon_n = E_0 + \hbar\omega(n + \tfrac{1}{2})\]</div>
+<p>In CarrierCapture:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Solve for wavefunctions</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">pot</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">nev</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>  <span class="c1"># Get first 60 states</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Access results</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">energies</span> <span class="o">=</span> <span class="n">pot</span><span class="o">.</span><span class="n">eigenvalues</span>   <span class="c1"># Shape: (60,)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">wavefunctions</span> <span class="o">=</span> <span class="n">pot</span><span class="o">.</span><span class="n">eigenvectors</span>  <span class="c1"># Shape: (60, N_Q)</span>
+</code></pre></div>
+<h3 id="4-franck-condon-principle">4. Franck-Condon Principle<a class="headerlink" href="#4-franck-condon-principle" title="Permanent link">&para;</a></h3>
+<p><strong>Statement</strong>: Electronic transitions are vertical on a CC diagram (atoms don't move during transition).</p>
+<p><strong>Implication</strong>: After a sudden electronic transition, atoms are in a non-equilibrium configuration and must relax via:</p>
+<ol>
+<li><strong>Radiative</strong>: Photon emission</li>
+<li><strong>Non-radiative</strong>: Phonon emission (what CarrierCapture calculates)</li>
+</ol>
+<h3 id="5-carrier-capture-coefficient">5. Carrier Capture Coefficient<a class="headerlink" href="#5-carrier-capture-coefficient" title="Permanent link">&para;</a></h3>
+<p>The <strong>capture coefficient</strong> <span class="arithmatex">\(C(T)\)</span> quantifies how fast charge carriers are captured (units: cm³/s).</p>
+<p><strong>Physical meaning:</strong></p>
+<div class="arithmatex">\[\text{Capture rate} = C(T) \times n\]</div>
+<p>Where <span class="arithmatex">\(n\)</span> is the carrier concentration.</p>
+<p><strong>Temperature dependence:</strong></p>
+<ul>
+<li><strong>Low T</strong>: Thermally activated (exponential increase with T)</li>
+<li><strong>High T</strong>: Multiphonon cascade (can decrease with T)</li>
+</ul>
+<p><strong>Typical values:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Capture Type</th>
+<th><span class="arithmatex">\(C\)</span> (cm³/s)</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Very slow</td>
+<td>10⁻²⁰</td>
+<td>Deep traps at low T</td>
+</tr>
+<tr>
+<td>Slow</td>
+<td>10⁻¹⁵</td>
+<td>Shallow defects</td>
+</tr>
+<tr>
+<td>Moderate</td>
+<td>10⁻¹²</td>
+<td>Typical defects at 300K</td>
+</tr>
+<tr>
+<td>Fast</td>
+<td>10⁻⁸</td>
+<td>Resonant capture</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-electron-phonon-coupling">6. Electron-Phonon Coupling<a class="headerlink" href="#6-electron-phonon-coupling" title="Permanent link">&para;</a></h3>
+<p>The <strong>coupling strength</strong> <span class="arithmatex">\(W\)</span> describes how strongly electronic and vibrational degrees of freedom interact.</p>
+<p><strong>Physical meaning:</strong></p>
+<ul>
+<li><strong>Large <span class="arithmatex">\(W\)</span></strong>: Strong coupling → fast non-radiative capture</li>
+<li><strong>Small <span class="arithmatex">\(W\)</span></strong>: Weak coupling → slow capture (more radiative)</li>
+</ul>
+<p><strong>Typical range</strong>: <span class="arithmatex">\(W \sim 0.01\)</span> to <span class="arithmatex">\(0.5\)</span> eV</p>
+<p><strong>In multiphonon theory:</strong></p>
+<div class="arithmatex">\[C \propto W^2\]</div>
+<p>So capture rate scales quadratically with coupling!</p>
+<h3 id="7-overlap-integrals">7. Overlap Integrals<a class="headerlink" href="#7-overlap-integrals" title="Permanent link">&para;</a></h3>
+<p>The <strong>overlap</strong> between initial and final wavefunctions determines transition probability.</p>
+<p><strong>Mathematical form:</strong></p>
+<div class="arithmatex">\[S_{ij} = \langle \psi_i | \hat{O} | \psi_j \rangle = \int \psi_i^*(Q) \cdot \hat{O} \cdot \psi_j(Q) \, dQ\]</div>
+<p>Where <span class="arithmatex">\(\hat{O}\)</span> is typically <span class="arithmatex">\((Q - Q_0)\)</span> for dipole coupling.</p>
+<p><strong>Physical interpretation:</strong></p>
+<ul>
+<li><strong>Large overlap</strong>: Easy transition</li>
+<li><strong>Small overlap</strong>: Forbidden/unlikely transition</li>
+</ul>
+<p><strong>Selection rules</strong>: Dictate which <span class="arithmatex">\(i \to j\)</span> transitions are allowed.</p>
+<h2 id="putting-it-together-the-full-calculation">Putting It Together: The Full Calculation<a class="headerlink" href="#putting-it-together-the-full-calculation" title="Permanent link">&para;</a></h2>
+<h3 id="step-by-step-process">Step-by-Step Process<a class="headerlink" href="#step-by-step-process" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Define potentials</strong> for initial and final electronic states</li>
+<li><strong>Solve Schrödinger equation</strong> to get vibrational states</li>
+<li><strong>Calculate overlaps</strong> between vibrational wavefunctions</li>
+<li><strong>Apply energy conservation</strong> (delta function)</li>
+<li><strong>Thermally weight</strong> contributions from different initial states</li>
+<li><strong>Sum over all pathways</strong> to get total capture coefficient</li>
+</ol>
+<h3 id="mathematical-formula">Mathematical Formula<a class="headerlink" href="#mathematical-formula" title="Permanent link">&para;</a></h3>
+<p>The capture coefficient at temperature <span class="arithmatex">\(T\)</span> is:</p>
+<div class="arithmatex">\[C(T) = \frac{V \cdot 2\pi}{\hbar} \cdot g \cdot W^2 \cdot \sum_{i,j} p_i |S_{ij}|^2 \delta(\varepsilon_i - \varepsilon_j)\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(V\)</span>: supercell volume</li>
+<li><span class="arithmatex">\(g\)</span>: degeneracy factor (often = 1)</li>
+<li><span class="arithmatex">\(W\)</span>: electron-phonon coupling</li>
+<li><span class="arithmatex">\(p_i = \frac{e^{-\beta\varepsilon_i}}{Z}\)</span>: thermal occupation (Boltzmann)</li>
+<li><span class="arithmatex">\(S_{ij}\)</span>: overlap integral</li>
+<li><span class="arithmatex">\(\delta(\Delta E)\)</span>: energy-conserving delta function (Gaussian)</li>
+</ul>
+<h3 id="in-code">In Code<a class="headerlink" href="#in-code" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">carriercapture.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Potential</span><span class="p">,</span> <span class="n">ConfigCoordinate</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># 1. Define potentials</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">pot_i</span> <span class="o">=</span> <span class="n">Potential</span><span class="o">.</span><span class="n">from_harmonic</span><span class="p">(</span><span class="n">hw</span><span class="o">=</span><span class="mf">0.008</span><span class="p">,</span> <span class="n">Q0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">E0</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">pot_f</span> <span class="o">=</span> <span class="n">Potential</span><span class="o">.</span><span class="n">from_harmonic</span><span class="p">(</span><span class="n">hw</span><span class="o">=</span><span class="mf">0.008</span><span class="p">,</span> <span class="n">Q0</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">E0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># 2. Solve for states</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">pot_i</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">nev</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">pot_f</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">nev</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># 3-6. Calculate capture coefficient</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">cc</span> <span class="o">=</span> <span class="n">ConfigCoordinate</span><span class="p">(</span><span class="n">pot_i</span><span class="o">=</span><span class="n">pot_i</span><span class="p">,</span> <span class="n">pot_f</span><span class="o">=</span><span class="n">pot_f</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="mf">0.068</span><span class="p">)</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">cc</span><span class="o">.</span><span class="n">calculate_overlap</span><span class="p">(</span><span class="n">Q0</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">cc</span><span class="o">.</span><span class="n">calculate_capture_coefficient</span><span class="p">(</span><span class="n">volume</span><span class="o">=</span><span class="mf">1e-21</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="p">[</span><span class="mi">300</span><span class="p">])</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1"># Result</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C(300K) = </span><span class="si">{</span><span class="n">cc</span><span class="o">.</span><span class="n">capture_coefficient</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2"> cm³/s&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="common-terminology">Common Terminology<a class="headerlink" href="#common-terminology" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Symbol</th>
+<th>Units</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Configuration coordinate</td>
+<td><span class="arithmatex">\(Q\)</span></td>
+<td>amu<span class="arithmatex">\(^{0.5}\)</span>·Å</td>
+<td>Mass-weighted displacement</td>
+</tr>
+<tr>
+<td>Phonon energy</td>
+<td><span class="arithmatex">\(\hbar\omega\)</span></td>
+<td>eV</td>
+<td>Vibrational quantum</td>
+</tr>
+<tr>
+<td>Displacement</td>
+<td><span class="arithmatex">\(\Delta Q\)</span></td>
+<td>amu<span class="arithmatex">\(^{0.5}\)</span>·Å</td>
+<td>Shift between states</td>
+</tr>
+<tr>
+<td>Energy difference</td>
+<td><span class="arithmatex">\(\Delta E\)</span></td>
+<td>eV</td>
+<td>Vertical separation</td>
+</tr>
+<tr>
+<td>Coupling</td>
+<td><span class="arithmatex">\(W\)</span></td>
+<td>eV</td>
+<td>Electron-phonon interaction</td>
+</tr>
+<tr>
+<td>Capture coefficient</td>
+<td><span class="arithmatex">\(C\)</span></td>
+<td>cm³/s</td>
+<td>Capture rate constant</td>
+</tr>
+<tr>
+<td>Huang-Rhys factor</td>
+<td><span class="arithmatex">\(S\)</span></td>
+<td>-</td>
+<td>Effective phonon number</td>
+</tr>
+<tr>
+<td>Reorganization energy</td>
+<td><span class="arithmatex">\(\lambda\)</span></td>
+<td>eV</td>
+<td>Energy to relax</td>
+</tr>
+</tbody>
+</table>
+<h2 id="physical-intuition">Physical Intuition<a class="headerlink" href="#physical-intuition" title="Permanent link">&para;</a></h2>
+<h3 id="why-multiphonon">Why Multiphonon?<a class="headerlink" href="#why-multiphonon" title="Permanent link">&para;</a></h3>
+<p>For large <span class="arithmatex">\(\Delta E \gg \hbar\omega\)</span>, a single phonon can't bridge the gap. Instead:</p>
+<ol>
+<li><strong>Cascade emission</strong>: Many phonons emitted sequentially</li>
+<li><strong>Effective phonon number</strong>: <span class="arithmatex">\(n_{\text{eff}} \sim \Delta E / \hbar\omega\)</span></li>
+</ol>
+<p>Example: <span class="arithmatex">\(\Delta E = 1\)</span> eV, <span class="arithmatex">\(\hbar\omega = 0.01\)</span> eV <span class="arithmatex">\(\Rightarrow\)</span> need ~100 phonons!</p>
+<h3 id="temperature-effects">Temperature Effects<a class="headerlink" href="#temperature-effects" title="Permanent link">&para;</a></h3>
+<p><strong>Low Temperature:</strong></p>
+<ul>
+<li>Only ground state occupied (<span class="arithmatex">\(p_0 \approx 1\)</span>)</li>
+<li>Needs thermal activation to reach crossing point</li>
+<li><span class="arithmatex">\(C \propto e^{-E_a/k_BT}\)</span></li>
+</ul>
+<p><strong>High Temperature:</strong></p>
+<ul>
+<li>Many initial states populated</li>
+<li>More pathways available</li>
+<li>But overlap factors decrease (orthogonality)</li>
+<li>Complex temperature dependence</li>
+</ul>
+<h3 id="material-dependence">Material Dependence<a class="headerlink" href="#material-dependence" title="Permanent link">&para;</a></h3>
+<p><strong>Good light emitters</strong> (LEDs):</p>
+<ul>
+<li>Small <span class="arithmatex">\(\Delta Q\)</span> → small overlap</li>
+<li>Weak coupling <span class="arithmatex">\(W\)</span> → slow non-radiative</li>
+<li><span class="arithmatex">\(\Rightarrow\)</span> Radiative process wins!</li>
+</ul>
+<p><strong>Efficient carrier capture</strong> (detectors, solar cells):</p>
+<ul>
+<li>Large <span class="arithmatex">\(\Delta Q\)</span> → large overlap</li>
+<li>Strong coupling <span class="arithmatex">\(W\)</span> → fast non-radiative</li>
+<li><span class="arithmatex">\(\Rightarrow\)</span> Carriers captured quickly!</li>
+</ul>
+<h2 id="assumptions-and-limitations">Assumptions and Limitations<a class="headerlink" href="#assumptions-and-limitations" title="Permanent link">&para;</a></h2>
+<h3 id="static-coupling-approximation">Static Coupling Approximation<a class="headerlink" href="#static-coupling-approximation" title="Permanent link">&para;</a></h3>
+<p><strong>Assumption</strong>: Potential surfaces are independent of electronic state.</p>
+<p><strong>Limitation</strong>: Breaks down for strongly correlated electrons.</p>
+<h3 id="harmonic-approximation">Harmonic Approximation<a class="headerlink" href="#harmonic-approximation" title="Permanent link">&para;</a></h3>
+<p><strong>Assumption</strong>: Potentials are parabolic near minimum.</p>
+<p><strong>Limitation</strong>: Anharmonic effects matter for large displacements.</p>
+<p>CarrierCapture can use <strong>spline</strong> or <strong>Morse</strong> potentials to go beyond harmonic!</p>
+<h3 id="single-configuration-coordinate">Single Configuration Coordinate<a class="headerlink" href="#single-configuration-coordinate" title="Permanent link">&para;</a></h3>
+<p><strong>Assumption</strong>: One effective coordinate <span class="arithmatex">\(Q\)</span> captures all relaxation.</p>
+<p><strong>Limitation</strong>: Real systems have many vibrational modes.</p>
+<p><strong>Justification</strong>: Often one "breathing mode" dominates.</p>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p>Now that you understand the concepts:</p>
+<ul>
+<li><strong><a href="../first-calculation/">First Calculation</a></strong> - Detailed walkthrough</li>
+<li><strong><a href="../../user-guide/potentials/">User Guide: Potentials</a></strong> - Learn about potential types</li>
+<li><strong><a href="https://github.com/WMD-group/CarrierCapture.py/tree/main/examples/notebooks">Example Notebooks</a></strong> - Hands-on examples</li>
+</ul>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Alkauskas et al.</strong> (2014) - <a href="https://doi.org/10.1103/PhysRevB.90.075202">Phys. Rev. B 90, 075202</a></li>
+<li><strong>Huang &amp; Rhys</strong> (1950) - <a href="https://royalsocietypublishing.org/rspa/article/204/1078/406/8369/Theory-of-light-absorption-and-non-radiative">Theory of Light Absorption and Non-Radiative Transitions in F-Centres, Proc. R. Soc. Lond. A <strong>204</strong>, 406</a></li>
+<li><strong>Stoneham (1975)</strong> - "Theory of Defects in Solids"</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 9, 2026 16:44:38 UTC">March 9, 2026</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 9, 2026 16:44:38 UTC">March 9, 2026</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
