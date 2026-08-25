@@ -174,7 +174,7 @@ def capture_cmd(ctx, config_file, pot_i, pot_f, coupling, degeneracy, volume,
             pot_i = pot_i_config.get('file')
         if not pot_f:
             pot_f = pot_f_config.get('file')
-        if not coupling:
+        if coupling is None:
             coupling = capture_config.get('W')
         if degeneracy == 1:  # Default value
             degeneracy = capture_config.get('degeneracy', 1)
@@ -187,7 +187,7 @@ def capture_cmd(ctx, config_file, pot_i, pot_f, coupling, degeneracy, volume,
                 t_max = temp_config.get('max', 500)
                 n_points = temp_config.get('n_points', 50)
                 temp_range = (t_min, t_max, n_points)
-        if not q0:
+        if q0 is None:
             q0 = capture_config.get('Q0')
         if cutoff == 0.25:  # Default value
             cutoff = capture_config.get('cutoff', 0.25)

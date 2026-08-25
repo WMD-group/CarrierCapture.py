@@ -173,6 +173,42 @@ class TestCaptureCoefficient:
         assert np.all(cc.capture_coefficient > 0)
         assert np.all(cc.capture_coefficient < 1.0)  # Upper bound check
 
+    def test_zero_coupling_warns(self):
+        """Test that W=0 (the default) emits a warning and gives zero capture."""
+        pot_i = Potential.from_harmonic(hw=0.03, Q0=0.0, E0=1.0, npoints=2000)
+        pot_f = Potential.from_harmonic(hw=0.02, Q0=10.0, E0=0.0, npoints=2000)
+
+        pot_i.solve(nev=30)
+        pot_f.solve(nev=20)
+
+        cc = ConfigCoordinate(pot_i, pot_f)  # W defaults to 0.0
+        cc.calculate_overlap(Q0=10.0)
+
+        temperature = np.linspace(100, 500, 20)
+        with pytest.warns(UserWarning, match="coupling W is 0"):
+            cc.calculate_capture_coefficient(volume=1e-21, temperature=temperature)
+
+        # C ∝ W², so all values are the 1e-127 zero-placeholder
+        np.testing.assert_allclose(cc.capture_coefficient, 1e-127)
+
+    def test_nonzero_coupling_does_not_warn(self):
+        """Test that explicit nonzero W emits no coupling warning."""
+        import warnings
+
+        pot_i = Potential.from_harmonic(hw=0.03, Q0=0.0, E0=1.0, npoints=2000)
+        pot_f = Potential.from_harmonic(hw=0.02, Q0=10.0, E0=0.0, npoints=2000)
+
+        pot_i.solve(nev=30)
+        pot_f.solve(nev=20)
+
+        cc = ConfigCoordinate(pot_i, pot_f, W=0.05)
+        cc.calculate_overlap(Q0=10.0)
+
+        temperature = np.linspace(100, 500, 20)
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            cc.calculate_capture_coefficient(volume=1e-21, temperature=temperature)
+
     def test_partition_function_convergence_check(self):
         """Test that insufficient eigenvalues raises convergence error."""
         pot_i = Potential.from_harmonic(hw=0.03, Q0=0.0, E0=1.0, npoints=2000)

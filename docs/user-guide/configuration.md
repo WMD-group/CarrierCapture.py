@@ -235,11 +235,12 @@ capture:
   W: 0.205  # eV
 
   # Guidelines:
-  # - Typical range: 0.1 - 0.5 eV
-  # - From theory: ⟨ψ_e|∂V/∂Q|ψ_h⟩
-  # - If unknown, use 0.2 eV as default
-  # - Can fit to experimental data
-  # - Scales capture coefficient quadratically: C ∝ W²
+  # - Must be calculated for the specific defect transition;
+  #   there is no meaningful default (W = 0 gives C = 0 since C ∝ W²)
+  # - From theory: ⟨ψ_e|∂V/∂Q|ψ_h⟩ (Alkauskas et al., PRB 90, 075202 (2014))
+  # - Worked examples: CarrierCapture.jl and nonrad documentation
+  # - Typical magnitudes: ~1e-4 to ~0.05 eV, strongly defect-dependent
+  #   (see e.g. SI of https://doi.org/10.1016/j.joule.2024.05.004)
 ```
 
 ### Choosing volume (Supercell Volume)

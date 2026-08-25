@@ -144,13 +144,18 @@ The **coupling strength** $W$ describes how strongly electronic and vibrational 
 - **Large $W$**: Strong coupling → fast non-radiative capture
 - **Small $W$**: Weak coupling → slow capture (more radiative)
 
-**Typical range**: $W \sim 0.01$ to $0.5$ eV
+**Typical magnitudes**: $W \sim 10^{-4}$ to $0.05$ eV, varying strongly between
+defects and transitions (see e.g. the SI of
+[Kavanagh et al., Joule (2024)](https://doi.org/10.1016/j.joule.2024.05.004)).
 
 **In multiphonon theory:**
 
 $$C \propto W^2$$
 
-So capture rate scales quadratically with coupling!
+So capture rate scales quadratically with coupling! This also means $W$ must be
+calculated for the specific defect transition — worked examples are given in the
+[CarrierCapture.jl documentation](https://github.com/WMD-group/CarrierCapture.jl)
+and the [nonrad documentation](https://nonrad.readthedocs.io/).
 
 ### 7. Overlap Integrals
 
