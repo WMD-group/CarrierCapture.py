@@ -147,7 +147,7 @@ Where:
 
 - $V$: supercell volume
 - $g$: degeneracy factor
-- $W$: electron-phonon coupling matrix element
+- $W$: electron-phonon coupling matrix element (eV/(amu^0.5·Å))
 - $p_i$: thermal occupation of initial state $i$
 - $\chi_i, \chi_j$: vibrational wavefunctions
 - $\delta$: energy-conserving delta function (Gaussian broadened)

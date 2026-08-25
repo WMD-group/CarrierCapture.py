@@ -230,7 +230,7 @@ print(f"C(300K) = {cc.capture_coefficient[0]:.3e} cm³/s")
 | Phonon energy | $\hbar\omega$ | eV | Vibrational quantum |
 | Displacement | $\Delta Q$ | amu$^{0.5}$·Å | Shift between states |
 | Energy difference | $\Delta E$ | eV | Vertical separation |
-| Coupling | $W$ | eV | Electron-phonon interaction |
+| Coupling | $W$ | eV/(amu^0.5·Å) | Electron-phonon interaction |
 | Capture coefficient | $C$ | cm³/s | Capture rate constant |
 | Huang-Rhys factor | $S$ | - | Effective phonon number |
 | Reorganization energy | $\lambda$ | eV | Energy to relax |

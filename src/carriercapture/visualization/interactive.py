@@ -550,7 +550,7 @@ def create_capture_tab(theme: Dict[str, Any]) -> html.Div:
 
                             # Calculation parameters
                             html.H3("Parameters", style=theme["subheader"]),
-                            html.Label("W (e-ph coupling, eV):", style=theme["text"]),
+                            html.Label("W (e-ph coupling, eV/(amu^0.5·Å)):", style=theme["text"]),
                             dcc.Input(id="capture-w", type="number", value=0.068, step=0.001, style=theme["input"]),
                             html.Label("Q₀ (crossing point):", style=theme["text"]),
                             dcc.Input(id="capture-q0", type="number", value=10.0, step=0.1, style=theme["input"]),

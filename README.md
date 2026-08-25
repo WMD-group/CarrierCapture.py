@@ -195,7 +195,7 @@ $$C(T) = \frac{V \cdot 2\pi}{\hbar} \cdot g \cdot W^2 \cdot \sum_{i,j} p_i |\lan
 Where:
 - `V`: supercell volume
 - `g`: degeneracy factor  
-- `W`: electron-phonon coupling matrix element
+- `W`: electron-phonon coupling matrix element (eV/(amu^0.5·Å))
 - `pᵢ`: thermal occupation of initial state `i`
 - `χᵢ, χⱼ`: vibrational wavefunctions
 - `δ`: energy-conserving delta function (Gaussian broadened)

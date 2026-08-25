@@ -33,7 +33,7 @@ class ConfigCoordinate:
     pot_f : Potential
         Final state potential
     W : float
-        Electron-phonon coupling matrix element (eV). Must be calculated
+        Electron-phonon coupling matrix element (eV/(amu^0.5·Å)). Must be calculated
         for the specific defect transition; there is no meaningful default.
     degeneracy : int
         Degeneracy factor
@@ -82,7 +82,7 @@ class ConfigCoordinate:
         name : str, default=""
             Identifier for this configuration coordinate
         W : float, default=0.0
-            Electron-phonon coupling matrix element (eV). Since the capture
+            Electron-phonon coupling matrix element (eV/(amu^0.5·Å)). Since the capture
             coefficient scales as W², the default of 0.0 yields identically
             zero capture coefficients — a value calculated for the specific
             defect transition must be supplied for physical results.

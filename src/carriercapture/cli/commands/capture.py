@@ -32,7 +32,7 @@ from carriercapture.io.writers import write_capture_results
 @click.option(
     "-W", "--coupling",
     type=float,
-    help="Electron-phonon coupling (eV)"
+    help="Electron-phonon coupling (eV/(amu^0.5·Å))"
 )
 @click.option(
     "-g", "--degeneracy",
@@ -382,7 +382,7 @@ def capture_cmd(ctx, config_file, pot_i, pot_f, coupling, degeneracy, volume,
         click.echo(f"\nInitial potential: {len(potential_i.eigenvalues)} states")
         click.echo(f"Final potential: {len(potential_f.eigenvalues)} states")
         click.echo(f"\nCapture parameters:")
-        click.echo(f"  W (coupling): {coupling} eV")
+        click.echo(f"  W (coupling): {coupling} eV/(amu^0.5·Å)")
         click.echo(f"  g (degeneracy): {degeneracy}")
         click.echo(f"  V (volume): {volume:.2e} cm³")
         click.echo(f"  Q0: {q0} amu^0.5·Å")

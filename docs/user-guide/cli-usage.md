@@ -83,7 +83,7 @@ Initial potential: 180 states
 Final potential: 60 states
 
 Capture parameters:
-  W (coupling): 0.205 eV
+  W (coupling): 0.205 eV/(amu^0.5·Å)
   g (degeneracy): 1
   V (volume): 1.00e-21 cm³
   Q0: 10.0 amu^0.5·Å
@@ -121,7 +121,7 @@ potential_final:
   file: ground_solved.json
 
 capture:
-  W: 0.205              # eV
+  W: 0.205              # eV/(amu^0.5·Å)
   degeneracy: 1
   volume: 1.0e-21       # cm³
   Q0: 10.0              # amu^0.5·Å

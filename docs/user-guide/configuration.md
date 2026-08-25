@@ -25,7 +25,7 @@ potential_final:
   file: ground_solved.json
 
 capture:
-  W: 0.205              # Electron-phonon coupling (eV)
+  W: 0.205              # Electron-phonon coupling (eV/(amu^0.5·Å))
   degeneracy: 1         # Degeneracy factor
   volume: 1.0e-21       # Supercell volume (cm³)
   Q0: 10.0              # Coordinate shift (amu^0.5·Å)
@@ -78,7 +78,7 @@ potential_final:
 # Capture calculation parameters
 capture:
   # Coupling parameters
-  W: 0.205              # Electron-phonon coupling (eV)
+  W: 0.205              # Electron-phonon coupling (eV/(amu^0.5·Å))
   degeneracy: 1         # Degeneracy factor (g)
 
   # System parameters
@@ -175,7 +175,7 @@ Core capture calculation parameters:
 ```yaml
 capture:
   # ---- Required parameters ----
-  W: 0.205              # Electron-phonon coupling (eV)
+  W: 0.205              # Electron-phonon coupling (eV/(amu^0.5·Å))
                         # Typical range: 0.1 - 0.5 eV
 
   volume: 1.0e-21       # Supercell volume (cm³)
@@ -232,7 +232,7 @@ output:
 
 ```yaml
 capture:
-  W: 0.205  # eV
+  W: 0.205  # eV/(amu^0.5·Å)
 
   # Guidelines:
   # - Must be calculated for the specific defect transition;

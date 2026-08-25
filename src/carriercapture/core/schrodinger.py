@@ -56,10 +56,10 @@ def build_hamiltonian_1d(
 
     Examples
     --------
-    >>> def harmonic(Q):
-    ...     return 0.5 * 0.02 * Q**2
+    >>> from carriercapture.core.potential import Potential
+    >>> pot = Potential.from_harmonic(hw=0.02, Q0=0.0, E0=0.0)
     >>> Q = np.linspace(-10, 10, 1000)
-    >>> H = build_hamiltonian_1d(harmonic, Q)
+    >>> H = build_hamiltonian_1d(pot, Q)
     >>> H.shape
     (1000, 1000)
     """
@@ -70,38 +70,10 @@ def build_hamiltonian_1d(
     if not np.allclose(np.diff(Q), h):
         raise ValueError("Q grid must be uniformly spaced for finite difference method")
 
-    # Dimensional Schrödinger equation: [-ℏ²/(2m) d²/dQ² + V(Q)]ψ = Eψ
-    # With m=1 amu, Q in amu^0.5·Å, V in eV, E in eV
-    #
-    # We need ℏ²/(2m) in units of eV·(amu^0.5·Å)²
-    # ℏc = 0.19732697e-6 eV·m = 0.19732697e-6 * 1e10 eV·Å = 1973.2697 eV·Å
-    # ℏ = ℏc/c, but c cancels in ℏ²/m, so use ℏc directly
-    # Actually: ℏ²/(2m) = (ℏc)²/(2mc²) where mc² is in eV
-    #
-    # For m = 1 amu, mc² = AMU = 931.494e6 eV
-    # ℏc in eV·Å = HBAR_C * 1e10
-    # So: ℏ²/(2m) = (HBAR_C * 1e10)² / (2 * AMU) [units: eV·Å²/amu]
-    #
-    # But Q is in amu^0.5·Å, so dQ has units amu^0.5·Å
-    # d²/dQ² has units 1/(amu^0.5·Å)² = 1/(amu·Å²)
-    # So ℏ²/(2m) * d²/dQ² has units: [eV·Å²/amu] * [1/(amu·Å²)] = eV/amu²
-    #
-    # Wait, that doesn't work. Let me reconsider...
-    #
-    # Actually, in configuration coordinate space with Q in amu^0.5·Å:
-    # The kinetic energy operator is: T = -ℏ²/(2μ) d²/dQ²
-    # where μ = 1 amu is the effective mass
-    #
-    # ℏ² = (ℏc)²/c² but we're working with ℏc = 0.197e-6 eV·m
-    # Let's use: ℏ² = (ℏc * 1e10 Å/m)² = (1973.27 eV·Å)²
-    # And: μ = 1 amu = 931.494e6 eV/c²
-    #
-    # So: ℏ²/(2μ) = (1973.27)² / (2 * 931.494e6) eV·Å²·c²/eV
-    #            = (1973.27)² / (2 * 931.494e6) Å²·c²
-    #
-    # Hmm, this is getting messy. Let me just use the factor from Julia:
+    # Mass-weighted coordinates (Q in amu^0.5·Å, unit effective mass):
+    # T = -(ℏ²/2) d²/dQ², with ℏ² = (ℏc)²/(AMU·c²) = (HBAR_C·1e10)²/AMU
+    # expressed in eV·amu·Å², so T comes out in eV.
     factor = (1.0 / AMU) * (HBAR_C * 1e10) ** 2
-    # This has units: [c²/eV] * [eV·Å]² = Å²·c²
 
     # Kinetic energy coefficient: ℏ²/(2m h²)
     kinetic_coeff = factor / (2.0 * h**2)
@@ -145,8 +117,10 @@ def normalize_wavefunctions(
 
     Notes
     -----
-    Uses trapezoidal rule for numerical integration:
+    Uses the rectangle rule for numerical integration:
         ∫|ψ|² dQ ≈ h * Σ|ψ|²
+    (equivalent to the trapezoid rule here, since the hard-wall boundary
+    conditions make ψ vanish at the grid edges)
 
     Examples
     --------
@@ -156,8 +130,7 @@ def normalize_wavefunctions(
     >>> np.allclose(np.sum(wf_norm**2, axis=1) * h, 1.0)
     True
     """
-    # Integrate |ψ|² using trapezoidal rule (simplified as uniform grid)
-    # norm² = ∫|ψ|² dQ = h * Σ|ψ|²
+    # norm² = ∫|ψ|² dQ ≈ h * Σ|ψ|² (rectangle rule, uniform grid)
     norms_sq = grid_spacing * np.sum(wavefunctions**2, axis=1)
     norms = np.sqrt(norms_sq)
 
@@ -229,15 +202,14 @@ def solve_schrodinger_1d(
 
     Examples
     --------
-    Harmonic oscillator:
+    Harmonic oscillator with ℏω = 20 meV (E_n = ℏω(n + 1/2)):
 
-    >>> def harmonic(Q):
-    ...     hw = 0.02  # ℏω = 20 meV
-    ...     return 0.5 * hw * Q**2
+    >>> from carriercapture.core.potential import Potential
+    >>> pot = Potential.from_harmonic(hw=0.02, Q0=0.0, E0=0.0)
     >>> Q = np.linspace(-20, 20, 5000)
-    >>> eigenvalues, eigenvectors = solve_schrodinger_1d(harmonic, Q, nev=10)
-    >>> eigenvalues[:3]  # First 3 eigenvalues
-    array([0.01, 0.03, 0.05])  # E_n = ℏω(n + 1/2)
+    >>> eigenvalues, eigenvectors = solve_schrodinger_1d(pot, Q, nev=10)
+    >>> np.round(eigenvalues[:3], 6)
+    array([0.01, 0.03, 0.05])
 
     See Also
     --------

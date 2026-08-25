@@ -326,7 +326,7 @@ class ParameterScanner:
         Returns
         -------
         float
-            Electron-phonon coupling W (eV)
+            Electron-phonon coupling W (eV/(amu^0.5·Å))
         """
         from carriercapture._constants import AMU, HBAR_C
 

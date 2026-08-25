@@ -26,7 +26,7 @@ import numpy as np
 cc = ConfigCoordinate(
     pot_i=pot_initial,  # Initial state (e.g., neutral defect)
     pot_f=pot_final,    # Final state (e.g., charged defect)
-    W=0.205,            # Electron-phonon coupling (eV)
+    W=0.205,            # Electron-phonon coupling (eV/(amu^0.5·Å))
     degeneracy=1        # Degeneracy factor
 )
 
@@ -127,7 +127,7 @@ from carriercapture.core import ConfigCoordinate
 cc = ConfigCoordinate(
     pot_i=pot_i,
     pot_f=pot_f,
-    W=0.205,        # Coupling strength (eV)
+    W=0.205,        # Coupling strength (eV/(amu^0.5·Å))
     degeneracy=1    # g = 1 for non-degenerate states
 )
 ```
@@ -138,7 +138,7 @@ cc = ConfigCoordinate(
 |-----------|------|-------------|
 | `pot_i` | Potential | Initial state (before capture) |
 | `pot_f` | Potential | Final state (after capture) |
-| `W` | float | Electron-phonon coupling (eV) |
+| `W` | float | Electron-phonon coupling (eV/(amu^0.5·Å)) |
 | `degeneracy` | int | Degeneracy factor $g$ |
 
 **Determining W:**

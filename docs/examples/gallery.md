@@ -562,7 +562,7 @@ fig.add_annotation(
 fig.add_annotation(
     xref='paper', yref='paper',
     x=0.95, y=0.95,
-    text="T = 300K<br>W = 0.205 eV",
+    text="T = 300K<br>W = 0.205 eV/(amu^0.5·Å)",
     showarrow=False,
     bgcolor='white',
     bordercolor='black',

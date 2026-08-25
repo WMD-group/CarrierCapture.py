@@ -144,7 +144,7 @@ Calculate overlaps between initial and final state wavefunctions.
 cc = ConfigCoordinate(
     pot_i=pot_initial,
     pot_f=pot_final,
-    W=0.068,  # Electron-phonon coupling (eV)
+    W=0.068,  # Electron-phonon coupling (eV/(amu^0.5·Å))
     name="Sn_Zn"
 )
 

@@ -39,7 +39,7 @@ C(T) = (V · 2π/ℏ) · g · W² · Σᵢⱼ pᵢ |⟨χᵢ|Q-Q₀|χⱼ⟩|² 
 Where:
 - `V`: supercell volume (cm³)
 - `g`: degeneracy factor (spin/orbital)
-- `W`: electron-phonon coupling matrix element (eV)
+- `W`: electron-phonon coupling matrix element (eV/(amu^0.5·Å))
 - `pᵢ`: Boltzmann occupation of initial vibrational state `i`
 - `χᵢ, χⱼ`: vibrational wavefunctions (eigenfunctions of 1D Schrödinger equation)
 - `δ(εᵢ - εⱼ)`: energy-conserving delta function (Gaussian-broadened)
@@ -142,7 +142,7 @@ Manages two-state capture calculation.
 ```python
 pot_i: Potential           # Initial state (excited)
 pot_f: Potential           # Final state (ground)
-W: float                   # Electron-phonon coupling (eV)
+W: float                   # Electron-phonon coupling (eV/(amu^0.5·Å))
 g: int                     # Degeneracy factor
 overlap_matrix: ndarray    # ⟨χᵢ|Q|χⱼ⟩
 capture_coefficient: ndarray  # C(T) in cm³/s
@@ -436,7 +436,7 @@ OCC_CUTOFF = 1e-5            # Max occupation for partition function convergence
 hw = 0.008 eV           # 8 meV phonon
 dQ = 10.5               # amu^0.5·Å shift
 dE = 0.5 eV             # Energy difference
-W = 0.068 eV            # Electron-phonon coupling
+W = 0.068 eV/(amu^0.5·Å)   # Electron-phonon coupling
 volume = 1e-21 cm³      # Supercell volume
 temperature = 300 K     # Room temperature
 nev_initial = 180       # Initial state eigenvalues

@@ -1221,7 +1221,7 @@ def create_ccd_from_defect_entries(
     nev_final : int, default=60
         Number of eigenvalues to compute for final potential
     W : float, optional
-        Electron-phonon coupling matrix element (eV).
+        Electron-phonon coupling matrix element (eV/(amu^0.5·Å)).
         If None, must be set later before calculating capture coefficient.
     degeneracy : int, default=1
         Degeneracy factor for the capture process
