@@ -87,43 +87,32 @@ print(f"C(300K) = {cc.capture_coefficient[20]:.3e} cm³/s")
 
 ### What is doped?
 
-[doped](https://github.com/SMTG-Bham/doped) automates defect calculations:
-
-```python
-from doped import DefectsGenerator
-
-# Generate all defects for a structure
-defect_gen = DefectsGenerator.from_structures(
-    bulk_structure,
-    charge_states=[-2, -1, 0, +1, +2]
-)
-
-# Write VASP input files
-defect_gen.write_files()
-
-# After VASP runs, parse results
-from doped import DefectThermodynamics
-
-thermo = DefectThermodynamics.from_directories()
-thermo.get_equilibrium_concentrations(temperature=300, fermi_level=0.5)
-```
+[doped](https://github.com/SMTG-Bham/doped) automates defect calculations, from generation to parsing and analysis.
+See the collection of `doped` [tutorials](https://doped.readthedocs.io/en/latest/Tutorials.html) for more details.
 
 ### Configuration Coordinate Diagrams in doped
 
-doped can generate CC diagram input:
+`doped` can generate interpolated structures for CC diagram (i.e. `CarrierCapture.py`) calculations.
+In particular, `doped` provides functions to automatically ensure appropriately oriented and ordered structures for 
+configuration-coordinate diagram (and NEB path) generation, to ensure appropriate structure interpolation and physically 
+meaningful CC diagram results.
+See the `doped` [NEB / CC diagram tutorial](https://doped.readthedocs.io/en/latest/CCD_NEB_tutorial.html) for examples 
+and details.
 
+Schematic example:
 ```python
-from doped.utils.configurations import get_cc_structures
+from doped.utils.configurations import write_path_structures
 
-# Generate interpolated structures between two charge states
-structures = get_cc_structures(
-    defect_entry,
-    charge_state_initial=0,
-    charge_state_final=+1,
-    n_images=11  # Number of interpolation points
+# Generate interpolated structures between two defect structures
+# displacements: [-1.5, -1.2, -1.0, -0.8, -0.6, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5]
+positive_displacements = np.array([0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5])
+displacements = np.concatenate([-positive_displacements[::-1], np.array([0.0]), positive_displacements])
+
+disp_dict_1, disp_dict_2 = write_path_structures(
+    defect_supercell_1, defect_supercell_2,
+    displacements=displacements, output_dir="V_Se_-1_to_-2"
 )
 
-# Write VASP input for each structure
 # Run VASP calculations
 # Parse energies → Q-E data for CarrierCapture
 ```
@@ -136,50 +125,14 @@ structures = get_cc_structures(
 
 ### Step 1: doped Defect Setup
 
-```python
-# In your doped workflow script
-
-from doped import DefectsGenerator
-from pymatgen.core import Structure
-
-# Load bulk structure
-bulk = Structure.from_file('POSCAR_bulk')
-
-# Generate defects
-defect_gen = DefectsGenerator.from_structures(
-    bulk,
-    extrinsic_elements=['Sn'],  # Dopant
-    charge_states=[-1, 0, +1, +2],
-    oxidation_states={'Zn': +2, 'O': -2}
-)
-
-# Write input files
-defect_gen.write_files(output_path='defects')
-
-# ... Run VASP calculations for defect energies ...
-# ... Analyze with DefectThermodynamics ...
-```
+See the `doped` [tutorials](https://doped.readthedocs.io/en/latest/Tutorials.html).
 
 ### Step 2: Generate CC Diagram Structures
 
-```python
-from doped.utils.configurations import get_cc_structures
+As above. See the `doped` [NEB / CC diagram tutorial](https://doped.readthedocs.io/en/latest/CCD_NEB_tutorial.html) for 
+examples and discussion.
 
-# After identifying interesting defect (e.g., Sn_Zn)
-structures_q0 = get_cc_structures(
-    defect_entry,
-    charge_state_initial=0,
-    charge_state_final=0,  # Ground state path
-    n_images=11
-)
-
-structures_q1 = get_cc_structures(
-    defect_entry,
-    charge_state_initial=+1,
-    charge_state_final=+1,  # Excited state path
-    n_images=11
-)
-
+```
 # Write VASP input files for path calculations
 # Directory structure:
 # path_q0/

@@ -128,6 +128,10 @@ carriercapture viz --port 8050
 
 ### Integration with doped
 
+See the `doped` [NEB / CC diagram tutorial](https://doped.readthedocs.io/en/latest/CCD_NEB_tutorial.html),
+for ensuring appropriately oriented and ordered structures for configuration-coordinate diagram (and NEB path) 
+generation, to ensure appropriate structure interpolation.
+
 ```python
 # Load defect data from doped workflow
 from carriercapture.io.doped_interface import (
