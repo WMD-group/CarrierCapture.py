@@ -267,19 +267,9 @@ def save_potential(
     """
     filepath = Path(filepath)
 
-    # Auto-detect format from extension
     if file_format is None:
-        ext = filepath.suffix.lower()
-        format_map = {
-            '.json': 'json',
-            '.yaml': 'yaml',
-            '.yml': 'yaml',
-            '.npz': 'npz',
-            '.dat': 'dat',
-            '.txt': 'dat',
-            '.csv': 'csv',
-        }
-        file_format = format_map.get(ext, 'json')
+        from .readers import detect_format
+        file_format = detect_format(filepath)
 
     # Save based on format
     if file_format == 'json':

@@ -6,6 +6,7 @@ from .static import (
     plot_eigenvalue_spectrum,
     plot_configuration_coordinate,
     plot_overlap_matrix,
+    plot_scan_heatmap,
 )
 
 from .themes import (
@@ -30,6 +31,7 @@ __all__ = [
     "plot_eigenvalue_spectrum",
     "plot_configuration_coordinate",
     "plot_overlap_matrix",
+    "plot_scan_heatmap",
     # Themes
     "COLORS",
     "POTENTIAL_COLORS",

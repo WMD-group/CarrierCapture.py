@@ -35,7 +35,7 @@ from carriercapture.analysis import ParameterScanner, ScanParameters
 from carriercapture.visualization import plot_potential, plot_capture_coefficient
 
 # I/O
-from carriercapture.io import load_potential, save_results
+from carriercapture.io import load_potential_from_file, write_capture_results
 
 # doped integration
 from carriercapture.io.doped_interface import load_defect_entry, create_potential_from_doped

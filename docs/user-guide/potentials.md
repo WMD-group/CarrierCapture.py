@@ -43,7 +43,7 @@ pot = Potential(Q_data=Q_data, E_data=E_data, name="My Potential")
 Load potential data from files:
 
 ```python
-from carriercapture.io import load_potential, read_potential_data
+from carriercapture.io import load_potential_from_file, read_potential_data
 
 # Option 1: Read Q-E data from CSV/DAT
 Q, E = read_potential_data('potential.csv')

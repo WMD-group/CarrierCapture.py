@@ -226,6 +226,7 @@ from carriercapture.visualization import plot_scan_heatmap
 params = ScanParameters(
     dQ_range=(0, 25, 25),
     dE_range=(0, 2.5, 10),
+    W=0.05,
     hbar_omega_i=0.008,
     hbar_omega_f=0.008,
     temperature=300.0,
@@ -562,7 +563,7 @@ fig.add_annotation(
 fig.add_annotation(
     xref='paper', yref='paper',
     x=0.95, y=0.95,
-    text="T = 300K<br>W = 0.205 eV",
+    text="T = 300K<br>W = 0.205 eV/(amu^0.5·Å)",
     showarrow=False,
     bgcolor='white',
     bordercolor='black',

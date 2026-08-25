@@ -83,7 +83,7 @@ Initial potential: 180 states
 Final potential: 60 states
 
 Capture parameters:
-  W (coupling): 0.205 eV
+  W (coupling): 0.205 eV/(amu^0.5·Å)
   g (degeneracy): 1
   V (volume): 1.00e-21 cm³
   Q0: 10.0 amu^0.5·Å
@@ -121,7 +121,7 @@ potential_final:
   file: ground_solved.json
 
 capture:
-  W: 0.205              # eV
+  W: 0.205              # eV/(amu^0.5·Å)
   degeneracy: 1
   volume: 1.0e-21       # cm³
   Q0: 10.0              # amu^0.5·Å
@@ -145,7 +145,7 @@ Screen materials across (ΔQ, ΔE) space:
 
 ```bash
 # Run parameter scan
-carriercapture scan \
+carriercapture scan -W 0.05 \
   --dQ-min 0 --dQ-max 25 --dQ-points 25 \
   --dE-min 0 --dE-max 2.5 --dE-points 10 \
   --hbar-omega-i 0.008 --hbar-omega-f 0.008 \
@@ -326,7 +326,7 @@ carriercapture fit data.dat -o fit.json -v >> workflow.log 2>&1
 
 ```bash
 # Use all CPU cores
-carriercapture scan \
+carriercapture scan -W 0.05 \
   --dQ-min 0 --dQ-max 25 --dQ-points 50 \
   --dE-min 0 --dE-max 2.5 --dE-points 20 \
   -j -1 \

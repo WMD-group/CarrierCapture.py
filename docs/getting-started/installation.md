@@ -72,7 +72,7 @@ pip install -e ".[dev]"
 For the Dash dashboard and advanced plotting:
 
 ```bash
-pip install carriercapture[viz]
+pip install carriercapture[doped]
 ```
 
 This includes:

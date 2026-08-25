@@ -118,10 +118,16 @@ import numpy as np
     is_flag=True,
     help="Disable progress bar"
 )
+@click.option(
+    "-W", "--coupling",
+    type=float,
+    required=True,
+    help="Electron-phonon coupling W (eV/(amu^0.5·Å)); scales C by W²"
+)
 @click.pass_context
 def scan_cmd(ctx, dq_min, dq_max, dq_points, de_min, de_max, de_points,
              hbar_omega_i, hbar_omega_f, temperature, volume, degeneracy,
-             sigma, cutoff, nev_i, nev_f, n_jobs, output, no_progress):
+             sigma, cutoff, nev_i, nev_f, n_jobs, output, no_progress, coupling):
     """
     Run high-throughput parameter scan.
 
@@ -132,22 +138,22 @@ def scan_cmd(ctx, dq_min, dq_max, dq_points, de_min, de_max, de_points,
     \\b
     Examples:
       # Basic scan over ΔQ and ΔE
-      $ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 \\
-                           --dQ-min 0 --dE-max 2.5 --dE-points 10 \\
+      $ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 -W 0.05 \\
+                           --dE-min 0 --dE-max 2.5 --dE-points 10 \\
                            -o scan_results.npz
 
       # Parallel scan with 4 cores
-      $ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 \\
+      $ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 -W 0.05 \\
                            --dE-min 0 --dE-max 2.5 --dE-points 10 \\
                            -j 4 -o results.npz
 
       # Use all available cores
-      $ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 50 \\
+      $ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 50 -W 0.05 \\
                            --dE-min 0 --dE-max 2.5 --dE-points 20 \\
                            -j -1 -o results.npz
 
       # Custom phonon frequencies
-      $ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 \\
+      $ carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 -W 0.05 \\
                            --dE-min 0 --dE-max 2.5 --dE-points 10 \\
                            --hbar-omega-i 0.010 --hbar-omega-f 0.010 \\
                            -o results.npz
@@ -175,6 +181,7 @@ def scan_cmd(ctx, dq_min, dq_max, dq_points, de_min, de_max, de_points,
             dE_range=(de_min, de_max, de_points),
             hbar_omega_i=hbar_omega_i,
             hbar_omega_f=hbar_omega_f,
+            W=coupling,
             temperature=temperature,
             volume=volume,
             degeneracy=degeneracy,
@@ -294,7 +301,7 @@ def scan_plot_cmd(ctx, scan_file, plot_type, log_scale, output, show):
 
     try:
         from carriercapture.analysis.parameter_scan import ScanResult
-        import plotly.graph_objects as go
+        from carriercapture.visualization import plot_scan_heatmap
 
         # Load results
         if scan_file.suffix.lower() in ['.h5', '.hdf5']:
@@ -305,43 +312,7 @@ def scan_plot_cmd(ctx, scan_file, plot_type, log_scale, output, show):
         if verbose > 0:
             click.echo(f"Loaded grid: {results.dQ_grid.shape[0]} × {results.dE_grid.shape[0]}")
 
-        # Prepare data
-        Z = results.capture_coefficients
-        if log_scale:
-            Z = np.log10(Z + 1e-30)  # Add small epsilon to avoid log(0)
-            colorbar_title = "log₁₀(C) [cm³/s]"
-        else:
-            colorbar_title = "C [cm³/s]"
-
-        # Create figure
-        fig = go.Figure()
-
-        if plot_type in ["heatmap", "both"]:
-            fig.add_trace(go.Heatmap(
-                x=results.dE_grid,
-                y=results.dQ_grid,
-                z=Z,
-                colorscale='Viridis',
-                colorbar=dict(title=colorbar_title),
-            ))
-
-        if plot_type in ["contour", "both"]:
-            fig.add_trace(go.Contour(
-                x=results.dE_grid,
-                y=results.dQ_grid,
-                z=Z,
-                colorscale='Viridis',
-                colorbar=dict(title=colorbar_title),
-            ))
-
-        fig.update_layout(
-            title="Parameter Scan: Capture Coefficient",
-            xaxis_title="ΔE (eV)",
-            yaxis_title="ΔQ (amu<sup>0.5</sup>·Å)",
-            template="plotly_white",
-            width=800,
-            height=700,
-        )
+        fig = plot_scan_heatmap(results, plot_type=plot_type, log_scale=log_scale)
 
         # Save or show
         if output:

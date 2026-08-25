@@ -348,6 +348,20 @@ class TestEstimatePhononFrequency:
         assert np.isclose(result['curvature'], k, rtol=0.1)
 
     @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
+    def test_estimate_phonon_frequency_roundtrip(self):
+        """A harmonic PES with known hw must round-trip exactly."""
+        from carriercapture._constants import AMU, HBAR_C
+
+        hw_true = 0.008  # eV
+        k = AMU * (hw_true / (HBAR_C * 1e10)) ** 2  # E = 0.5*k*Q^2
+        Q_data = np.linspace(-5, 5, 201)
+        E_data = 0.5 * k * Q_data**2
+
+        result = estimate_phonon_frequency(Q_data, E_data, method="curvature")
+
+        assert np.isclose(result['hw'], hw_true, rtol=1e-6)
+
+    @pytest.mark.skipif(not DOPED_INTEGRATION_AVAILABLE, reason="doped package not installed")
     def test_estimate_phonon_frequency_harmonic_fit_method(self):
         """Test phonon frequency estimation using harmonic_fit method."""
         Q_data = np.linspace(-5, 5, 21)

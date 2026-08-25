@@ -6,12 +6,13 @@ materials for carrier capture properties. Supports parallel execution
 and progress reporting.
 """
 
-from typing import Dict, List, Optional, Tuple, Callable, Any, Union
+from typing import Dict, Optional, Tuple, Any, Union
 from pathlib import Path
+import json
 import numpy as np
 from numpy.typing import NDArray
 import warnings
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 
 from carriercapture.core.potential import Potential
 from carriercapture.core.config_coord import ConfigCoordinate
@@ -32,6 +33,10 @@ class ScanParameters:
         ℏω for initial state (eV). If tuple: (min, max, n_points)
     hbar_omega_f : float or tuple
         ℏω for final state (eV). If tuple: (min, max, n_points)
+    W : float
+        Electron-phonon coupling matrix element (eV/(amu^0.5·Å)).
+        Must be calculated for the defect transition of interest;
+        since C ∝ W², it scales the whole map uniformly.
     temperature : float or NDArray
         Temperature(s) for calculation (K)
     volume : float
@@ -47,6 +52,7 @@ class ScanParameters:
     dE_range: Tuple[float, float, int]
     hbar_omega_i: Union[float, Tuple[float, float, int]] = 0.008  # 8 meV default
     hbar_omega_f: Union[float, Tuple[float, float, int]] = 0.008
+    W: Optional[float] = None
     temperature: Union[float, NDArray[np.float64]] = 300.0
     volume: float = 1e-21
     degeneracy: int = 1
@@ -98,6 +104,11 @@ class ScanResult:
         """
         filepath = Path(filepath)
 
+        params_dict = asdict(self.parameters)
+        if isinstance(params_dict.get("temperature"), np.ndarray):
+            params_dict["temperature"] = params_dict["temperature"].tolist()
+        params_json = json.dumps(params_dict)
+
         if format == "npz":
             np.savez_compressed(
                 filepath,
@@ -105,7 +116,7 @@ class ScanResult:
                 dE_grid=self.dE_grid,
                 capture_coefficients=self.capture_coefficients,
                 barrier_heights=self.barrier_heights,
-                # Store parameters as dict
+                parameters_json=params_json,
                 **{f"param_{k}": v for k, v in self.metadata.items()}
             )
         elif format == "hdf5":
@@ -116,7 +127,7 @@ class ScanResult:
                     f.create_dataset('dE_grid', data=self.dE_grid)
                     f.create_dataset('capture_coefficients', data=self.capture_coefficients)
                     f.create_dataset('barrier_heights', data=self.barrier_heights)
-                    # Store metadata as attributes
+                    f.attrs['parameters_json'] = params_json
                     for k, v in self.metadata.items():
                         f.attrs[k] = v
             except ImportError:
@@ -147,19 +158,14 @@ class ScanResult:
             data = np.load(filepath, allow_pickle=True)
             metadata = {k.replace('param_', ''): v for k, v in data.items()
                        if k.startswith('param_')}
-
-            # Reconstruct ScanParameters (simplified)
-            params = ScanParameters(
-                dQ_range=(0, 0, 0),  # Placeholder
-                dE_range=(0, 0, 0),  # Placeholder
-            )
+            params_json = str(data['parameters_json']) if 'parameters_json' in data else None
 
             return cls(
                 dQ_grid=data['dQ_grid'],
                 dE_grid=data['dE_grid'],
                 capture_coefficients=data['capture_coefficients'],
                 barrier_heights=data['barrier_heights'],
-                parameters=params,
+                parameters=cls._params_from_json(params_json),
                 metadata=dict(metadata)
             )
         elif format == "hdf5":
@@ -167,22 +173,33 @@ class ScanResult:
                 import h5py
                 with h5py.File(filepath, 'r') as f:
                     metadata = dict(f.attrs)
-                    params = ScanParameters(
-                        dQ_range=(0, 0, 0),
-                        dE_range=(0, 0, 0),
-                    )
+                    params_json = metadata.pop('parameters_json', None)
                     return cls(
                         dQ_grid=f['dQ_grid'][:],
                         dE_grid=f['dE_grid'][:],
                         capture_coefficients=f['capture_coefficients'][:],
                         barrier_heights=f['barrier_heights'][:],
-                        parameters=params,
+                        parameters=cls._params_from_json(params_json),
                         metadata=metadata
                     )
             except ImportError:
                 raise ImportError("h5py not installed. Install with: pip install h5py")
         else:
             raise ValueError(f"Unknown format: {format}. Use 'npz' or 'hdf5'")
+
+    @staticmethod
+    def _params_from_json(params_json: Optional[str]) -> ScanParameters:
+        """Reconstruct ScanParameters from the JSON stored by save()."""
+        if not params_json:
+            # File predates parameter persistence
+            return ScanParameters(dQ_range=(0, 0, 0), dE_range=(0, 0, 0))
+        d = json.loads(params_json)
+        for key in ("dQ_range", "dE_range", "hbar_omega_i", "hbar_omega_f"):
+            if isinstance(d.get(key), list):
+                d[key] = tuple(d[key])
+        if isinstance(d.get("temperature"), list):
+            d["temperature"] = np.array(d["temperature"])
+        return ScanParameters(**d)
 
 
 class ParameterScanner:
@@ -204,6 +221,7 @@ class ParameterScanner:
     >>> params = ScanParameters(
     ...     dQ_range=(0, 25, 25),
     ...     dE_range=(0, 2.5, 10),
+    ...     W=0.05,
     ... )
     >>> scanner = ParameterScanner(params)
     >>> results = scanner.run_harmonic_scan(n_jobs=4)
@@ -211,6 +229,12 @@ class ParameterScanner:
     """
 
     def __init__(self, params: ScanParameters, verbose: bool = True):
+        if params.W is None:
+            raise ValueError(
+                "ScanParameters.W (electron-phonon coupling, eV/(amu^0.5·Å)) "
+                "must be set: it must be calculated for the defect transition "
+                "of interest, and C ∝ W² scales the whole scan."
+            )
         self.params = params
         self.verbose = verbose
 
@@ -301,52 +325,6 @@ class ParameterScanner:
 
         return pot_i, pot_f
 
-    def _calculate_W_coupling(
-        self,
-        hbar_omega_f: float,
-        dQ: float,
-        dE: float
-    ) -> float:
-        """
-        Calculate electron-phonon coupling W.
-
-        Uses activationless Marcus regime formula:
-        Q_m = sqrt(E0 / a) where a = (amu/2)(ℏω/(ℏc))^2
-        W = 0.068 / (Q0 - Q_m)
-
-        Parameters
-        ----------
-        hbar_omega_f : float
-            ℏω for final state (eV)
-        dQ : float
-            Horizontal shift (amu^0.5·Å)
-        dE : float
-            Vertical shift (eV)
-
-        Returns
-        -------
-        float
-            Electron-phonon coupling W (eV)
-        """
-        from carriercapture._constants import AMU, HBAR_C
-
-        # Calculate force constant a
-        a = (AMU / 2) * (hbar_omega_f / (HBAR_C * 1e10)) ** 2
-
-        # Marcus activationless point
-        if dE > 0 and a > 0:
-            Q_m = np.sqrt(dE / a)
-        else:
-            Q_m = 0.0
-
-        # Calculate W
-        if abs(dQ - Q_m) > 1e-6:
-            W = 0.068 / abs(dQ - Q_m)
-        else:
-            W = 0.068  # Default value
-
-        return W
-
     def _calculate_single_point(
         self,
         hbar_omega_i: float,
@@ -381,14 +359,11 @@ class ParameterScanner:
                 hbar_omega_i, hbar_omega_f, dQ, dE
             )
 
-            # Calculate W coupling
-            W = self._calculate_W_coupling(hbar_omega_f, dQ, dE)
-
             # Create ConfigCoordinate
             cc = ConfigCoordinate(
                 pot_i=pot_i,
                 pot_f=pot_f,
-                W=W,
+                W=self.params.W,
                 degeneracy=self.params.degeneracy
             )
 
@@ -421,10 +396,9 @@ class ParameterScanner:
                 from carriercapture.core.potential import find_crossing
                 crossing_Q, crossing_E = find_crossing(pot_f, pot_i)
                 barrier_height = crossing_E - dE
-            except Exception as e:
-                # If can't find crossing, set high barrier
-                warnings.warn(f"Could not find crossing at dQ={dQ:.2f}, dE={dE:.2f}: {e}. Using default barrier height of 50.0 eV.")
-                barrier_height = 50.0
+            except (ValueError, RuntimeError) as e:
+                warnings.warn(f"Could not find crossing at dQ={dQ:.2f}, dE={dE:.2f}: {e}")
+                barrier_height = np.nan
 
             return capture_coeff, barrier_height
 
@@ -508,40 +482,20 @@ class ParameterScanner:
             # Parallel execution
             try:
                 from joblib import Parallel, delayed
-
-                if show_progress:
-                    try:
-                        from rich.progress import Progress
-                        with Progress() as progress:
-                            task = progress.add_task("Scanning...", total=len(params_list))
-
-                            def _wrapped_calc(args):
-                                result = self._calculate_single_point(*args[:4])
-                                progress.update(task, advance=1)
-                                return result + args[4:]
-
-                            results = Parallel(n_jobs=n_jobs)(
-                                delayed(_wrapped_calc)(p) for p in params_list
-                            )
-                    except ImportError:
-                        # No rich, just use joblib's verbose
-                        results = Parallel(n_jobs=n_jobs, verbose=10 if self.verbose else 0)(
-                            delayed(self._calculate_single_point)(*p[:4]) + (p[4], p[5])
-                            for p in params_list
-                        )
-                else:
-                    results = Parallel(n_jobs=n_jobs)(
-                        delayed(self._calculate_single_point)(*p[:4]) + (p[4], p[5])
-                        for p in params_list
-                    )
-
-                # Unpack results
-                for capture_coeff, barrier_height, i, j in results:
-                    capture_coeffs[i, j] = capture_coeff
-                    barrier_heights[i, j] = barrier_height
-
             except ImportError:
                 raise ImportError("joblib not installed. Install with: pip install joblib")
+
+            def _calc_with_index(args):
+                return self._calculate_single_point(*args[:4]) + args[4:]
+
+            verbose = 10 if (show_progress and self.verbose) else 0
+            results = Parallel(n_jobs=n_jobs, verbose=verbose)(
+                delayed(_calc_with_index)(p) for p in params_list
+            )
+
+            for capture_coeff, barrier_height, i, j in results:
+                capture_coeffs[i, j] = capture_coeff
+                barrier_heights[i, j] = barrier_height
 
         if self.verbose:
             n_success = np.sum(~np.isnan(capture_coeffs))

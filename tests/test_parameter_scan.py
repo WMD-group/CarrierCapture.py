@@ -118,11 +118,18 @@ class TestParameterScanner:
             dE_range=(0, 0.5, 3),
             hbar_omega_i=0.008,
             hbar_omega_f=0.008,
+            W=0.05,
             temperature=300.0,
             nev_initial=60,  # Need enough for partition function convergence at 300K
             nev_final=30,   # Scaled proportionally
             Q_grid_points=500,  # Reduced for speed
         )
+
+    def test_scanner_requires_W(self):
+        """ParameterScanner rejects parameters without a coupling W."""
+        params = ScanParameters(dQ_range=(0, 5, 3), dE_range=(0, 0.5, 3))
+        with pytest.raises(ValueError, match="W"):
+            ParameterScanner(params)
 
     def test_create_scanner(self, simple_params):
         """Test creating ParameterScanner."""
@@ -164,19 +171,6 @@ class TestParameterScanner:
         assert pot_f.eigenvalues is not None
         assert len(pot_i.eigenvalues) == 60  # nev_initial
         assert len(pot_f.eigenvalues) == 30  # nev_final
-
-    def test_calculate_W_coupling(self, simple_params):
-        """Test W coupling calculation."""
-        scanner = ParameterScanner(simple_params, verbose=False)
-
-        W = scanner._calculate_W_coupling(
-            hbar_omega_f=0.008,
-            dQ=2.0,
-            dE=0.5
-        )
-
-        assert isinstance(W, float)
-        assert W > 0
 
     def test_calculate_single_point(self, simple_params):
         """Test single point calculation."""

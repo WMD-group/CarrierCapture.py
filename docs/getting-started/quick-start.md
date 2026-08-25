@@ -46,7 +46,7 @@ pot_final.solve(nev=60)     # 60 eigenvalues
 cc = ConfigCoordinate(
     pot_i=pot_initial,
     pot_f=pot_final,
-    W=0.068  # Electron-phonon coupling (eV)
+    W=0.068  # Electron-phonon coupling (eV/(amu^0.5·Å))
 )
 
 # Calculate overlap matrix

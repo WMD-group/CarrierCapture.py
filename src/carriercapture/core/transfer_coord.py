@@ -52,7 +52,7 @@ class TransferCoordinate:
     >>> pot_1 = Potential.from_harmonic(hw=0.02, Q0=0.0, E0=0.0)
     >>> pot_2 = Potential.from_harmonic(hw=0.02, Q0=5.0, E0=0.1)
     >>> tc = TransferCoordinate(pot_1, pot_2, name="hole_transfer")
-    >>> tc.get_coupling()
+    >>> tc.get_coupling(H_ab=0.01)  # H_ab from an electronic-structure calculation
     >>> tc.get_reorganization_energy()
     >>> tc.get_transfer_rate(temperature=np.linspace(100, 500, 50))
     """
@@ -62,6 +62,7 @@ class TransferCoordinate:
         pot_1: Potential,
         pot_2: Potential,
         name: str = "",
+        coupling: Optional[float] = None,
     ):
         """
         Initialize a TransferCoordinate.
@@ -74,6 +75,10 @@ class TransferCoordinate:
             Second diabatic state potential
         name : str, default=""
             Identifier for this transfer coordinate
+        coupling : float, optional
+            Electronic coupling H_ab (eV) from an electronic-structure
+            calculation. Required (here or via get_coupling) before
+            computing transfer rates.
         """
         self.name = name
         self.pot_1 = pot_1
@@ -82,21 +87,29 @@ class TransferCoordinate:
         # Computed quantities (initially None)
         self.Q_cross: Optional[float] = None
         self.E_cross: Optional[float] = None
-        self.coupling: Optional[float] = None
+        self.coupling: Optional[float] = coupling
         self.reorganization_energy: Optional[float] = None
         self.activation_energy: Optional[float] = None
         self.transfer_rate: Optional[NDArray[np.float64]] = None
         self.temperature: Optional[NDArray[np.float64]] = None
 
-    def get_coupling(self, Q_cross: Optional[float] = None) -> float:
+    def get_coupling(
+        self,
+        H_ab: Optional[float] = None,
+        Q_cross: Optional[float] = None,
+    ) -> float:
         """
-        Calculate electronic coupling between diabatic states.
+        Set the electronic coupling and locate the diabatic crossing.
 
-        The coupling Hab is half the energy splitting between adiabatic
-        states at the intersection point of the diabatic surfaces.
+        The coupling H_ab cannot be derived from the diabatic energies alone —
+        it must come from an electronic-structure calculation, e.g. half the
+        adiabatic splitting at the diabatic crossing.
 
         Parameters
         ----------
+        H_ab : float, optional
+            Electronic coupling (eV). If None, uses the value passed to the
+            constructor. Raises if neither is set.
         Q_cross : float, optional
             Intersection point (amu^0.5·Å). If None, will find crossing
             automatically using find_crossing().
@@ -104,7 +117,7 @@ class TransferCoordinate:
         Returns
         -------
         coupling : float
-            Electronic coupling Hab (eV)
+            Electronic coupling H_ab (eV)
 
         Raises
         ------
@@ -112,6 +125,8 @@ class TransferCoordinate:
             If potentials don't have fit functions
         ValueError
             If no crossing point found
+        ValueError
+            If no H_ab is supplied (constructor or argument)
 
         Notes
         -----
@@ -123,10 +138,10 @@ class TransferCoordinate:
 
         Examples
         --------
-        >>> tc.get_coupling()  # Automatic crossing detection
+        >>> tc.get_coupling(H_ab=0.015)  # Automatic crossing detection
         0.015
-        >>> tc.get_coupling(Q_cross=2.5)  # Specify crossing point
-        0.018
+        >>> tc.get_coupling(H_ab=0.015, Q_cross=2.5)  # Specify crossing point
+        0.015
         """
         if self.pot_1.fit_func is None or self.pot_2.fit_func is None:
             raise ValueError("Both potentials must be fitted before calculating coupling")
@@ -145,34 +160,23 @@ class TransferCoordinate:
             E2 = self.pot_2(Q_cross)
             E_cross = 0.5 * (E1 + E2)
 
-        # Calculate adiabatic states
-        # E+ = 0.5 * (E1 + E2) + sqrt(0.25 * (E1 - E2)^2 + Hab^2)
-        # E- = 0.5 * (E1 + E2) - sqrt(0.25 * (E1 - E2)^2 + Hab^2)
-
-        # At diabatic crossing, E1 ≈ E2, so:
-        # E+ - E- = 2 * sqrt(Hab^2) = 2 * Hab
-
-        # For a more general approach (not exactly at crossing):
-        # We use the splitting to estimate Hab
-        delta_E = abs(E1 - E2)
-
-        # If exactly at crossing (delta_E ≈ 0), coupling is half the splitting
-        # Otherwise, we assume a small coupling relative to delta_E
-        if delta_E < 1e-6:
-            # At crossing, assume minimal splitting (numerical precision limit)
-            # This is a limitation - we can't measure Hab < ~1e-6 eV this way
-            coupling = 1e-6  # Placeholder
-        else:
-            # Away from crossing, we can't determine Hab from energies alone
-            # This method only works at the diabatic crossing
-            # For now, use a rough estimate
-            coupling = 0.5 * delta_E
+        if H_ab is None:
+            H_ab = self.coupling
+        if H_ab is None:
+            raise ValueError(
+                "Electronic coupling H_ab cannot be determined from the diabatic "
+                "energies alone. Supply it from an electronic-structure calculation "
+                "(e.g. half the adiabatic splitting at the diabatic crossing, "
+                "2|H_ab| = E+ - E-), via the constructor or get_coupling(H_ab=...)."
+            )
+        if H_ab <= 0:
+            raise ValueError(f"H_ab must be positive, got {H_ab}")
 
         self.Q_cross = Q_cross
         self.E_cross = E_cross
-        self.coupling = coupling
+        self.coupling = H_ab
 
-        return coupling
+        return H_ab
 
     def get_reorganization_energy(self) -> float:
         """
@@ -478,6 +482,7 @@ class TransferCoordinate:
             pot_1=pot_1,
             pot_2=pot_2,
             name=data.get("name", ""),
+            coupling=data.get("coupling"),
         )
 
         # Restore computed values
@@ -485,8 +490,6 @@ class TransferCoordinate:
             tc.Q_cross = data["Q_cross"]
         if "E_cross" in data:
             tc.E_cross = data["E_cross"]
-        if "coupling" in data:
-            tc.coupling = data["coupling"]
         if "reorganization_energy" in data:
             tc.reorganization_energy = data["reorganization_energy"]
         if "activation_energy" in data:

@@ -381,6 +381,8 @@ def create_scan_tab(theme: Dict[str, Any]) -> html.Div:
                             dcc.Input(id="scan-hw-i", type="number", value=0.008, step=0.001, style=theme["input"]),
                             html.Label("ℏω_f (eV):", style=theme["text"]),
                             dcc.Input(id="scan-hw-f", type="number", value=0.008, step=0.001, style=theme["input"]),
+                            html.Label("W (e-ph coupling, eV/(amu^0.5·Å)):", style=theme["text"]),
+                            dcc.Input(id="scan-W", type="number", value=0.05, step=0.001, style=theme["input"]),
                             html.Label("Temperature (K):", style=theme["text"]),
                             dcc.Input(id="scan-temp", type="number", value=300, step=10, style=theme["input"]),
 
@@ -550,7 +552,7 @@ def create_capture_tab(theme: Dict[str, Any]) -> html.Div:
 
                             # Calculation parameters
                             html.H3("Parameters", style=theme["subheader"]),
-                            html.Label("W (e-ph coupling, eV):", style=theme["text"]),
+                            html.Label("W (e-ph coupling, eV/(amu^0.5·Å)):", style=theme["text"]),
                             dcc.Input(id="capture-w", type="number", value=0.068, step=0.001, style=theme["input"]),
                             html.Label("Q₀ (crossing point):", style=theme["text"]),
                             dcc.Input(id="capture-q0", type="number", value=10.0, step=0.1, style=theme["input"]),
@@ -760,13 +762,14 @@ def register_scan_callbacks(app: dash.Dash) -> None:
          State("scan-de-points", "value"),
          State("scan-hw-i", "value"),
          State("scan-hw-f", "value"),
+         State("scan-W", "value"),
          State("scan-temp", "value"),
          State("scan-results-store", "data")],
         prevent_initial_call=True,
     )
     def handle_scan_operations(upload_contents, run_clicks, plot_type, plot_options,
                                filename, dq_min, dq_max, dq_points, de_min, de_max, de_points,
-                               hw_i, hw_f, temp, current_results):
+                               hw_i, hw_f, W, temp, current_results):
         """Handle parameter scan operations."""
         triggered_id = ctx.triggered_id
 
@@ -799,6 +802,7 @@ def register_scan_callbacks(app: dash.Dash) -> None:
                     dE_range=(de_min, de_max, de_points),
                     hbar_omega_i=hw_i,
                     hbar_omega_f=hw_f,
+                    W=W,
                     temperature=temp,
                 )
 
@@ -1136,42 +1140,9 @@ def create_potential_figure(pot: Potential, display_options: List[str], wf_scale
 
 def create_scan_figure(results: ScanResult, plot_type: str, log_scale: bool) -> go.Figure:
     """Create figure for scan results."""
-    Z = results.capture_coefficients.copy()
+    from .static import plot_scan_heatmap
 
-    if log_scale:
-        Z = np.log10(Z + 1e-30)
-        colorbar_title = "log₁₀(C) [cm³/s]"
-    else:
-        colorbar_title = "C [cm³/s]"
-
-    fig = go.Figure()
-
-    if plot_type == "heatmap":
-        fig.add_trace(go.Heatmap(
-            x=results.dE_grid,
-            y=results.dQ_grid,
-            z=Z,
-            colorscale="Viridis",
-            colorbar=dict(title=colorbar_title),
-        ))
-    else:  # contour
-        fig.add_trace(go.Contour(
-            x=results.dE_grid,
-            y=results.dQ_grid,
-            z=Z,
-            colorscale="Viridis",
-            colorbar=dict(title=colorbar_title),
-            contours=dict(showlabels=True),
-        ))
-
-    fig.update_layout(
-        title="Parameter Scan: Capture Coefficient",
-        xaxis_title="ΔE (eV)",
-        yaxis_title="ΔQ (amu^0.5·Å)",
-        template="plotly_white",
-    )
-
-    return fig
+    return plot_scan_heatmap(results, plot_type=plot_type, log_scale=log_scale)
 
 
 def create_comparison_figure(potentials: List[Potential]) -> go.Figure:

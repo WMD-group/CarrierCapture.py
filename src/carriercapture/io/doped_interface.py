@@ -99,7 +99,11 @@ def load_defect_entry(file_path: Union[str, Path]) -> Any:
 
 def get_available_charge_states(defect_entry: Any) -> List[int]:
     """
-    Get list of available charge states from DefectEntry.
+    Get the charge state of a single DefectEntry as a one-element list.
+
+    A doped DefectEntry represents one charge state; to work with several
+    charge states, load multiple DefectEntry files (or use
+    DefectThermodynamics).
 
     Parameters
     ----------
@@ -109,13 +113,12 @@ def get_available_charge_states(defect_entry: Any) -> List[int]:
     Returns
     -------
     List[int]
-        Available charge states
+        Single-element list with this entry's charge state
 
     Examples
     --------
-    >>> charges = get_available_charge_states(defect)
-    >>> print(charges)
-    [-2, -1, 0, +1, +2]
+    >>> get_available_charge_states(defect)
+    [-1]
     """
     _check_doped_available()
 
@@ -895,7 +898,7 @@ def estimate_phonon_frequency(
     displacement) should be used. This estimate is useful for initial
     harmonic potential approximations.
     """
-    from .._constants import HBAR
+    from .._constants import AMU, HBAR, HBAR_C
 
     Q_data = np.asarray(Q_data)
     E_data = np.asarray(E_data)
@@ -967,38 +970,10 @@ def estimate_phonon_frequency(
     # Ensure curvature is positive
     curvature = abs(curvature)
 
-    # Convert curvature to phonon frequency
-    # hw = hbar * sqrt(k / m_eff)
-    # With Q in amu^0.5*A and E in eV:
-    # k has units eV / (amu * A²)
-    # m_eff = 1 amu (mass-weighted coordinate)
-    #
-    # hw (eV) = hbar (eV*s) * sqrt(k (eV/(amu*A²)) / m (amu))
-    # Need to convert units properly
-
-    # hbar in eV*fs, need angular frequency in rad/fs
-    # k in eV/(amu*A²), convert A² to m² and amu to kg for SI
-    # Actually simpler: use natural units
-
-    # k in eV/(amu*A²) -> convert to eV/(eV/c² * A²) = c²/A²
-    # omega² = k/m = k (eV/(amu*A²)) / (1 amu)
-    # omega = sqrt(k) * (1/A) * sqrt(eV/amu)
-
-    # Conversion: 1 amu = 931.5 MeV/c², 1 A = 1e-10 m
-    # sqrt(eV/amu) = sqrt(1e-6 MeV / 931.5 MeV/c²) = sqrt(1.074e-9) c = 3.28e-5 c
-    # In frequency: sqrt(eV/(amu*A²)) * A = sqrt(eV/amu) / A
-
-    # Simpler approach using known conversion:
-    # For harmonic oscillator: E_n = hw * (n + 0.5)
-    # hw = hbar * omega = hbar * sqrt(k/m)
-    #
-    # With k in eV/A² and m in amu:
-    # hw (eV) = 0.004136 * sqrt(k (eV/A²) / m (amu))
-    # But our k is in eV/(amu*A²), so m_eff = 1:
-    # hw (eV) = 0.004136 * sqrt(k (eV/(amu*A²)))
-
-    conversion_factor = 0.004135665  # sqrt(hbar² / amu) in eV*A
-    hw = conversion_factor * np.sqrt(curvature)
+    # Mass-weighted coordinates (Q in amu^0.5*A, E = 0.5*k*Q^2):
+    # hw = hbar*omega = sqrt(hbar^2 * k) with hbar^2 = (hbar*c)^2/AMU
+    # in eV*amu*A^2, so hw (eV) = (hbar*c / sqrt(AMU)) * sqrt(k)
+    hw = (HBAR_C * 1e10 / np.sqrt(AMU)) * np.sqrt(curvature)
 
     # Angular frequency: omega = hw / hbar
     omega = hw / HBAR  # rad/s
@@ -1108,9 +1083,6 @@ def calculate_Q0_crossing(
     if method == "crossing":
         try:
             Q0, E_crossing = find_crossing(pot_initial, pot_final)
-            # Calculate barriers
-            E_at_Q0_initial = pot_initial(Q0) if callable(pot_initial) else E_crossing
-            E_at_Q0_final = pot_final(Q0) if callable(pot_final) else E_crossing
             barrier_initial = E_crossing - E0_initial
             barrier_final = E_crossing - E0_final
         except (ValueError, RuntimeError):
@@ -1221,7 +1193,7 @@ def create_ccd_from_defect_entries(
     nev_final : int, default=60
         Number of eigenvalues to compute for final potential
     W : float, optional
-        Electron-phonon coupling matrix element (eV).
+        Electron-phonon coupling matrix element (eV/(amu^0.5·Å)).
         If None, must be set later before calculating capture coefficient.
     degeneracy : int, default=1
         Degeneracy factor for the capture process

@@ -181,7 +181,7 @@ carriercapture capture [CONFIG_FILE] [OPTIONS]
 |--------|------|---------|-------------|
 | `--pot-i` | path | - | Initial state potential file |
 | `--pot-f` | path | - | Final state potential file |
-| `-W, --coupling` | float | - | Electron-phonon coupling (eV) |
+| `-W, --coupling` | float | - | Electron-phonon coupling (eV/(amu^0.5·Å)) |
 | `-g, --degeneracy` | int | 1 | Degeneracy factor |
 | `-V, --volume` | float | - | Supercell volume (cm³) |
 | `--temp-range` | float×3 | 100 500 50 | Temperature range: `T_min T_max n_points` (K) |

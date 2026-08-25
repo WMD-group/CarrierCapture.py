@@ -26,7 +26,7 @@ import numpy as np
 cc = ConfigCoordinate(
     pot_i=pot_initial,  # Initial state (e.g., neutral defect)
     pot_f=pot_final,    # Final state (e.g., charged defect)
-    W=0.205,            # Electron-phonon coupling (eV)
+    W=0.205,            # Electron-phonon coupling (eV/(amu^0.5·Å))
     degeneracy=1        # Degeneracy factor
 )
 
@@ -127,7 +127,7 @@ from carriercapture.core import ConfigCoordinate
 cc = ConfigCoordinate(
     pot_i=pot_i,
     pot_f=pot_f,
-    W=0.205,        # Coupling strength (eV)
+    W=0.205,        # Coupling strength (eV/(amu^0.5·Å))
     degeneracy=1    # g = 1 for non-degenerate states
 )
 ```
@@ -138,7 +138,7 @@ cc = ConfigCoordinate(
 |-----------|------|-------------|
 | `pot_i` | Potential | Initial state (before capture) |
 | `pot_f` | Potential | Final state (after capture) |
-| `W` | float | Electron-phonon coupling (eV) |
+| `W` | float | Electron-phonon coupling (eV/(amu^0.5·Å)) |
 | `degeneracy` | int | Degeneracy factor $g$ |
 
 **Determining W:**
@@ -484,6 +484,45 @@ for g, C in results.items():
 
 ---
 
+## Sommerfeld Factor for Charged Defects
+
+The capture coefficient above assumes a neutral defect. For a **charged**
+defect, the Coulomb interaction between the free carrier and the defect
+enhances (attractive) or suppresses (repulsive) the carrier density at the
+defect site. Correct the coefficient with the Sommerfeld factor $s(T)$:
+
+$$C_{\text{charged}}(T) = s(T) \cdot C(T)$$
+
+```python
+from carriercapture import sommerfeld_parameter
+
+s = sommerfeld_parameter(
+    temperature=cc.temperature,
+    Z=-1,        # defect charge / carrier charge: Z < 0 attractive, Z > 0 repulsive
+    m_eff=0.2,   # carrier effective mass (units of m_e)
+    eps0=10.0,   # relative static dielectric constant
+)
+
+C_charged = s * cc.capture_coefficient
+```
+
+Two methods are available:
+
+- `method="Integrate"` (default): Maxwell-Boltzmann thermal average of the
+  exact Coulomb enhancement factor
+- `method="Analytic"`: low-temperature limits of Pässler,
+  phys. stat. sol. (b) 78, 625 (1976) — attractive
+  $s = 4\sqrt{\theta/\pi}$, repulsive
+  $s = (8/\sqrt{3})\,\theta^{2/3} e^{-3\theta^{1/3}}$,
+  with $\theta = \pi^2 Z^2 E_R / k_B T$ and scaled Rydberg
+  $E_R = m^* \mathrm{Ry} / \varepsilon_0^2$
+
+**Caveats**: assumes a parabolic, non-degenerate band and static screening.
+See Alkauskas et al., Phys. Rev. B 90, 075202 (2014), Sec. II.F for
+discussion.
+
+---
+
 ## Best Practices
 
 ### 1. Convergence Checks
@@ -571,9 +610,8 @@ print(f"RMSE (log scale): {rmse:.3f}")
 
 **Debug:**
 ```python
-print(f"Volume: {cc.volume:.3e} cm³ (typical: 1e-21)")
-print(f"W: {cc.W:.3f} eV (typical: 0.1-0.5)")
-print(f"Q0: {cc.Q0:.2f} amu^0.5·Å")
+# volume and Q0 are passed to the calculation methods, not stored on cc
+print(f"W: {cc.W:.4f} eV/(amu^0.5·Å)")
 print(f"States: {len(pot_i.eigenvalues)} initial, {len(pot_f.eigenvalues)} final")
 ```
 

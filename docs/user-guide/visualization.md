@@ -806,7 +806,7 @@ def create_all_figures(pot_i, pot_f, cc, output_dir='figures'):
     fig2.write_html(f'{output_dir}/02_potential_final.html')
 
     # 3. CC diagram
-    fig3 = plot_configuration_coordinate(pot_i, pot_f, Q0=cc.Q0, show_crossing=True)
+    fig3 = plot_configuration_coordinate(pot_i, pot_f, Q0=Q0, show_crossing=True)
     fig3.write_html(f'{output_dir}/03_cc_diagram.html')
 
     # 4. Overlap matrix

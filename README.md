@@ -44,7 +44,7 @@ CarrierCapture.py started life as an automated rewrite of [CarrierCapture.jl](ht
 
 ### 🔬 Scientific Validation
 - Validated against CarrierCapture.jl
-- Comprehensive test suite (88 tests)
+- Comprehensive test suite (169 tests)
 - Tutorial notebooks with real examples
 
 ---
@@ -65,14 +65,14 @@ pip install -e ".[dev]"
 
 ### Optional Dependencies
 ```bash
-# Interactive dashboard
-pip install carriercapture[viz]
-
 # doped integration (for defect calculations)
 pip install carriercapture[doped]
 
-# All extras (recommended for development)
-pip install -e ".[all]"
+# Jupyter notebook support
+pip install carriercapture[notebook]
+
+# Development tools (tests, linting)
+pip install -e ".[dev]"
 ```
 
 ---
@@ -118,7 +118,7 @@ carriercapture solve excited.json -n 180 -O excited_solved.json
 carriercapture capture config.yaml -V 1e-21 --temp-range 100 500 50
 
 # High-throughput parameter scan
-carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 \
+carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 -W 0.05 \
                     --dE-min 0 --dE-max 2.5 --dE-points 10 \
                     -j -1 -o scan_results.npz
 
@@ -159,7 +159,9 @@ pot_final.solve(nev=60)
 ### Tutorial Notebooks
 
 - **[01_harmonic_sn_zn.ipynb](examples/notebooks/01_harmonic_sn_zn.ipynb)** - Basic workflow with harmonic oscillators
+- **[02_anharmonic_dx_center.ipynb](examples/notebooks/02_anharmonic_dx_center.ipynb)** - Anharmonic potentials (DX center)
 - **[03_parameter_scan.ipynb](examples/notebooks/03_parameter_scan.ipynb)** - High-throughput screening
+- **[04_interactive_viz.ipynb](examples/notebooks/04_interactive_viz.ipynb)** - Interactive visualization
 
 Full examples in [`examples/`](examples/) directory with detailed [README](examples/README.md).
 
@@ -195,7 +197,7 @@ $$C(T) = \frac{V \cdot 2\pi}{\hbar} \cdot g \cdot W^2 \cdot \sum_{i,j} p_i |\lan
 Where:
 - `V`: supercell volume
 - `g`: degeneracy factor  
-- `W`: electron-phonon coupling matrix element
+- `W`: electron-phonon coupling matrix element (eV/(amu^0.5·Å))
 - `pᵢ`: thermal occupation of initial state `i`
 - `χᵢ, χⱼ`: vibrational wavefunctions
 - `δ`: energy-conserving delta function (Gaussian broadened)
@@ -222,9 +224,9 @@ pytest tests/ --cov=src/carriercapture --cov-report=html
 ```
 
 **Test Statistics:**
-- 88 tests passing (53 Phase 3 tests skipped)
+- 169 tests (doped-integration tests skip without the optional doped package)
 - Core modules: >90% coverage
-- All tests pass on Python 3.11-3.12
+- Supported Python versions: 3.9-3.12
 - CI/CD with GitHub Actions
 
 ---
@@ -255,16 +257,26 @@ CarrierCapture.py has been validated against the original [CarrierCapture.jl](ht
 - Phonon energy: ℏω = 8 meV
 - Configuration coordinate shift: ΔQ = 10.5 amu^0.5·Å
 - Energy offset: ΔE = 0.5 eV
-- Electron-phonon coupling: W = 0.068 eV
+- Electron-phonon coupling: W = 0.068 eV/(amu^0.5·Å)
 
-**Results**:
-| Observable | Python Value | Julia Value | Relative Diff | Status |
-|------------|--------------|-------------|---------------|--------|
-| Initial eigenvalues (E₀) | 0.504000 eV | 0.504001 eV | 0.005% | ✓ PASS |
-| Final eigenvalues (E₀) | 0.004000 eV | 0.004001 eV | 0.02% | ✓ PASS |
-| Capture coefficient (300K) | 1.339×10⁻¹⁰ cm³/s | 1.359×10⁻¹⁰ cm³/s | 1.5% | ✓ PASS |
+**Results** (three-tier comparison):
 
-**Conclusion**: Python implementation matches Julia results within ~1-2% across all observables. Small differences (~0.01-1.5%) are due to floating-point arithmetic differences between language implementations and are well within acceptable tolerances for physical calculations.
+| Tier | Comparison | Max Relative Diff | Status |
+|------|------------|-------------------|--------|
+| 1 | Julia-convention emulation vs Julia reference (eigenvalues) | 3×10⁻¹² | ✓ PASS |
+| 1 | Julia-convention emulation vs Julia reference (C at 300 K) | 5×10⁻¹² | ✓ PASS |
+| 2 | Native eigenvalues vs analytic ℏω(n+½) | 1.5×10⁻⁴ | ✓ PASS |
+| 3 | Native C(300 K) = 1.339×10⁻¹⁰ vs Julia 1.359×10⁻¹⁰ cm³/s | 1.5×10⁻² | ✓ (informational) |
+
+**Conclusion**: When Python is run with CarrierCapture.jl's numerical
+conventions, the two codes agree to near machine precision (Tier 1) — they
+implement identical physics. The ~1.5% native difference (Tier 3) is entirely
+due to two CarrierCapture.jl conventions: its finite-difference kinetic term
+uses grid spacing ΔQ/N while its grid actually has spacing ΔQ/(N−1), and it
+integrates overlaps with the rectangle rule. Python uses the true grid spacing
+and the trapezoid rule, and its native eigenvalues are closer to the analytic
+harmonic result (Tier 2). Both codes converge to the same answer with
+increasing grid density.
 
 ### Running the Benchmark
 
@@ -340,7 +352,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | Parameter Scanning | ✅ Complete |
 | doped Integration | ✅ Complete |
 | Documentation | ✅ Complete |
-| Test Coverage | ✅ 88 tests |
+| Test Coverage | ✅ 169 tests |
 | PyPI Release | 🔄 Planned |
 
 ---

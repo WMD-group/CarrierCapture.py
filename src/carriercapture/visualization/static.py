@@ -14,6 +14,15 @@ from numpy.typing import NDArray
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+# Shared layout defaults for all static plots
+_LAYOUT_DEFAULTS = dict(
+    template="plotly_white",
+    font=dict(size=14),
+    hovermode="closest",
+    width=900,
+    height=600,
+)
+
 
 def plot_potential(
     potential,
@@ -181,11 +190,7 @@ def plot_potential(
         title=title,
         xaxis_title="Q (amu<sup>0.5</sup>·Å)",
         yaxis_title="Energy (eV)",
-        template="plotly_white",
-        font=dict(size=14),
-        hovermode="closest",
-        width=900,
-        height=600,
+        **_LAYOUT_DEFAULTS,
     )
 
     return fig
@@ -257,11 +262,7 @@ def plot_capture_coefficient(
         title=title,
         xaxis_title="1000/T (K<sup>-1</sup>)",
         yaxis_title="log₁₀(C) [cm³/s]",
-        template="plotly_white",
-        font=dict(size=14),
-        hovermode="closest",
-        width=900,
-        height=600,
+        **_LAYOUT_DEFAULTS,
     )
 
     # Add temperature labels on top axis if requested
@@ -383,10 +384,7 @@ def plot_eigenvalue_spectrum(
         title=title,
         xaxis_title="Quantum Number n",
         yaxis_title="Energy (eV)",
-        template="plotly_white",
-        font=dict(size=14),
-        width=900,
-        height=600,
+        **_LAYOUT_DEFAULTS,
         xaxis=dict(dtick=5),
     )
 
@@ -469,10 +467,7 @@ def plot_configuration_coordinate(
         title=title,
         xaxis_title="Q (amu<sup>0.5</sup>·Å)",
         yaxis_title="Energy (eV)",
-        template="plotly_white",
-        font=dict(size=14),
-        width=900,
-        height=600,
+        **_LAYOUT_DEFAULTS,
     )
 
     return fig
@@ -538,10 +533,72 @@ def plot_overlap_matrix(
         title=title,
         xaxis_title="Final State j",
         yaxis_title="Initial State i",
-        template="plotly_white",
-        font=dict(size=14),
-        width=800,
-        height=700,
+        **{**_LAYOUT_DEFAULTS, "width": 800, "height": 700},
+    )
+
+    return fig
+
+
+def plot_scan_heatmap(
+    results,
+    plot_type: str = "heatmap",
+    log_scale: bool = True,
+    title: str = "Parameter Scan: Capture Coefficient",
+    colorscale: str = "Viridis",
+    **layout_kwargs,
+) -> go.Figure:
+    """
+    Plot a parameter-scan capture coefficient map.
+
+    Parameters
+    ----------
+    results : ScanResult
+        Scan results from ParameterScanner
+    plot_type : str, default="heatmap"
+        "heatmap", "contour", or "both"
+    log_scale : bool, default=True
+        Plot log10(C) instead of C
+    title : str
+        Plot title
+    colorscale : str, default="Viridis"
+        Plotly colorscale name
+    **layout_kwargs
+        Layout overrides (e.g. width, height)
+
+    Returns
+    -------
+    fig : go.Figure
+        Plotly figure
+    """
+    if plot_type not in ("heatmap", "contour", "both"):
+        raise ValueError(f"Unknown plot_type: {plot_type}. Use 'heatmap', 'contour', or 'both'")
+
+    Z = np.asarray(results.capture_coefficients, dtype=float)
+    if log_scale:
+        Z = np.log10(Z + 1e-30)
+        colorbar_title = "log₁₀(C) [cm³/s]"
+    else:
+        colorbar_title = "C [cm³/s]"
+
+    trace_kwargs = dict(
+        x=results.dE_grid,
+        y=results.dQ_grid,
+        z=Z,
+        colorscale=colorscale,
+        colorbar=dict(title=colorbar_title),
+    )
+
+    fig = go.Figure()
+    if plot_type in ("heatmap", "both"):
+        fig.add_trace(go.Heatmap(**trace_kwargs))
+    if plot_type in ("contour", "both"):
+        fig.add_trace(go.Contour(contours=dict(showlabels=True), **trace_kwargs))
+
+    fig.update_layout(
+        title=title,
+        xaxis_title="ΔE (eV)",
+        yaxis_title="ΔQ (amu<sup>0.5</sup>·Å)",
+        **{**_LAYOUT_DEFAULTS, "width": 800, "height": 700, **layout_kwargs},
     )
 
     return fig
@@ -553,4 +610,5 @@ __all__ = [
     "plot_eigenvalue_spectrum",
     "plot_configuration_coordinate",
     "plot_overlap_matrix",
+    "plot_scan_heatmap",
 ]
