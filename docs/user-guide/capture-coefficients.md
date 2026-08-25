@@ -484,6 +484,45 @@ for g, C in results.items():
 
 ---
 
+## Sommerfeld Factor for Charged Defects
+
+The capture coefficient above assumes a neutral defect. For a **charged**
+defect, the Coulomb interaction between the free carrier and the defect
+enhances (attractive) or suppresses (repulsive) the carrier density at the
+defect site. Correct the coefficient with the Sommerfeld factor $s(T)$:
+
+$$C_{\text{charged}}(T) = s(T) \cdot C(T)$$
+
+```python
+from carriercapture import sommerfeld_parameter
+
+s = sommerfeld_parameter(
+    temperature=cc.temperature,
+    Z=-1,        # defect charge / carrier charge: Z < 0 attractive, Z > 0 repulsive
+    m_eff=0.2,   # carrier effective mass (units of m_e)
+    eps0=10.0,   # relative static dielectric constant
+)
+
+C_charged = s * cc.capture_coefficient
+```
+
+Two methods are available:
+
+- `method="Integrate"` (default): Maxwell-Boltzmann thermal average of the
+  exact Coulomb enhancement factor
+- `method="Analytic"`: low-temperature limits of Pässler,
+  phys. stat. sol. (b) 78, 625 (1976) — attractive
+  $s = 4\sqrt{\theta/\pi}$, repulsive
+  $s = (8/\sqrt{3})\,\theta^{2/3} e^{-3\theta^{1/3}}$,
+  with $\theta = \pi^2 Z^2 E_R / k_B T$ and scaled Rydberg
+  $E_R = m^* \mathrm{Ry} / \varepsilon_0^2$
+
+**Caveats**: assumes a parabolic, non-degenerate band and static screening.
+See Alkauskas et al., Phys. Rev. B 90, 075202 (2014), Sec. II.F for
+discussion.
+
+---
+
 ## Best Practices
 
 ### 1. Convergence Checks

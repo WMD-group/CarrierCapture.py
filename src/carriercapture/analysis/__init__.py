@@ -5,9 +5,11 @@ from .parameter_scan import (
     ScanResult,
     ParameterScanner,
 )
+from .sommerfeld import sommerfeld_parameter
 
 __all__ = [
     "ScanParameters",
     "ScanResult",
     "ParameterScanner",
+    "sommerfeld_parameter",
 ]

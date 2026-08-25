@@ -7,10 +7,12 @@ using multiphonon theory.
 
 from .__version__ import __version__
 from .core import Potential, ConfigCoordinate, TransferCoordinate
+from .analysis.sommerfeld import sommerfeld_parameter
 
 __all__ = [
     "__version__",
     "Potential",
     "ConfigCoordinate",
     "TransferCoordinate",
+    "sommerfeld_parameter",
 ]
