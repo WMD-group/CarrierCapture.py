@@ -610,9 +610,8 @@ print(f"RMSE (log scale): {rmse:.3f}")
 
 **Debug:**
 ```python
-print(f"Volume: {cc.volume:.3e} cm³ (typical: 1e-21)")
-print(f"W: {cc.W:.3f} eV (typical: 0.1-0.5)")
-print(f"Q0: {cc.Q0:.2f} amu^0.5·Å")
+# volume and Q0 are passed to the calculation methods, not stored on cc
+print(f"W: {cc.W:.4f} eV/(amu^0.5·Å)")
 print(f"States: {len(pot_i.eigenvalues)} initial, {len(pot_f.eigenvalues)} final")
 ```
 

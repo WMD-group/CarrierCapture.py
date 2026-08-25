@@ -153,9 +153,9 @@ hbar_omega_f = 0.008  # eV
 hbar_omega_i = 0.010  # Initial state
 hbar_omega_f = 0.008  # Final state
 
-# From DFT phonon calculations:
-from carriercapture.analysis import estimate_phonon_energy
-# hbar_omega = estimate_phonon_energy(phonopy_yaml_file)
+# From a Q-E dataset (e.g. VASP path calculations):
+from carriercapture.io.doped_interface import estimate_phonon_frequency
+# hbar_omega = estimate_phonon_frequency(Q_data, E_data)['hw']
 ```
 
 ### Grid Resolution

@@ -40,11 +40,11 @@ Integration with the [doped](https://github.com/SMTG-Bham/doped) package for def
 ### Loading Data
 
 ```python
-from carriercapture.io import load_potential, read_csv_data
+from carriercapture.io import load_potential_from_file, read_csv
 from carriercapture.core import Potential
 
 # Load from CSV file
-Q_data, E_data = read_csv_data('potential_data.csv')
+Q_data, E_data = read_csv('potential_data.csv')
 
 # Create potential from data
 pot = Potential(Q_data=Q_data, E_data=E_data)
@@ -54,7 +54,7 @@ pot.fit(fit_type='spline', order=4, smoothness=0.001)
 ### Saving Results
 
 ```python
-from carriercapture.io import save_results
+from carriercapture.io import write_capture_results
 from carriercapture.core import ConfigCoordinate
 
 # After calculating capture coefficient
@@ -62,10 +62,10 @@ cc = ConfigCoordinate(...)
 cc.calculate_capture_coefficient(...)
 
 # Save to JSON
-save_results(cc, 'results.json', format='json')
+write_capture_results(cc, 'results.json', file_format='json')
 
-# Save to HDF5
-save_results(cc, 'results.h5', format='hdf5')
+# Save to CSV
+write_capture_results(cc, 'results.csv', file_format='csv')
 ```
 
 ### doped Integration

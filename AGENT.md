@@ -88,7 +88,7 @@ CarrierCapture.py/
 │   └── cli/                     # Command-line interface
 │       ├── main.py              # Click CLI entry point
 │       └── commands/            # Subcommands (fit, solve, capture, scan, viz)
-├── tests/                       # 88 tests (pytest)
+├── tests/                       # 169 tests (pytest)
 ├── examples/
 │   ├── notebooks/               # Jupyter tutorials
 │   └── data/                    # Example DFT data
@@ -143,7 +143,7 @@ Manages two-state capture calculation.
 pot_i: Potential           # Initial state (excited)
 pot_f: Potential           # Final state (ground)
 W: float                   # Electron-phonon coupling (eV/(amu^0.5·Å))
-g: int                     # Degeneracy factor
+degeneracy: int            # Degeneracy factor
 overlap_matrix: ndarray    # ⟨χᵢ|Q|χⱼ⟩
 capture_coefficient: ndarray  # C(T) in cm³/s
 ```
@@ -169,20 +169,21 @@ cc.capture_coefficient  # Array of C(T) values
 
 High-throughput parameter scanning.
 
-**Key Functions**:
+**Key Classes**:
 ```python
-from carriercapture.analysis.parameter_scan import scan_parameters
+from carriercapture.analysis.parameter_scan import ParameterScanner, ScanParameters
 
-results = scan_parameters(
+params = ScanParameters(
     dQ_range=(0, 25, 25),      # (min, max, n_points)
     dE_range=(0, 2.5, 10),
-    hw_i=0.008,
-    hw_f=0.008,
-    W=0.068,
+    hbar_omega_i=0.008,
+    hbar_omega_f=0.008,
+    W=0.068,                   # eV/(amu^0.5·Å), required
     volume=1e-21,
     temperature=300.0,
-    n_jobs=-1                   # Parallel execution
 )
+scanner = ParameterScanner(params)
+results = scanner.run_harmonic_scan(n_jobs=-1)  # Parallel execution
 
 # Access results
 results.capture_coefficients  # 2D array [dQ, dE]
@@ -333,13 +334,16 @@ def solve(
 **Structure**:
 ```
 tests/
-├── test_potential.py         # Potential class tests
-├── test_schrodinger.py       # Solver validation (analytical solutions)
-├── test_config_coord.py      # Capture coefficient workflows
-├── test_parameter_scan.py    # High-throughput scanning
-├── test_visualization.py     # Plotting functions
-├── test_io.py                # File I/O
-└── test_cli.py               # Command-line interface
+├── test_potential.py            # Potential class tests
+├── test_schrodinger.py          # Solver validation (analytical solutions)
+├── test_config_coord.py         # Capture coefficient workflows
+├── test_transfer_coord.py       # Marcus theory (TransferCoordinate)
+├── test_sommerfeld.py           # Sommerfeld factor
+├── test_parameter_scan.py       # High-throughput scanning
+├── test_advanced_fitting.py     # Potential fitting methods
+├── test_visualization.py        # Plotting functions
+├── test_interactive_dashboard.py# Dash dashboard
+└── test_doped_integration.py    # doped interface
 ```
 
 **Run tests**:
@@ -351,7 +355,7 @@ pytest tests/ -x --pdb                           # Stop on first failure, debug
 ```
 
 **Current Status** (2026-01-18):
-- 88 tests passing
+- 169 tests (doped-integration tests skip without the optional doped package)
 - Core modules: >90% coverage
 - Python 3.9-3.12 supported
 
@@ -508,12 +512,16 @@ E_n = ℏω * (n + 1/2)
 
 **File**: `benchmarks/benchmark_sn_zn.py`
 
-**Results** (vs CarrierCapture.jl):
-- Initial eigenvalues: 0.005% difference ✓
-- Final eigenvalues: 0.02% difference ✓
-- Capture coefficient (300K): 1.5% difference ✓
+**Results** (three-tier comparison vs CarrierCapture.jl):
+- Tier 1: with Julia's grid/integration conventions emulated, eigenvalues and
+  C(300K) match the Julia reference to ~1e-12 (algorithmic equivalence) ✓
+- Tier 2: native eigenvalues match analytic ℏω(n+½) to ≤1.5e-4 ✓
+- Tier 3: native C(300K) differs from Julia by ~1.5%, entirely due to
+  CarrierCapture.jl's finite-difference spacing (ΔQ/N vs ΔQ/(N−1)) and
+  rectangle-rule overlaps; Python's native numerics are the more accurate ✓
 
-**Conclusion**: Python matches Julia within ~1-2% (floating-point precision)
+**Conclusion**: identical physics; the small native offset is a Julia grid
+convention, not floating-point noise.
 
 ---
 
@@ -696,7 +704,7 @@ pot.eigenvectors       # Array of χₙ(Q), shape: (nev, len(Q))
 ### Capture Calculation
 
 ```python
-cc = ConfigCoordinate(pot_i, pot_f, W=0.068, g=1)
+cc = ConfigCoordinate(pot_i, pot_f, W=0.068, degeneracy=1)
 cc.calculate_overlap(Q0=5.0, sigma=0.025, cutoff=0.25)
 cc.calculate_capture_coefficient(
     volume=1e-21,

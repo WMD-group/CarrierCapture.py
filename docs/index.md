@@ -41,7 +41,7 @@
 ### Installation
 
 ```bash
-pip install carriercapture
+pip install carriercapture  # PyPI release coming soon; install from source for now
 ```
 
 For development or from source:
@@ -169,7 +169,7 @@ Where:
 | Parameter Scanning | ✅ Complete |
 | doped Integration | ✅ Complete |
 | Documentation | ✅ Complete |
-| Test Coverage | ✅ 88 tests |
+| Test Coverage | ✅ 169 tests |
 | PyPI Release | 🔄 Planned |
 
 ---

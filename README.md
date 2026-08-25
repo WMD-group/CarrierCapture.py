@@ -44,7 +44,7 @@ CarrierCapture.py started life as an automated rewrite of [CarrierCapture.jl](ht
 
 ### 🔬 Scientific Validation
 - Validated against CarrierCapture.jl
-- Comprehensive test suite (88 tests)
+- Comprehensive test suite (169 tests)
 - Tutorial notebooks with real examples
 
 ---
@@ -65,14 +65,14 @@ pip install -e ".[dev]"
 
 ### Optional Dependencies
 ```bash
-# Interactive dashboard
-pip install carriercapture[viz]
-
 # doped integration (for defect calculations)
 pip install carriercapture[doped]
 
-# All extras (recommended for development)
-pip install -e ".[all]"
+# Jupyter notebook support
+pip install carriercapture[notebook]
+
+# Development tools (tests, linting)
+pip install -e ".[dev]"
 ```
 
 ---
@@ -159,7 +159,9 @@ pot_final.solve(nev=60)
 ### Tutorial Notebooks
 
 - **[01_harmonic_sn_zn.ipynb](examples/notebooks/01_harmonic_sn_zn.ipynb)** - Basic workflow with harmonic oscillators
+- **[02_anharmonic_dx_center.ipynb](examples/notebooks/02_anharmonic_dx_center.ipynb)** - Anharmonic potentials (DX center)
 - **[03_parameter_scan.ipynb](examples/notebooks/03_parameter_scan.ipynb)** - High-throughput screening
+- **[04_interactive_viz.ipynb](examples/notebooks/04_interactive_viz.ipynb)** - Interactive visualization
 
 Full examples in [`examples/`](examples/) directory with detailed [README](examples/README.md).
 
@@ -222,9 +224,9 @@ pytest tests/ --cov=src/carriercapture --cov-report=html
 ```
 
 **Test Statistics:**
-- 88 tests passing (53 Phase 3 tests skipped)
+- 169 tests (doped-integration tests skip without the optional doped package)
 - Core modules: >90% coverage
-- All tests pass on Python 3.11-3.12
+- Supported Python versions: 3.9-3.12
 - CI/CD with GitHub Actions
 
 ---
@@ -350,7 +352,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | Parameter Scanning | ✅ Complete |
 | doped Integration | ✅ Complete |
 | Documentation | ✅ Complete |
-| Test Coverage | ✅ 88 tests |
+| Test Coverage | ✅ 169 tests |
 | PyPI Release | 🔄 Planned |
 
 ---
