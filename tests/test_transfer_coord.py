@@ -2,16 +2,10 @@
 Tests for TransferCoordinate class.
 
 Validates Marcus theory calculations for charge transfer rates and mobility.
-
-NOTE: TransferCoordinate is a Phase 3 feature that is not fully implemented yet.
-These tests are skipped to allow CI to pass while development continues.
 """
 
 import pytest
 import numpy as np
-
-# Skip entire module - Phase 3 transfer coordinate features not complete
-pytestmark = pytest.mark.skip(reason="Phase 3 transfer coordinate features not fully implemented")
 
 from carriercapture.core import Potential, TransferCoordinate
 
@@ -49,11 +43,11 @@ class TestCouplingCalculation:
 
         tc = TransferCoordinate(pot_1, pot_2)
 
-        # Calculate coupling (auto-detect crossing)
-        coupling = tc.get_coupling()
+        # Set coupling (auto-detect crossing)
+        coupling = tc.get_coupling(H_ab=0.01)
 
-        assert coupling is not None
-        assert coupling > 0
+        assert coupling == 0.01
+        assert tc.coupling == 0.01
         assert tc.Q_cross is not None
         assert tc.E_cross is not None
 
@@ -69,9 +63,9 @@ class TestCouplingCalculation:
 
         # Specify crossing point manually
         Q_cross_manual = 5.0
-        coupling = tc.get_coupling(Q_cross=Q_cross_manual)
+        coupling = tc.get_coupling(H_ab=0.01, Q_cross=Q_cross_manual)
 
-        assert coupling > 0
+        assert coupling == 0.01
         assert tc.Q_cross == Q_cross_manual
 
         # Energy should be evaluated at specified point
@@ -87,7 +81,36 @@ class TestCouplingCalculation:
         tc = TransferCoordinate(pot_1, pot_2)
 
         with pytest.raises(ValueError, match="must be fitted"):
+            tc.get_coupling(H_ab=0.01)
+
+    def test_coupling_without_hab_raises(self):
+        """Test that get_coupling requires a user-supplied H_ab."""
+        pot_1 = Potential.from_harmonic(hw=0.03, Q0=0.0, E0=1.0)
+        pot_2 = Potential.from_harmonic(hw=0.03, Q0=8.0, E0=0.0)
+
+        tc = TransferCoordinate(pot_1, pot_2)
+
+        with pytest.raises(ValueError, match="H_ab"):
             tc.get_coupling()
+
+    def test_coupling_from_constructor(self):
+        """Test that constructor-supplied coupling is used."""
+        pot_1 = Potential.from_harmonic(hw=0.03, Q0=0.0, E0=1.0)
+        pot_2 = Potential.from_harmonic(hw=0.03, Q0=8.0, E0=0.0)
+
+        tc = TransferCoordinate(pot_1, pot_2, coupling=0.02)
+
+        assert tc.get_coupling() == 0.02
+
+    def test_coupling_nonpositive_raises(self):
+        """Test that non-positive H_ab is rejected."""
+        pot_1 = Potential.from_harmonic(hw=0.03, Q0=0.0, E0=1.0)
+        pot_2 = Potential.from_harmonic(hw=0.03, Q0=8.0, E0=0.0)
+
+        tc = TransferCoordinate(pot_1, pot_2)
+
+        with pytest.raises(ValueError, match="positive"):
+            tc.get_coupling(H_ab=-0.01)
 
 
 class TestReorganizationEnergy:
@@ -106,13 +129,12 @@ class TestReorganizationEnergy:
 
         lambda_reorg = tc.get_reorganization_energy()
 
-        # For harmonic potentials: λ = 0.5 * k * dQ^2 = 0.5 * m * ω^2 * dQ^2
-        # But our harmonic uses: E = a * (Q - Q0)^2 where a = (amu/2) * (hw/(hbar_c*1e10))^2
-        # So λ = a * dQ^2
+        # For our harmonic form E = a*(Q - Q0)^2 with a = (AMU/2)*(hw/(HBAR_C*1e10))^2,
+        # the reorganization energy is exactly λ = a * dQ^2
+        from carriercapture._constants import AMU, HBAR_C
 
-        # Let's just check it's positive and reasonable
-        assert lambda_reorg > 0
-        assert lambda_reorg < 1.0  # Should be less than 1 eV for typical parameters
+        a = 0.5 * AMU * (hw / (HBAR_C * 1e10)) ** 2
+        assert lambda_reorg == pytest.approx(a * dQ**2, rel=1e-6)
 
     def test_reorganization_energy_asymmetric(self):
         """Test reorganization energy for asymmetric case."""
@@ -229,7 +251,7 @@ class TestTransferRate:
         tc = TransferCoordinate(pot_1, pot_2)
 
         # Calculate prerequisites
-        tc.get_coupling()
+        tc.get_coupling(H_ab=0.01)
         tc.get_reorganization_energy()
 
         # Calculate transfer rate
@@ -248,7 +270,7 @@ class TestTransferRate:
         pot_2 = Potential.from_harmonic(hw=0.02, Q0=10.0, E0=0.0)
 
         tc = TransferCoordinate(pot_1, pot_2)
-        tc.get_coupling()
+        tc.get_coupling(H_ab=0.01)
         tc.get_reorganization_energy()
 
         temperature = np.array([100.0, 200.0, 300.0, 400.0, 500.0])
@@ -269,7 +291,7 @@ class TestTransferRate:
         pot_2 = Potential.from_harmonic(hw=0.02, Q0=8.0, E0=0.0)
 
         tc = TransferCoordinate(pot_1, pot_2)
-        tc.get_coupling()
+        tc.get_coupling(H_ab=0.01)
         tc.get_reorganization_energy()
 
         temperature = np.array([300.0])
@@ -297,7 +319,7 @@ class TestTransferRate:
             tc.get_transfer_rate(temperature=temperature)
 
         # With coupling but without reorganization energy
-        tc.get_coupling()
+        tc.get_coupling(H_ab=0.01)
         with pytest.raises(ValueError, match="reorganization energy"):
             tc.get_transfer_rate(temperature=temperature)
 
@@ -311,7 +333,7 @@ class TestMobility:
         pot_2 = Potential.from_harmonic(hw=0.02, Q0=8.0, E0=0.0)
 
         tc = TransferCoordinate(pot_1, pot_2)
-        tc.get_coupling()
+        tc.get_coupling(H_ab=0.01)
         tc.get_reorganization_energy()
 
         temperature = np.linspace(100, 500, 20)
@@ -331,7 +353,7 @@ class TestMobility:
         pot_2 = Potential.from_harmonic(hw=0.02, Q0=10.0, E0=0.0)
 
         tc = TransferCoordinate(pot_1, pot_2)
-        tc.get_coupling()
+        tc.get_coupling(H_ab=0.01)
         tc.get_reorganization_energy()
 
         temperature = np.array([100.0, 200.0, 300.0, 400.0, 500.0])
@@ -349,7 +371,7 @@ class TestMobility:
         pot_2 = Potential.from_harmonic(hw=0.02, Q0=8.0, E0=0.0)
 
         tc = TransferCoordinate(pot_1, pot_2)
-        tc.get_coupling()
+        tc.get_coupling(H_ab=0.01)
         tc.get_reorganization_energy()
 
         temperature = np.array([300.0])
@@ -384,7 +406,7 @@ class TestSerialization:
         tc = TransferCoordinate(pot_1, pot_2, name="test_transfer")
 
         # Calculate some properties
-        tc.get_coupling()
+        tc.get_coupling(H_ab=0.01)
         tc.get_reorganization_energy()
         tc.get_activation_energy(delta_G=0.0)
         tc.get_transfer_rate(temperature=np.linspace(100, 500, 20))
@@ -427,7 +449,7 @@ class TestFullWorkflow:
         tc = TransferCoordinate(pot_1, pot_2, name="hole_transfer")
 
         # Calculate properties in order
-        coupling = tc.get_coupling()
+        coupling = tc.get_coupling(H_ab=0.01)
         lambda_reorg = tc.get_reorganization_energy()
         barrier = tc.get_activation_energy(delta_G=dE)
 
@@ -450,8 +472,11 @@ class TestFullWorkflow:
         assert np.all(np.isfinite(mobility))
 
         # Physical reasonableness
+        from carriercapture._constants import AMU, HBAR_C
+
+        a = 0.5 * AMU * (hw / (HBAR_C * 1e10)) ** 2
         assert coupling < 0.5  # Typical coupling is << 1 eV
-        assert lambda_reorg < 2.0  # Typical reorganization < few eV
+        assert lambda_reorg == pytest.approx(a * dQ**2, rel=1e-6)  # λ = a·dQ² exactly
         assert barrier < lambda_reorg  # Barrier should be < λ
         assert np.max(rate) < 1e15  # Transfer rate < phonon frequency
 
@@ -462,21 +487,21 @@ class TestFullWorkflow:
         pot_2_sym = Potential.from_harmonic(hw=0.02, Q0=8.0, E0=0.0)
 
         tc_sym = TransferCoordinate(pot_1_sym, pot_2_sym)
-        tc_sym.get_coupling()
+        tc_sym.get_coupling(H_ab=0.01)
         tc_sym.get_reorganization_energy()
 
         temperature = np.array([300.0])
         rate_sym = tc_sym.get_transfer_rate(temperature=temperature, delta_G=0.0)
 
-        # Asymmetric case (downhill)
+        # Asymmetric case (downhill: initial state 0.3 eV above final, ΔG = -0.3)
         pot_1_asym = Potential.from_harmonic(hw=0.02, Q0=0.0, E0=0.3)
         pot_2_asym = Potential.from_harmonic(hw=0.02, Q0=8.0, E0=0.0)
 
         tc_asym = TransferCoordinate(pot_1_asym, pot_2_asym)
-        tc_asym.get_coupling()
+        tc_asym.get_coupling(H_ab=0.01)
         tc_asym.get_reorganization_energy()
 
-        rate_asym = tc_asym.get_transfer_rate(temperature=temperature, delta_G=0.3)
+        rate_asym = tc_asym.get_transfer_rate(temperature=temperature, delta_G=-0.3)
 
         # Downhill should be faster
         assert rate_asym[0] > rate_sym[0]
