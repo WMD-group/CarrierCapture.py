@@ -292,7 +292,7 @@ print(f"ΔE grid: {dE_grid.shape}")      # (10,)
 print(f"C matrix: {C_matrix.shape}")    # (25, 10)
 
 # Access parameters
-print(f"Temperature: {results.temperature} K")
+print(f"Temperature: {results.parameters.temperature} K")
 print(f"Phonon ℏω_i: {results.hbar_omega_i} eV")
 print(f"Volume: {results.volume:.2e} cm³")
 ```
@@ -402,7 +402,7 @@ fig.show()
 # Customized
 fig = plot_scan_heatmap(
     results,
-    title=f"Capture Coefficient at {results.temperature}K",
+    title=f"Capture Coefficient at {params.temperature}K",
     log_scale=True,
     colorscale='Viridis',
     width=900,
@@ -502,7 +502,7 @@ results = ScanResult.load('scan_results.h5', format='hdf5')
 
 # Access data immediately
 print(f"Loaded scan: {results.capture_coefficients.shape}")
-print(f"Temperature: {results.temperature} K")
+print(f"Temperature: {results.parameters.temperature} K")
 ```
 
 ### Combining Multiple Scans

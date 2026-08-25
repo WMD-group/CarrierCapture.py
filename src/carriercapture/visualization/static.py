@@ -544,6 +544,8 @@ def plot_scan_heatmap(
     plot_type: str = "heatmap",
     log_scale: bool = True,
     title: str = "Parameter Scan: Capture Coefficient",
+    colorscale: str = "Viridis",
+    **layout_kwargs,
 ) -> go.Figure:
     """
     Plot a parameter-scan capture coefficient map.
@@ -558,6 +560,10 @@ def plot_scan_heatmap(
         Plot log10(C) instead of C
     title : str
         Plot title
+    colorscale : str, default="Viridis"
+        Plotly colorscale name
+    **layout_kwargs
+        Layout overrides (e.g. width, height)
 
     Returns
     -------
@@ -578,7 +584,7 @@ def plot_scan_heatmap(
         x=results.dE_grid,
         y=results.dQ_grid,
         z=Z,
-        colorscale="Viridis",
+        colorscale=colorscale,
         colorbar=dict(title=colorbar_title),
     )
 
@@ -592,7 +598,7 @@ def plot_scan_heatmap(
         title=title,
         xaxis_title="ΔE (eV)",
         yaxis_title="ΔQ (amu<sup>0.5</sup>·Å)",
-        **{**_LAYOUT_DEFAULTS, "width": 800, "height": 700},
+        **{**_LAYOUT_DEFAULTS, "width": 800, "height": 700, **layout_kwargs},
     )
 
     return fig
