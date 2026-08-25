@@ -5,6 +5,7 @@ This module implements the ConfigCoordinate class for computing carrier capture
 coefficients using multiphonon theory.
 """
 
+import warnings
 from typing import Optional
 import numpy as np
 from numpy.typing import NDArray
@@ -32,7 +33,8 @@ class ConfigCoordinate:
     pot_f : Potential
         Final state potential
     W : float
-        Electron-phonon coupling matrix element (eV)
+        Electron-phonon coupling matrix element (eV). Must be calculated
+        for the specific defect transition; there is no meaningful default.
     degeneracy : int
         Degeneracy factor
     overlap_matrix : NDArray[np.float64] | None
@@ -80,7 +82,10 @@ class ConfigCoordinate:
         name : str, default=""
             Identifier for this configuration coordinate
         W : float, default=0.0
-            Electron-phonon coupling matrix element (eV)
+            Electron-phonon coupling matrix element (eV). Since the capture
+            coefficient scales as W², the default of 0.0 yields identically
+            zero capture coefficients — a value calculated for the specific
+            defect transition must be supplied for physical results.
         degeneracy : int, default=1
             Degeneracy factor (number of degenerate states)
         """
@@ -267,6 +272,16 @@ class ConfigCoordinate:
         # Validate inputs
         if self.overlap_matrix is None or self.delta_matrix is None:
             raise ValueError("Must calculate overlaps before calculating capture coefficient")
+
+        if self.W == 0.0:
+            warnings.warn(
+                "Electron-phonon coupling W is 0, so the capture coefficient "
+                "will be identically zero (C ∝ W²). W must be calculated for "
+                "the specific defect transition — see the 'Capture Coefficients' "
+                "user guide for how to obtain it.",
+                UserWarning,
+                stacklevel=2,
+            )
 
         nev_i = len(self.pot_i.eigenvalues)
         nev_f = len(self.pot_f.eigenvalues)

@@ -142,10 +142,21 @@ cc = ConfigCoordinate(
 | `degeneracy` | int | Degeneracy factor $g$ |
 
 **Determining W:**
-- From theory: $W = \langle \Psi_e | \partial V/\partial Q | \Psi_h \rangle$
-- Typical values: 0.1 - 0.5 eV
-- Can be fitted to experimental data
-- Default if unknown: 0.2 eV
+
+$W$ must be calculated for the specific defect transition — there is no meaningful
+default value, and the code default of `W=0.0` gives identically zero capture
+coefficients (since $C \propto W^2$).
+
+- From theory: $W = \langle \Psi_e | \partial V/\partial Q | \Psi_h \rangle$,
+  evaluated from the change in the defect single-particle eigenvalue along the
+  configuration coordinate (Alkauskas et al., Phys. Rev. B 90, 075202 (2014))
+- Worked examples for computing $W$ are given in the
+  [CarrierCapture.jl documentation](https://github.com/WMD-group/CarrierCapture.jl)
+  and the [nonrad documentation](https://nonrad.readthedocs.io/)
+- Typical magnitudes span roughly $10^{-4}$ to $0.05$ eV, varying strongly
+  between defects and transitions — see e.g. the SI of
+  [Kavanagh et al., Joule (2024)](https://doi.org/10.1016/j.joule.2024.05.004)
+  for representative literature values
 
 ### Step 3: Calculate Overlaps
 
