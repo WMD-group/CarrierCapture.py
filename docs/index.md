@@ -91,7 +91,7 @@ carriercapture solve excited.json -n 180 -O excited_solved.json
 carriercapture capture config.yaml -V 1e-21 --temp-range 100 500 50
 
 # High-throughput parameter scan
-carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 \
+carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 -W 0.05 \
                     --dE-min 0 --dE-max 2.5 --dE-points 10 \
                     -j -1 -o scan_results.npz
 

@@ -37,8 +37,8 @@ from carriercapture.io.writers import write_capture_results
 @click.option(
     "-g", "--degeneracy",
     type=int,
-    default=1,
-    help="Degeneracy factor"
+    default=None,
+    help="Degeneracy factor. Default: 1"
 )
 @click.option(
     "-V", "--volume",
@@ -59,14 +59,14 @@ from carriercapture.io.writers import write_capture_results
 @click.option(
     "--cutoff",
     type=float,
-    default=0.25,
-    help="Energy cutoff for overlaps (eV)"
+    default=None,
+    help="Energy cutoff for overlaps (eV). Default: 0.25"
 )
 @click.option(
     "--sigma",
     type=float,
-    default=0.025,
-    help="Gaussian delta width (eV)"
+    default=None,
+    help="Gaussian delta width (eV). Default: 0.025"
 )
 @click.option(
     "-o", "--output",
@@ -176,8 +176,8 @@ def capture_cmd(ctx, config_file, pot_i, pot_f, coupling, degeneracy, volume,
             pot_f = pot_f_config.get('file')
         if coupling is None:
             coupling = capture_config.get('W')
-        if degeneracy == 1:  # Default value
-            degeneracy = capture_config.get('degeneracy', 1)
+        if degeneracy is None:
+            degeneracy = capture_config.get('degeneracy')
         if not volume:
             volume = capture_config.get('volume')
         if not temp_range:
@@ -189,10 +189,10 @@ def capture_cmd(ctx, config_file, pot_i, pot_f, coupling, degeneracy, volume,
                 temp_range = (t_min, t_max, n_points)
         if q0 is None:
             q0 = capture_config.get('Q0')
-        if cutoff == 0.25:  # Default value
-            cutoff = capture_config.get('cutoff', 0.25)
-        if sigma == 0.025:  # Default value
-            sigma = capture_config.get('sigma', 0.025)
+        if cutoff is None:
+            cutoff = capture_config.get('cutoff')
+        if sigma is None:
+            sigma = capture_config.get('sigma')
 
     # Handle doped integration mode
     if doped:
@@ -348,6 +348,14 @@ def capture_cmd(ctx, config_file, pot_i, pot_f, coupling, degeneracy, volume,
     if not temp_range:
         temp_range = (100, 500, 50)  # Default
 
+    # Apply defaults for options not set on the command line or in a config
+    if degeneracy is None:
+        degeneracy = 1
+    if cutoff is None:
+        cutoff = 0.25
+    if sigma is None:
+        sigma = 0.025
+
     # Load potentials (skip if already loaded from doped)
     if not doped:
         if verbose > 0:
@@ -441,18 +449,9 @@ def capture_cmd(ctx, config_file, pot_i, pot_f, coupling, degeneracy, volume,
             click.echo(f"\nSaving results to: {output}")
 
         try:
-            # Detect format from extension
-            ext = output.suffix.lower()
-            format_map = {
-                '.json': 'json',
-                '.yaml': 'yaml',
-                '.yml': 'yaml',
-                '.csv': 'csv',
-                '.npz': 'npz',
-            }
-            file_format = format_map.get(ext, 'json')
+            from carriercapture.io.readers import detect_format
 
-            write_capture_results(cc, output, file_format=file_format)
+            write_capture_results(cc, output, file_format=detect_format(output))
             if verbose > 0:
                 click.echo("✓ Saved successfully")
         except Exception as e:
@@ -466,38 +465,19 @@ def capture_cmd(ctx, config_file, pot_i, pot_f, coupling, degeneracy, volume,
     # Plot if requested
     if plot:
         try:
-            import matplotlib.pyplot as plt
+            from carriercapture.visualization import plot_capture_coefficient
 
-            fig, ax = plt.subplots(figsize=(10, 6))
-
-            # Arrhenius plot: log(C) vs 1000/T
-            x = 1000.0 / temperature
-            y = np.log10(cc.capture_coefficient)
-
-            ax.plot(x, y, 'o-', linewidth=2, markersize=5)
-
-            ax.set_xlabel("1000/T (K$^{-1}$)", fontsize=12)
-            ax.set_ylabel("log$_{10}$(C) [cm$^3$/s]", fontsize=12)
-            ax.set_title("Capture Coefficient (Arrhenius Plot)", fontsize=14)
-            ax.grid(True, alpha=0.3)
-
-            # Add temperature labels on top axis
-            ax2 = ax.twiny()
-            temps_label = [100, 200, 300, 400, 500]
-            ax2.set_xlim(ax.get_xlim())
-            ax2.set_xticks([1000/t for t in temps_label if temp_range[0] <= t <= temp_range[1]])
-            ax2.set_xticklabels([f"{t}K" for t in temps_label if temp_range[0] <= t <= temp_range[1]])
-
-            plt.tight_layout()
+            fig = plot_capture_coefficient(cc)
 
             if plot_output:
-                plt.savefig(plot_output, dpi=300, bbox_inches='tight')
+                if plot_output.suffix.lower() in ('.html', '.htm'):
+                    fig.write_html(str(plot_output))
+                else:
+                    fig.write_image(str(plot_output))  # requires kaleido
                 if verbose > 0:
                     click.echo(f"✓ Plot saved to: {plot_output}")
             else:
-                plt.show()
+                fig.show()
 
-        except ImportError:
-            click.echo("Warning: matplotlib not available for plotting", err=True)
         except Exception as e:
             click.echo(f"Error during plotting: {e}", err=True)

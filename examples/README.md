@@ -113,7 +113,7 @@ carriercapture capture config.yaml -V 1e-21 --temp-range 100 500 50 -O results.j
 carriercapture plot results.json --show
 
 # 5. Parameter scan
-carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 \
+carriercapture scan --dQ-min 0 --dQ-max 25 --dQ-points 25 -W 0.05 \
                     --dE-min 0 --dE-max 2.5 --dE-points 10 \
                     -j 4 -o scan_results.npz
 

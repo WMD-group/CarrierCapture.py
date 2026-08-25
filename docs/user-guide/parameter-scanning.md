@@ -28,6 +28,7 @@ import numpy as np
 params = ScanParameters(
     dQ_range=(0, 25, 25),      # ΔQ: 0-25 amu^0.5·Å, 25 points
     dE_range=(0, 2.5, 10),     # ΔE: 0-2.5 eV, 10 points
+    W=0.05,
     hbar_omega_i=0.008,        # Initial state phonon (eV)
     hbar_omega_f=0.008,        # Final state phonon (eV)
     temperature=300.0,         # Temperature (K)
@@ -66,6 +67,7 @@ from carriercapture.analysis import ScanParameters
 params = ScanParameters(
     dQ_range=(Q_min, Q_max, n_points),  # ΔQ scan range
     dE_range=(E_min, E_max, n_points),  # ΔE scan range
+    W=0.05,
     hbar_omega_i=0.008,                 # Initial phonon (eV)
     hbar_omega_f=0.008,                 # Final phonon (eV)
     temperature=300.0,                  # Temperature (K)
@@ -165,6 +167,7 @@ Trade-off between accuracy and computational cost:
 params_coarse = ScanParameters(
     dQ_range=(0, 25, 10),   # 10 ΔQ points
     dE_range=(0, 2.5, 5),   # 5 ΔE points → 50 total
+    W=0.05,
     # ... other params
 )
 
@@ -172,12 +175,14 @@ params_coarse = ScanParameters(
 params_medium = ScanParameters(
     dQ_range=(0, 25, 25),   # 25 ΔQ points
     dE_range=(0, 2.5, 10),  # 10 ΔE points → 250 total
+    W=0.05,
 )
 
 # Fine scan (high-res, ~2000 points)
 params_fine = ScanParameters(
     dQ_range=(0, 25, 50),   # 50 ΔQ points
     dE_range=(0, 2.5, 20),  # 20 ΔE points → 1000 total
+    W=0.05,
 )
 
 # Estimate computation time
@@ -203,6 +208,7 @@ from carriercapture.analysis import ParameterScanner, ScanParameters
 params = ScanParameters(
     dQ_range=(0, 25, 25),
     dE_range=(0, 2.5, 10),
+    W=0.05,
     hbar_omega_i=0.008,
     hbar_omega_f=0.008,
     temperature=300.0,
@@ -510,6 +516,7 @@ for T in temperatures:
     params = ScanParameters(
         dQ_range=(0, 25, 25),
         dE_range=(0, 2.5, 10),
+        W=0.05,
         temperature=T,
         # ... other params
     )
@@ -551,6 +558,7 @@ for T in temperatures:
     params = ScanParameters(
         dQ_range=(0, 25, 25),
         dE_range=(0, 2.5, 10),
+        W=0.05,
         temperature=T,
         # ... other params
     )
@@ -572,6 +580,7 @@ Refine grid near interesting regions:
 params_coarse = ScanParameters(
     dQ_range=(0, 30, 10),  # Coarse: 10 points
     dE_range=(0, 3, 6),    # Coarse: 6 points
+    W=0.05,
     # ... other params
 )
 scanner_coarse = ParameterScanner(params_coarse)
@@ -592,6 +601,7 @@ dE_range_fine = (max(0, dE_max-0.5), dE_max+0.5, 15)
 params_fine = ScanParameters(
     dQ_range=dQ_range_fine,
     dE_range=dE_range_fine,
+    W=0.05,
     # ... other params
 )
 scanner_fine = ParameterScanner(params_fine)
@@ -677,6 +687,7 @@ carriercapture scan-plot scan_results.npz --log-scale -o heatmap.html
 params_coarse = ScanParameters(
     dQ_range=(0, 30, 10),
     dE_range=(0, 3, 6),
+    W=0.05,
     # ... other params
 )
 results_coarse = ParameterScanner(params_coarse).run_harmonic_scan(n_jobs=-1)
@@ -699,6 +710,7 @@ for nev_i in nev_values:
     params_test = ScanParameters(
         dQ_range=(15, 15, 1),  # Single point
         dE_range=(1.0, 1.0, 1),
+        W=0.05,
         nev_initial=nev_i,
         nev_final=60,
         # ... other params
@@ -783,6 +795,7 @@ from carriercapture.visualization import plot_scan_heatmap
 params = ScanParameters(
     dQ_range=(0, 25, 25),      # 25 points: 0-25 amu^0.5·Å
     dE_range=(0, 2.5, 10),     # 10 points: 0-2.5 eV
+    W=0.05,
     hbar_omega_i=0.008,        # 8 meV (typical for ZnO)
     hbar_omega_f=0.008,        # 8 meV
     temperature=300.0,         # Room temperature

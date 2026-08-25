@@ -14,6 +14,22 @@ from typing import Union, Tuple, Dict, Any
 import numpy as np
 from numpy.typing import NDArray
 
+# Extension -> file format, shared by readers, writers, and the CLI
+FORMAT_MAP = {
+    '.json': 'json',
+    '.yaml': 'yaml',
+    '.yml': 'yaml',
+    '.npz': 'npz',
+    '.dat': 'dat',
+    '.txt': 'dat',
+    '.csv': 'csv',
+}
+
+
+def detect_format(filepath: Union[str, Path], default: str = 'json') -> str:
+    """Detect file format from the extension, falling back to `default`."""
+    return FORMAT_MAP.get(Path(filepath).suffix.lower(), default)
+
 
 def read_potential_data(
     filepath: Union[str, Path],
@@ -243,19 +259,8 @@ def load_potential_from_file(
     if not filepath.exists():
         raise FileNotFoundError(f"File not found: {filepath}")
 
-    # Auto-detect format from extension
     if file_format is None:
-        ext = filepath.suffix.lower()
-        format_map = {
-            '.json': 'json',
-            '.yaml': 'yaml',
-            '.yml': 'yaml',
-            '.npz': 'npz',
-            '.dat': 'dat',
-            '.txt': 'dat',
-            '.csv': 'csv',
-        }
-        file_format = format_map.get(ext, 'dat')
+        file_format = detect_format(filepath, default='dat')
 
     # Load based on format
     if file_format == 'json':
