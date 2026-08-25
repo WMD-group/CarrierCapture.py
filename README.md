@@ -255,16 +255,26 @@ CarrierCapture.py has been validated against the original [CarrierCapture.jl](ht
 - Phonon energy: ℏω = 8 meV
 - Configuration coordinate shift: ΔQ = 10.5 amu^0.5·Å
 - Energy offset: ΔE = 0.5 eV
-- Electron-phonon coupling: W = 0.068 eV
+- Electron-phonon coupling: W = 0.068 eV/(amu^0.5·Å)
 
-**Results**:
-| Observable | Python Value | Julia Value | Relative Diff | Status |
-|------------|--------------|-------------|---------------|--------|
-| Initial eigenvalues (E₀) | 0.504000 eV | 0.504001 eV | 0.005% | ✓ PASS |
-| Final eigenvalues (E₀) | 0.004000 eV | 0.004001 eV | 0.02% | ✓ PASS |
-| Capture coefficient (300K) | 1.339×10⁻¹⁰ cm³/s | 1.359×10⁻¹⁰ cm³/s | 1.5% | ✓ PASS |
+**Results** (three-tier comparison):
 
-**Conclusion**: Python implementation matches Julia results within ~1-2% across all observables. Small differences (~0.01-1.5%) are due to floating-point arithmetic differences between language implementations and are well within acceptable tolerances for physical calculations.
+| Tier | Comparison | Max Relative Diff | Status |
+|------|------------|-------------------|--------|
+| 1 | Julia-convention emulation vs Julia reference (eigenvalues) | 3×10⁻¹² | ✓ PASS |
+| 1 | Julia-convention emulation vs Julia reference (C at 300 K) | 5×10⁻¹² | ✓ PASS |
+| 2 | Native eigenvalues vs analytic ℏω(n+½) | 1.5×10⁻⁴ | ✓ PASS |
+| 3 | Native C(300 K) = 1.339×10⁻¹⁰ vs Julia 1.359×10⁻¹⁰ cm³/s | 1.5×10⁻² | ✓ (informational) |
+
+**Conclusion**: When Python is run with CarrierCapture.jl's numerical
+conventions, the two codes agree to near machine precision (Tier 1) — they
+implement identical physics. The ~1.5% native difference (Tier 3) is entirely
+due to two CarrierCapture.jl conventions: its finite-difference kinetic term
+uses grid spacing ΔQ/N while its grid actually has spacing ΔQ/(N−1), and it
+integrates overlaps with the rectangle rule. Python uses the true grid spacing
+and the trapezoid rule, and its native eigenvalues are closer to the analytic
+harmonic result (Tier 2). Both codes converge to the same answer with
+increasing grid density.
 
 ### Running the Benchmark
 
