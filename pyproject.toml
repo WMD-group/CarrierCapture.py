@@ -53,6 +53,9 @@ docs = [
     "mkdocs-material>=9.5.0",
     "mkdocstrings[python]>=0.24.0",
     "mkdocs-git-revision-date-localized-plugin>=1.2.0",
+    # pymdown-extensions <=10.20 passes filename=None to Pygments, which
+    # 2.20 no longer tolerates; drop this pin once pymdownx is fixed
+    "pygments<2.20",
 ]
 notebook = [
     "jupyter>=1.0",
